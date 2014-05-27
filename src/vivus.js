@@ -114,11 +114,11 @@ Vivus.prototype.mapping = function () {
     path = paths[i];
     pathObj = {
       el: path,
-      length: path.getTotalLength()
+      length: Math.ceil(path.getTotalLength())
     };
     totalLength += pathObj.length;
     this.map.push(pathObj);
-    path.style.strokeDasharray = pathObj.length + ' ' + pathObj.length;
+    path.style.strokeDasharray = pathObj.length + ' ' + (pathObj.length + 10);
     path.style.strokeDashoffset = pathObj.length;
   }
 
