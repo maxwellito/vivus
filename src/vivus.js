@@ -251,6 +251,9 @@ Vivus.prototype.drawer = function() {
  * @return {boolean}
  */
 Vivus.prototype.isInViewport = function (el, h) {
+  while (!el.offsetTop) {
+    el = el.parentElement;
+  }
   var elH = el.offsetHeight,
     scrolled = this.scrollY(),
     viewed = scrolled + this.getViewportH(),
