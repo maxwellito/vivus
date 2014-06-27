@@ -13,7 +13,7 @@
 
 /**
  * Class constructor
- * 
+ *
  * @param {DOM|String} element Dom element of the SVG or id of it
  */
 function Pathformer(element) {
@@ -42,15 +42,15 @@ function Pathformer(element) {
 /**
  * List of tags which can be transformed
  * to path elements
- * 
+ *
  * @type {Array}
  */
-Pathformer.prototype.TYPES = ['line', 'elipse', 'circle', 'polyline', 'rect'];
+Pathformer.prototype.TYPES = ['line', 'elipse', 'circle', 'polyline', 'polygon', 'rect'];
 
 /**
  * Finds the elements compatible for transform
  * and apply the liked method
- * 
+ *
  * @param  {object} options Object from the constructor
  */
 Pathformer.prototype.scan = function (svg) {
@@ -61,7 +61,7 @@ Pathformer.prototype.scan = function (svg) {
     fn = this[element.tagName.toLowerCase() + 'ToPath'];
     pathData = fn(this.parseAttr(element.attributes));
     pathDom = this.pathMaker(element, pathData);
-    svg.replaceChild(pathDom, element);
+    element.parentElement.replaceChild(pathDom, element);
   }
 };
 
@@ -69,9 +69,9 @@ Pathformer.prototype.scan = function (svg) {
 /**
  * Read `line` element to extract and transform
  * data, to make it ready for a `path` object.
- * 
+ *
  * @param  {DOMelement} element Line element to transform
- * @return {object}             Data for a `path` element 
+ * @return {object}             Data for a `path` element
  */
 Pathformer.prototype.lineToPath = function (element) {
   var newElement = {};
@@ -85,14 +85,16 @@ Pathformer.prototype.lineToPath = function (element) {
  * data, to make it ready for a `path` object.
  * The radius-border is not taken in charge yet.
  * (your help is more than welcomed)
- * 
+ *
  * @param  {DOMelement} element Rect element to transform
- * @return {object}             Data for a `path` element 
+ * @return {object}             Data for a `path` element
  */
 Pathformer.prototype.rectToPath = function (element) {
   var newElement = {};
-  element.x = element.x || 0;
-  element.y = element.y || 0;
+  element.x = element.x ? parseFloat(element.x) : 0;
+  element.y = element.y ? parseFloat(element.y) : 0;
+  element.width = element.width ? parseFloat(element.width) : 0;
+  element.height = element.height ? parseFloat(element.height) : 0;
   newElement.debug = 'modified-rect';
   newElement.d  = 'M' + element.x + ' ' + element.y + ' ';
   newElement.d += 'L' + (element.x + element.width) + ' ' + element.y + ' ';
@@ -104,67 +106,88 @@ Pathformer.prototype.rectToPath = function (element) {
 /**
  * Read `polyline` element to extract and transform
  * data, to make it ready for a `path` object.
- * 
+ *
  * @param  {DOMelement} element Polyline element to transform
- * @return {object}             Data for a `path` element 
+ * @return {object}             Data for a `path` element
  */
 Pathformer.prototype.polylineToPath = function (element) {
-  var newElement = {};
+  var i, points, path, newElement = {};
   newElement.debug = 'modified-polyline';
-  var points = element.points.split(' ');
-  var path = "M" + points[0];
-  for(var i = 1; i < points.length; i++) {
-    path += "L"+points[i];
+  points = element.points.split(/\s+/g);
+  for (i = points.length - 1; i >= 0; i--) {
+    if (!points[i]) {
+      points.splice(i, 1);
+    }
   }
+
+  path = 'M' + points[0];
+  for (i = 1; i < points.length; i++) {
+    path += (points[i]) ? ('L' + points[i]) : '';
+  }
+  // if (path.indexOf("600,207L600,183.7L590.8,202L605,202L") != -1) debugger;
   newElement.d = path;
+  return newElement;
+};
+
+/**
+ * Read `polygon` element to extract and transform
+ * data, to make it ready for a `path` object.
+ *
+ * @param  {DOMelement} element Polygon element to transform
+ * @return {object}             Data for a `path` element
+ */
+Pathformer.prototype.polygonToPath = function (element) {
+  var newElement = Pathformer.prototype.polylineToPath(element);
+  newElement.debug = 'modified-polygon';
+  newElement.d += ' Z';
   return newElement;
 };
 
 /**
  * Read `elipse` element to extract and transform
  * data, to make it ready for a `path` object.
- * 
+ *
  * @param  {DOMelement} element Elipse element to transform
- * @return {object}             Data for a `path` element 
+ * @return {object}             Data for a `path` element
  */
 Pathformer.prototype.elipseToPath = function (element) {
-  var startX = element.cx - element.rx,
-      startY = element.cy;
-  var endX = parseFloat(element.cx) + parseFloat(element.rx),
+  var startX = parseFloat(element.cx) - parseFloat(element.rx),
+      startY = element.cy,
+      endX = parseFloat(element.cx) + parseFloat(element.rx),
       endY = element.cy;
 
   var newElement = {};
   newElement.debug = 'modified-elipse';
-  newElement.d = "M" + startX + "," + startY +
-                 "A" + element.rx + "," + element.ry + " 0,1,1 " + endX + "," + endY +
-                 "A" + element.rx + "," + element.ry + " 0,1,1 " + startX + "," + endY;
+  newElement.d = 'M' + startX + ',' + startY +
+                 'A' + element.rx + ',' + element.ry + ' 0,1,1 ' + endX + ',' + endY +
+                 'A' + element.rx + ',' + element.ry + ' 0,1,1 ' + startX + ',' + endY;
   return newElement;
 };
 
 /**
  * Read `circle` element to extract and transform
  * data, to make it ready for a `path` object.
- * 
+ *
  * @param  {DOMelement} element Circle element to transform
- * @return {object}             Data for a `path` element 
+ * @return {object}             Data for a `path` element
  */
 Pathformer.prototype.circleToPath = function (element) {
   var newElement = {};
-  var startX = element.cx - element.r,
+  var startX = parseFloat(element.cx) - parseFloat(element.r),
       startY = element.cy;
   var endX = parseFloat(element.cx) + parseFloat(element.r),
       endY = element.cy;
   newElement.debug = 'modified-circle';
-  newElement.d = "M" + startX + "," + startY +
-              "A" + element.r + "," + element.r + " 0,1,1 " + endX + "," + endY +
-              "A" + element.r + "," + element.r + " 0,1,1 " + startX + "," + endY;
+  newElement.d = 'M' + startX + ',' + startY +
+              'A' + element.r + ',' + element.r + ' 0,1,1 ' + endX + ',' + endY +
+              'A' + element.r + ',' + element.r + ' 0,1,1 ' + startX + ',' + endY;
   return newElement;
 };
 
 /**
  * Create `path` elements form original element
  * and prepared objects
- * 
+ *
  * @param  {DOMelement} element  Original element to transform
  * @param  {object} pathData     Path data (from `toPath` methods)
  * @return {DOMelement}          Path element
@@ -184,7 +207,7 @@ Pathformer.prototype.pathMaker = function (element, pathData) {
 /**
  * Parse attributes of a DOM element to
  * get an object of attribute => value
- * 
+ *
  * @param  {object} element DOM element to parse
  * @return {object}         Object of attributes
  */

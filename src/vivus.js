@@ -29,14 +29,14 @@
  *    only one path is draw at the time
  *    the end of the first one will trigger the draw
  *    of the next one
- * 
+ *
  * All these values can be overritten individualy
  * for each path item in the SVG
  * The value of frames will always take the advantage of
  * the duration value.
  * If you fail somewhere, an error will be thrown.
  * Good luck.
- * 
+ *
  * @param {DOM|String}   element  Dom element of the SVG or id of it
  * @param {Object}       options  Options about the animation
  * @param {Function}     callback Callback for the end of the animation
@@ -82,13 +82,13 @@ function Vivus(element, options, callback) {
 
 /**
  * Set up user option to the object
- * 
+ *
  * @param  {object} options Object from the constructor
  */
 Vivus.prototype.initOptions = function (options) {
   var allowedTypes = ['delayed', 'async', 'oneByOne', 'script'];
   var allowedStarts =  ['inViewport', 'manual', 'autostart'];
-  
+
   this.type = allowedTypes.indexOf(options.type) === -1 ? allowedTypes[0] : options.type;
   this.start = allowedStarts.indexOf(options.start) === -1 ? allowedStarts[0] : options.start;
   this.duration = !!options.duration && options.duration > 0 ? options.duration : 120;
@@ -102,19 +102,19 @@ Vivus.prototype.initOptions = function (options) {
 /**
  * Map the svg, path by path
  * and create the scenario fo the animation
- * 
+ *
  * @return {[type]} [description]
  */
 Vivus.prototype.mapping = function () {
   var i, paths, path, pAttrs, pathObj, totalLength, lengthMeter, timePoint;
   timePoint = totalLength = lengthMeter = 0;
   paths = this.el.querySelectorAll('path');
-  
+
   for (i = 0; i < paths.length; i++) {
     path = paths[i];
     pathObj = {
       el: path,
-      length: Math.ceil(path.getTotalLength())
+      length: Math.ceil(path.getTotalLength()) || 0
     };
     totalLength += pathObj.length;
     this.map.push(pathObj);
@@ -159,7 +159,7 @@ Vivus.prototype.mapping = function () {
 /**
  * Parse attributes of a DOM element to
  * get an object of attribute => value
- * 
+ *
  * @param  {object} element DOM element to parse
  * @return {object}         Object of attributes
  */
@@ -174,7 +174,7 @@ Vivus.prototype.parseAttr = function (element) {
 
 /**
  * Trigger to start of the animation
- * 
+ *
  */
 Vivus.prototype.init = function () {
   switch (this.start) {
@@ -245,7 +245,7 @@ Vivus.prototype.drawer = function() {
 
 /**
  * Reply if an element is in the page viewport
- * 
+ *
  * @param  {object} el Element to observe
  * @param  {number} h  Percentage of height
  * @return {boolean}
@@ -269,20 +269,20 @@ Vivus.prototype.isInViewport = function (el, h) {
 
 /**
  * Alias for document element
- * 
+ *
  * @type {DOMelement}
  */
 Vivus.prototype.docElem = window.document.documentElement;
 
 /**
  * Get the viewport height in pixels
- * 
+ *
  * @return {integer} Viewport height
  */
 Vivus.prototype.getViewportH = function () {
   var client = this.docElem['clientHeight'],
     inner = window['innerHeight'];
-   
+
   if( client < inner )
     return inner;
   else
@@ -305,7 +305,7 @@ Vivus.prototype.scrollY = function () {
  *
  * With help from:
  * http://stackoverflow.com/a/5598797/989439
- * 
+ *
  * @param  {DOMelement} el Element to observe
  * @return {object}        Offset position
  */
@@ -329,7 +329,7 @@ Vivus.prototype.getOffset = function (el) {
 /**
  * Alias for `requestAnimationFrame` or
  * `setTimeout` function for deprecated browsers.
- * 
+ *
  */
 window.requestAnimFrame = function(){
   return (
@@ -347,7 +347,7 @@ window.requestAnimFrame = function(){
 /**
  * Alias for `cancelAnimationFrame` or
  * `cancelTimeout` function for deprecated browsers.
- * 
+ *
  */
 window.cancelAnimFrame = function(){
   return (
