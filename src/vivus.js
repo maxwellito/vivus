@@ -43,15 +43,34 @@
    * @param {Function}     callback Callback for the end of the animation
    */
   function Vivus(element, options, callback) {
-    // Test params
+
+    // Setup
+    this.setElement(element);
+    this.setOptions(options);
+    this.setCallback(callback);
+
+    // Set object variables
+    this.isDrawn = false;
+    this.currentFrame = 0;
+    this.map = [];
+
+    // Start
+    new Pathformer(element);
+    this.mapping();
+    this.init();
+  }
+
+  /**
+   * Check and set the element in the object
+   * The method will not return enything, but will throw an
+   * error if the parameter is invalid
+   *
+   * @param {DOM|String}   element  SVG Dom element or id of it
+   */
+  Vivus.prototype.setElement = function (element) {
+    // Basic check
     if (!element) {
       throw new Error('Vivus contructor: "element" parameter is required');
-    }
-    if (!!options && options.constructor !== Object) {
-      throw new Error('Vivus contructor: "options" parameter must be an object');
-    }
-    if (!!callback && callback.constructor !== Function) {
-      throw new Error('Vivus contructor: "callback" parameter must be a function');
     }
 
     // Set the element
@@ -66,39 +85,61 @@
     } else {
       throw new Error('Vivus contructor: "element" parameter must be a string or a SVGelement');
     }
-
-    // Set the options
-    this.initOptions(options);
-    this.callback = callback || function () {};
-
-    // Set object variables
-    this.isDrawn = false;
-    this.currentFrame = 0;
-    this.map = [];
-
-    // Start
-    new Pathformer(element);
-    this.mapping();
-    this.init();
-  }
+  };
 
   /**
    * Set up user option to the object
+   * The method will not return enything, but will throw an
+   * error if the parameter is invalid
    *
    * @param  {object} options Object from the constructor
    */
-  Vivus.prototype.initOptions = function (options) {
+  Vivus.prototype.setOptions = function (options) {
     var allowedTypes = ['delayed', 'async', 'oneByOne', 'script'];
     var allowedStarts =  ['inViewport', 'manual', 'autostart'];
 
-    this.type = allowedTypes.indexOf(options.type) === -1 ? allowedTypes[0] : options.type;
-    this.start = allowedStarts.indexOf(options.start) === -1 ? allowedStarts[0] : options.start;
+    // Basic check
+    if (!!options && options.constructor !== Object) {
+      throw new Error('Vivus contructor: "options" parameter must be an object');
+    }
+
+    // Set the animation type
+    if (options.type && allowedTypes.indexOf(options.type) === -1) {
+      throw new Error('Vivus contructor: ' + options.type + ' is not an existing animation `type`');
+    }
+    else {
+      this.type = options.type || allowedTypes[0];
+    }
+
+    // Set the start type
+    if (options.start && allowedStarts.indexOf(options.start) === -1) {
+      throw new Error('Vivus contructor: ' + options.start + ' is not an existing `start` option');
+    }
+    else {
+      this.start = options.start || allowedStarts[0];
+    }
+
     this.duration = !!options.duration && options.duration > 0 ? options.duration : 120;
     this.delay = options.delay >= 0 ? parseInt(options.delay, 10) : null;
 
     if (this.delay > this.duration) {
       throw new Error('Vivus contructor: delai must be shorter than duration');
     }
+  };
+
+  /**
+   * Set up callback to the object
+   * The method will not return enything, but will throw an
+   * error if the parameter is invalid
+   *
+   * @param  {object} options Object from the constructor
+   */
+  Vivus.prototype.setCallback = function (callback) {
+    // Basic check
+    if (!!callback && callback.constructor !== Function) {
+      throw new Error('Vivus contructor: "callback" parameter must be a function');
+    }
+    this.callback = callback || function () {};
   };
 
   /**
