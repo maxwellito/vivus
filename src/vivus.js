@@ -57,8 +57,14 @@
     // Start
     new Pathformer(element);
     this.mapping();
-    this.init();
+    this.starter();
   }
+
+
+  /**
+   * Setters
+   **************************************
+   */
 
   /**
    * Check and set the element in the object
@@ -70,20 +76,20 @@
   Vivus.prototype.setElement = function (element) {
     // Basic check
     if (!element) {
-      throw new Error('Vivus contructor: "element" parameter is required');
+      throw new Error('Vivus [contructor]: "element" parameter is required');
     }
 
     // Set the element
     if (element.constructor === String) {
       element = document.getElementById(element);
       if (!element) {
-        throw new Error('Vivus contructor: "element" parameter is not related to an existing ID');
+        throw new Error('Vivus [contructor]: "element" parameter is not related to an existing ID');
       }
     }
     if (element.constructor === SVGSVGElement) {
       this.el = element;
     } else {
-      throw new Error('Vivus contructor: "element" parameter must be a string or a SVGelement');
+      throw new Error('Vivus [contructor]: "element" parameter must be a string or a SVGelement');
     }
   };
 
@@ -100,12 +106,12 @@
 
     // Basic check
     if (!!options && options.constructor !== Object) {
-      throw new Error('Vivus contructor: "options" parameter must be an object');
+      throw new Error('Vivus [contructor]: "options" parameter must be an object');
     }
 
     // Set the animation type
     if (options.type && allowedTypes.indexOf(options.type) === -1) {
-      throw new Error('Vivus contructor: ' + options.type + ' is not an existing animation `type`');
+      throw new Error('Vivus [contructor]: ' + options.type + ' is not an existing animation `type`');
     }
     else {
       this.type = options.type || allowedTypes[0];
@@ -113,7 +119,7 @@
 
     // Set the start type
     if (options.start && allowedStarts.indexOf(options.start) === -1) {
-      throw new Error('Vivus contructor: ' + options.start + ' is not an existing `start` option');
+      throw new Error('Vivus [contructor]: ' + options.start + ' is not an existing `start` option');
     }
     else {
       this.start = options.start || allowedStarts[0];
@@ -123,7 +129,7 @@
     this.delay = options.delay >= 0 ? parseInt(options.delay, 10) : null;
 
     if (this.delay > this.duration) {
-      throw new Error('Vivus contructor: delai must be shorter than duration');
+      throw new Error('Vivus [contructor]: delai must be shorter than duration');
     }
   };
 
@@ -137,14 +143,20 @@
   Vivus.prototype.setCallback = function (callback) {
     // Basic check
     if (!!callback && callback.constructor !== Function) {
-      throw new Error('Vivus contructor: "callback" parameter must be a function');
+      throw new Error('Vivus [contructor]: "callback" parameter must be a function');
     }
     this.callback = callback || function () {};
   };
 
+
+  /**
+   * Mapping
+   **************************************
+   */
+
   /**
    * Map the svg, path by path
-   * and create the scenario fo the animation
+   * and create the SVG mapping fo the animation
    *
    * @return {[type]} [description]
    */
@@ -189,7 +201,7 @@
 
       case 'script':
         path = paths[i];
-        pAttrs = this.parseAttr(path.attributes);
+        pAttrs = this.parseAttr(path);
         pathObj.startAt = timePoint + (parseInt(pAttrs['data-delay'], 10) || this.delayUnit || 0);
         pathObj.duration = (parseInt(pAttrs['data-duration'], 10) || this.duration);
         timePoint = pAttrs['data-async'] !== undefined ? timePoint + (parseInt(pAttrs['data-delay'], 10) || 0) : pathObj.startAt + pathObj.duration;
@@ -199,27 +211,13 @@
     }
   };
 
-  /**
-   * Parse attributes of a DOM element to
-   * get an object of attribute => value
-   *
-   * @param  {object} element DOM element to parse
-   * @return {object}         Object of attributes
-   */
-  Vivus.prototype.parseAttr = function (element) {
-    var attr, output = {};
-    for (var i = 0; i < element.length; i++) {
-      attr = element[i];
-      output[attr.name] = attr.value;
-    }
-    return output;
-  };
+
 
   /**
    * Trigger to start of the animation
    *
    */
-  Vivus.prototype.init = function () {
+  Vivus.prototype.starter = function () {
     switch (this.start) {
     case 'manual':
       return;
@@ -228,7 +226,7 @@
       this.draw();
       break;
 
-    default:
+    case 'inViewport':
       var self = this,
       listener = function (e) {
         if (self.isInViewport(self.el, 1)) {
@@ -237,6 +235,10 @@
         }
       };
       window.addEventListener('scroll', listener);
+      break;
+
+    default:
+      throw new Error('Vivus [start]: unexisting `start` option');
     }
   };
 
@@ -280,11 +282,30 @@
     this.currentFrame++;
   };
 
+
   /**
    * Utils methods
    * from Codrops
    **************************************
    */
+
+  /**
+   * Parse attributes of a DOM element to
+   * get an object of {attribute => value}
+   *
+   * @param  {object} element DOM element to parse
+   * @return {object}         Object of attributes
+   */
+  Vivus.prototype.parseAttr = function (element) {
+    var attr, output = {};
+    if (element && element.attributes) {
+      for (var i = 0; i < element.attributes.length; i++) {
+        attr = element.attributes[i];
+        output[attr.name] = attr.value;
+      }
+    }
+    return output;
+  };
 
   /**
    * Reply if an element is in the page viewport
