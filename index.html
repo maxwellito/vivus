@@ -2,13 +2,13 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>vivus.js - svg animation</title>
 		<meta name="description" content="SVG Drawing Animation" />
 
 		<style type="text/css">
-			
+
 			/* Base style */
 			body {
 				margin: 0 0 40px;
@@ -205,9 +205,9 @@
 				<polyline fill="none" data-async stroke="#FFFFFF" stroke-width="4" points="1.9,40.2 26,63.2 39.7,63.2"/>
 				<line fill="none" data-async stroke="#FFFFFF" stroke-width="4" x1="129.2" y1="12.2" x2="148.2" y2="33.2"/>
 				<line fill="none" data-async stroke="#FFFFFF" stroke-width="4" x1="303.9" y1="53" x2="328.1" y2="77.2"/>
-				
+
 				<line fill="none" stroke="#FFFFFF" stroke-width="4" x1="345.1" y1="10.5" x2="368.7" y2="34"/>
-				
+
 				<!-- there -->
 				<path fill="none" data-delay="30" data-duration="60" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" d="M76.8,337.3c0,0,1.9,12.2,13.1,12.2c22.1,0,23.8-1.8,59-66.4c-19.7,35.7-36.4,66.2-19.3,66.2c15.2,0,22.9-14.2,28.3-23.7c3.3-0.5,24-3.2,35-25.5c4-8.1,4.1-17.8-8.1-15.2c-5.6,1.2-13.1,14.8-15.7,19.2c-7.6,12.7-22.4,45.2-22.4,45.2s10.3-22.4,21.5-22.4c15.5,0-9.4,22.4,4.7,22.4c4.9,0,11.7-11.4,16.6-20.9c7.5,4.7,19.7,1.7,24.5-8.1c10.1-20.4-14.4-12.8-24.5,8.1c-5.5,11.3-2.2,21.1,11.2,21.1c16.4,0,26.1-28.3,30.5-37.5c9.9,2.5,14,2.5,22.7-1.1c-3.5,5.1-24,38.1-8.3,38.1c6.7,0,11.7-11.4,16.6-20.9c7.5,4.7,19.7,1.7,24.5-8.1c10.1-20.4-14.4-12.8-24.5,8.1c-5.5,11.3-2.2,21.1,11.2,21.1c16.4,0,20.6-4,24.7-10.5"/>
 
@@ -222,7 +222,7 @@
 			<p class="intro-links">
 				<a href="//github.com/maxwellito/vivus" class="button bigger">View on GitHub</a>
 			</p>
-			
+
 		</div>
 
 		<!-- Animation examples/demo -->
@@ -306,7 +306,7 @@
 				<div class="clearer"></div>
 			</div>
 		</div>
-		
+
 		<!-- How it works? -->
 		<div class="content">
 			<h2>How it works?</h2>
@@ -322,10 +322,8 @@
 				<h2>How to use it?</h2>
 				<p>As I said, no dependencies here. Just need to include the scripts.</p>
 				<p class="code">
-					new Pathformer('my-svg-id');<br>
 					new Vivus('my-svg-id', {type: 'delayed', duration: 200}, myCallback);
 				</p>
-				<p>First, let's run the pathformer, to rebuild your SVG with path elements.<br>Of course, this call is not required if your SVG contain path elements only.</p>
 				<p>The Vivus constructor asks 3 parameters :</p>
 				<ul>
 					<li>ID of the SVG to animate (or the DOM element)</li>
@@ -337,10 +335,10 @@
 				<dl>
 					<dt>type <small>string</small></dt>
 					<dd>define what kind of animation will be used: <i>delayed</i>, <i>async</i>, <i>oneByOne</i> or <i>script</i></dd>
-					
+
 					<dt>duration <small>integer</small></dt>
 					<dd>animation duration, in frames</dd>
-					
+
 					<dt>start <small>string</small></dt>
 					<dd>define how to trigger the animation
 						<p class="smaller">
@@ -349,7 +347,7 @@
 							<strong>autostart</strong> make it start right now<br>
 						</p>
 					</dd>
-					
+
 					<dt>delay <small>integer</small></dt>
 					<dd>time between the drawing of first and last path, in frames (only for <i>delayed</i> animations)</dd>
 				</dl>
@@ -367,10 +365,10 @@
 			<dl>
 				<dt>data-delay <small>integer</small></dt>
 				<dd>time between the end of the animation of the previous path and the start of the current path, in frames</dd>
-				
+
 				<dt>data-duration <small>integer</small></dt>
 				<dd>duration of this path animation, in frames</dd>
-				
+
 				<dt>data-async <small>(no value required)</small></dt>
 				<dd>make the drawing of this path asynchronous. It means the next path will start at the same time.</dd>
 			</dl>
@@ -424,29 +422,29 @@
 						<path fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
 							M103.789,29.275c-0.568,1.841,0.582,3.549,2.57,3.818l12.807,1.72c1.988,0.266,4.062-1.012,4.633-2.851l1.66-5.38
 							c0.568-1.843-0.582-3.551-2.57-3.816l-12.807-1.72c-1.988-0.268-4.062,1.01-4.633,2.85L103.789,29.275z"/>
-						
+
 						<!-- Output -->
 						<!-- Same case as Flash -->
 						<path fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
 							M11.129,105.791c-0.297,0.965,0.305,1.855,1.346,1.994l81.446,10.932c1.038,0.141,2.123-0.527,2.42-1.49l0,0
 							c0.298-0.961-0.304-1.855-1.343-1.996l-81.447-10.93C12.51,104.16,11.426,104.828,11.129,105.791L11.129,105.791z"/>
-						
+
 						<!-- Design (color lines on the front) -->
 						<!-- All the lines will start at the same time, because they all have the attribute `data-async` -->
 						<line data-async fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="47.583" y1="101.505" x2="51.561" y2="88.267"/>
-					
+
 						<line data-async fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="53.391" y1="102.326" x2="57.047" y2="90.125"/>
-					
+
 						<line data-async fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="59.224" y1="103.068" x2="62.749" y2="91.295"/>
-					
+
 						<line data-async fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="65.057" y1="103.814" x2="69.015" y2="90.637"/>
-					
+
 						<line data-async fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="72.87" y1="19.969" x2="75.497" y2="11.082"/>
-					
+
 						<line data-async fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="78.512" y1="21.325" x2="81.317" y2="11.868"/>
-					
+
 						<line data-async fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="83.833" y1="23.718" x2="87.16" y2="12.582"/>
-					
+
 						<line data-async fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="89.145" y1="26.141" x2="92.939" y2="13.498"/>
 
 					</svg>
@@ -466,25 +464,20 @@
 			<p class="goodbye-head">Thanks for watching.</p>
 			<p class="goodbye-sub">Made with <span class="striked">love</span> <span class="italic">a keyboard</span></p>
 		</div>
-		
+
 		<!-- Le scripts -->
 		<script src="dist/vivus.min.js"></script>
 		<script>
-			new Pathformer('tape');
 			new Vivus('tape', {type: 'script', duration: 20, start: 'autostart'}, function () {
 				if (console) {
-					console.log('Animation finished.');
+					console.log('Animation finished. [log triggered from callback]');
 				}
 			});
 
-			new Pathformer('opturateur1');
-			new Pathformer('opturateur2');
-			new Pathformer('opturateur3');
 			new Vivus('opturateur1', {type: 'delayed', duration: 200});
 			new Vivus('opturateur2', {type: 'async', duration: 200});
 			new Vivus('opturateur3', {type: 'oneByOne', duration: 200});
 
-			new Pathformer('polaroid');
 			new Vivus('polaroid', {type: 'script', duration: 20});
 		</script>
 	</body>
