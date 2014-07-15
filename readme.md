@@ -41,14 +41,10 @@ The code is quite inspired from other repo. The drawer is inspired from the exce
 As I said, no dependencies here. Just need to include the scripts.
 
 ```js
-new SVGpathformer('my-svg-id');
-new SVGanimate('my-svg-id', {type: 'delayed', duration: 200}, myCallback);
+new Vivus('my-svg-id', {type: 'delayed', duration: 200}, myCallback);
 ```
 
-First, let's run the pathformer, to rebuild your SVG with path elements.
-Of course, this call is not required if your SVG contain path elements only.
-
-The SVGanimate constructor asks 3 parameters :
+The Vivus constructor asks 3 parameters :
 
 - ID of the SVG to animate (or the DOM element)
 - Option object (described in the following)
@@ -71,7 +67,7 @@ time between the drawing of first and last path, in frames (only for delayed ani
 
 This feature is still in beta and a bit fragile, it allow you to script the animation of your SVG. It's not the sexiest code ever, but quite flexible, and easy to use, I would say. The behaviour is quite different, let's see.
 
-First, the animation must be set with the type script. The behavious is the same as `oneByOne` : synchronous.
+First, the animation must be set with the type script. The behaviour is the same as `oneByOne` : synchronous.
 At this point, the attributes duration and delay are the default value for each path element (so not global for the entire animation, as before). It means, if the options define 20 for duration and 2 for delay : each path element will take 20 frames to be draw, and 2 frames before to start.
 
 Second, define a custom rules for each element in your SVG via extra attributes in your SVG DOM :
@@ -100,7 +96,7 @@ This looks like 'oneByOne' animation, synchronous mode. But to make it a bit cus
 </svg>
 ```
 
-This scenario should give us 
+This scenario should give us
 
 ![Timeline for this custom script animation](https://raw.github.com/maxwellito/vivus/master/assets/script_custom.png)
 
