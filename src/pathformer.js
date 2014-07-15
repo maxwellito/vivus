@@ -1,5 +1,4 @@
-(function () {
-  'use strict';
+  /* jshint strict: false */
 
   /**
    * Pathformer
@@ -14,7 +13,7 @@
 
   /**
    * Class constructor
-   * 
+   *
    * @param {DOM|String} element Dom element of the SVG or id of it
    */
   function Pathformer(element) {
@@ -43,7 +42,7 @@
   /**
    * List of tags which can be transformed
    * to path elements
-   * 
+   *
    * @type {Array}
    */
   Pathformer.prototype.TYPES = ['line', 'elipse', 'circle', 'polyline', 'rect'];
@@ -51,7 +50,7 @@
   /**
    * Finds the elements compatible for transform
    * and apply the liked method
-   * 
+   *
    * @param  {object} options Object from the constructor
    */
   Pathformer.prototype.scan = function (svg) {
@@ -70,9 +69,9 @@
   /**
    * Read `line` element to extract and transform
    * data, to make it ready for a `path` object.
-   * 
+   *
    * @param  {DOMelement} element Line element to transform
-   * @return {object}             Data for a `path` element 
+   * @return {object}             Data for a `path` element
    */
   Pathformer.prototype.lineToPath = function (element) {
     var newElement = {};
@@ -86,9 +85,9 @@
    * data, to make it ready for a `path` object.
    * The radius-border is not taken in charge yet.
    * (your help is more than welcomed)
-   * 
+   *
    * @param  {DOMelement} element Rect element to transform
-   * @return {object}             Data for a `path` element 
+   * @return {object}             Data for a `path` element
    */
   Pathformer.prototype.rectToPath = function (element) {
     var newElement = {};
@@ -105,9 +104,9 @@
   /**
    * Read `polyline` element to extract and transform
    * data, to make it ready for a `path` object.
-   * 
+   *
    * @param  {DOMelement} element Polyline element to transform
-   * @return {object}             Data for a `path` element 
+   * @return {object}             Data for a `path` element
    */
   Pathformer.prototype.polylineToPath = function (element) {
     var newElement = {};
@@ -124,9 +123,9 @@
   /**
    * Read `elipse` element to extract and transform
    * data, to make it ready for a `path` object.
-   * 
+   *
    * @param  {DOMelement} element Elipse element to transform
-   * @return {object}             Data for a `path` element 
+   * @return {object}             Data for a `path` element
    */
   Pathformer.prototype.elipseToPath = function (element) {
     var startX = element.cx - element.rx,
@@ -145,9 +144,9 @@
   /**
    * Read `circle` element to extract and transform
    * data, to make it ready for a `path` object.
-   * 
+   *
    * @param  {DOMelement} element Circle element to transform
-   * @return {object}             Data for a `path` element 
+   * @return {object}             Data for a `path` element
    */
   Pathformer.prototype.circleToPath = function (element) {
     var newElement = {};
@@ -165,7 +164,7 @@
   /**
    * Create `path` elements form original element
    * and prepared objects
-   * 
+   *
    * @param  {DOMelement} element  Original element to transform
    * @param  {object} pathData     Path data (from `toPath` methods)
    * @return {DOMelement}          Path element
@@ -185,7 +184,7 @@
   /**
    * Parse attributes of a DOM element to
    * get an object of attribute => value
-   * 
+   *
    * @param  {object} element DOM element to parse
    * @return {object}         Object of attributes
    */
@@ -197,6 +196,3 @@
     }
     return output;
   };
-
-  window.Pathformer = Pathformer;
-})();
