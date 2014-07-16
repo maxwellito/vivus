@@ -42,7 +42,7 @@
    * @param {Object}       options  Options about the animation
    * @param {Function}     callback Callback for the end of the animation
    */
-  function Vivus(element, options, callback) {
+  function Vivus (element, options, callback) {
 
     // Setup
     this.setElement(element);
@@ -50,7 +50,7 @@
     this.setCallback(callback);
 
     // Set object variables
-    this.isDrawn = false;
+    this.frameLength = 0;
     this.currentFrame = 0;
     this.map = [];
 
@@ -101,7 +101,7 @@
    * @param  {object} options Object from the constructor
    */
   Vivus.prototype.setOptions = function (options) {
-    var allowedTypes = ['delayed', 'async', 'oneByOne', 'script'];
+    var allowedTypes = ['delayed', 'async', 'oneByOne', 'script', 'scenario'];
     var allowedStarts =  ['inViewport', 'manual', 'autostart'];
 
     // Basic check
@@ -138,7 +138,7 @@
    * The method will not return enything, but will throw an
    * error if the parameter is invalid
    *
-   * @param  {object} options Object from the constructor
+   * @param  {Function} callback Callback for the animation end
    */
   Vivus.prototype.setCallback = function (callback) {
     // Basic check
@@ -150,7 +150,7 @@
 
 
   /**
-   * Mapping
+   * Core
    **************************************
    */
 
@@ -158,7 +158,6 @@
    * Map the svg, path by path
    * and create the SVG mapping fo the animation
    *
-   * @return {[type]} [description]
    */
   Vivus.prototype.mapping = function () {
     var i, paths, path, pAttrs, pathObj, totalLength, lengthMeter, timePoint;
@@ -205,13 +204,63 @@
         pathObj.startAt = timePoint + (parseInt(pAttrs['data-delay'], 10) || this.delayUnit || 0);
         pathObj.duration = (parseInt(pAttrs['data-duration'], 10) || this.duration);
         timePoint = pAttrs['data-async'] !== undefined ? timePoint + (parseInt(pAttrs['data-delay'], 10) || 0) : pathObj.startAt + pathObj.duration;
+        this.frameLength = Math.max(this.frameLength, (pathObj.startAt + pathObj.duration));
+        break;
+
+      case 'scenario':
+        path = paths[i];
+        pAttrs = this.parseAttr(path);
+        pathObj.startAt = parseInt(pAttrs['data-start'], 10) || this.delayUnit || 0;
+        pathObj.duration = parseInt(pAttrs['data-duration'], 10) || this.duration;
+        this.frameLength = Math.max(this.frameLength, (pathObj.startAt + pathObj.duration));
         break;
       }
       lengthMeter += pathObj.length;
+      this.frameLength = this.frameLength || this.duration;
     }
   };
 
+  /**
+   * Interval method to draw the SVG from current
+   * position of the animation
+   *
+   */
+  Vivus.prototype.drawer = function () {
+    var self = this;
+    console.log('drawer', this.currentFrame);
 
+    if (this.currentFrame < 0) {
+      this.stop();
+      this.currentFrame = 0;
+
+    } else if (this.currentFrame > this.frameLength) {
+      this.stop();
+      this.currentFrame = this.frameLength;
+      this.callback(this);
+    } else {
+      this.currentFrame += this.speed;
+      this.trace();
+      this.handle = requestAnimFrame(function () { self.drawer(); });
+    }
+  };
+
+  /**
+   * Draw the SVG at the current instant from the
+   * `currentFrame` value.
+   *
+   */
+  Vivus.prototype.trace = function () {
+    var i, progress, path;
+    for (i in this.map) {
+      path = this.map[i];
+      progress = (this.currentFrame - path.startAt) / path.duration;
+      progress = Math.max(0, Math.min(1, progress));
+      if (path.progress !== progress) {
+        path.progress = progress;
+        path.el.style.strokeDashoffset = Math.floor(path.length * (1 - progress));
+      }
+    }
+  };
 
   /**
    * Trigger to start of the animation
@@ -223,14 +272,14 @@
       return;
 
     case 'autostart':
-      this.draw();
+      this.play();
       break;
 
     case 'inViewport':
       var self = this,
       listener = function (e) {
         if (self.isInViewport(self.el, 1)) {
-          self.draw();
+          self.play();
           window.removeEventListener('scroll', listener);
         }
       };
@@ -243,43 +292,48 @@
   };
 
 
-  Vivus.prototype.reset = function() {
-    if (this.isDrawn) {
-      this.isDrawn = false;
-      this.prepairPaths();
-      this.draw();
+  /**
+   * Controls
+   **************************************
+   */
+
+  /**
+   * Reset the instance to the inital state : undraw
+   *
+   */
+  Vivus.prototype.reset = function () {
+    this.currentFrame = 0;
+    this.trace();
+  };
+
+  /**
+   * Play the animation at the desired speed.
+   * Speed must be a valid number (no zero).
+   * By default, the speed value is 1.
+   * But a negative value is accepted to go forward.
+   *
+   * @param  {number} speed Animation speed [optional]
+   */
+  Vivus.prototype.play = function (speed) {
+    if (speed && typeof speed !== 'number') {
+      throw new Error('Vivus [play]: invalid speed');
+    }
+    this.speed = speed || 1;
+    if (!this.handle) {
+      this.drawer();
     }
   };
 
-  Vivus.prototype.draw = function() {
-    if (this.isDrawn) {
-      return;
-    }
-    this.drawer();
-  };
-
-  Vivus.prototype.drawer = function() {
-    var i, progress, path;
-    var self = this;
-
-    if (!!this.map[this.map.length-1].done) {
+  /**
+   * Stop the current animation, if on progress.
+   * Should not trigger any error
+   *
+   */
+  Vivus.prototype.stop = function () {
+    if (this.handle) {
       cancelAnimFrame(this.handle);
-      this.callback(this);
-    } else {
-      for (i in this.map) {
-        path = this.map[i];
-        if (!path.done && path.startAt < this.currentFrame) {
-          progress = (this.currentFrame - path.startAt) / path.duration;
-          if (progress > 1) {
-            path.done = true;
-            progress = 1;
-          }
-          path.el.style.strokeDashoffset = Math.floor(path.length * (1 - progress));
-        }
-      }
-      this.handle = requestAnimFrame(function() { self.drawer(); });
+      delete this.handle;
     }
-    this.currentFrame++;
   };
 
 
@@ -395,7 +449,7 @@
    * `setTimeout` function for deprecated browsers.
    *
    */
-  var requestAnimFrame = function(){
+  var requestAnimFrame = function () {
     return (
       window.requestAnimationFrame       ||
       window.webkitRequestAnimationFrame ||
@@ -413,7 +467,7 @@
    * `cancelTimeout` function for deprecated browsers.
    *
    */
-  var cancelAnimFrame = function(){
+  var cancelAnimFrame = function () {
     return (
       window.cancelAnimationFrame       ||
       window.webkitCancelAnimationFrame ||
