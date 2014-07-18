@@ -34,6 +34,11 @@ Unfortunately, there's a problem, this property is only available on path elemen
 
 *The animation always draw elements in the same order as they are defined in the SVG tag.*
 
+There is few conditions about your SVG:
+
+- Every element mustn't be filled, but have a stroke (of your choice, go crazy). Because the animation is based on it
+- Do not have any hidden path elements in your SVG, Vivus consider them all eligible to be animated. So think to remove them before playing with it, or the animation might look tricky with blank and gaps.
+
 The code is quite inspired from other repo. The drawer is inspired from the excellent [Codrops](http://tympanus.net/codrops/) about the post [SVG Drawing Animation](http://tympanus.net/codrops/2013/12/30/svg-drawing-animation/) (if you don't know this website, get ready for mind-blowing). Then for the pathformer, there's a lot of works from [SVGPathConverter](https://github.com/Waest/SVGPathConverter) by [Waest](https://github.com/Waest).
 
 ## Usage
@@ -104,3 +109,13 @@ This scenario should give us
 I'm sorry if it does not look very sexy, and it's not really easy to use. I'm happy to make any change, as long as the idea sounds interesting. Post an issue, I'll be very happy to talk about it!
 
 The road is still long, add features, add tests, add Grunt tasks, make the code better... fix the terrible english in the documentation.
+
+## TO DO
+
+[ ] Explain recommandations for SVG structure (no fill, just strokes) and any hidden item
+[ ] Detail new type 'scenario'
+[x] Set up new animation type : 'scenario'
+[x] New play system (play, pause)
+[ ] Tests bitch!
+[x] Review comments for JSdoc (and better comments)
+[x] Add SVG source for doc pictures

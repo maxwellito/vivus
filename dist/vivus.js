@@ -247,74 +247,146 @@
    * If you fail somewhere, an error will be thrown.
    * Good luck.
    *
+   * @constructor
+   * @this {Vivus}
    * @param {DOM|String}   element  Dom element of the SVG or id of it
    * @param {Object}       options  Options about the animation
    * @param {Function}     callback Callback for the end of the animation
    */
-  function Vivus(element, options, callback) {
-    // Test params
-    if (!element) {
-      throw new Error('Vivus contructor: "element" parameter is required');
-    }
-    if (!!options && options.constructor !== Object) {
-      throw new Error('Vivus contructor: "options" parameter must be an object');
-    }
-    if (!!callback && callback.constructor !== Function) {
-      throw new Error('Vivus contructor: "callback" parameter must be a function');
-    }
+  function Vivus (element, options, callback) {
 
-    // Set the element
-    if (element.constructor === String) {
-      element = document.getElementById(element);
-      if (!element) {
-        throw new Error('Vivus contructor: "element" parameter is not related to an existing ID');
-      }
-    }
-    if (element.constructor === SVGSVGElement) {
-      this.el = element;
-    } else {
-      throw new Error('Vivus contructor: "element" parameter must be a string or a SVGelement');
-    }
-
-    // Set the options
-    this.initOptions(options);
-    this.callback = callback || function () {};
+    // Setup
+    this.setElement(element);
+    this.setOptions(options);
+    this.setCallback(callback);
 
     // Set object variables
-    this.isDrawn = false;
+    this.frameLength = 0;
     this.currentFrame = 0;
     this.map = [];
 
     // Start
     new Pathformer(element);
     this.mapping();
-    this.init();
+    this.starter();
   }
 
+
   /**
-   * Set up user option to the object
-   *
-   * @param  {object} options Object from the constructor
+   * Setters
+   **************************************
    */
-  Vivus.prototype.initOptions = function (options) {
-    var allowedTypes = ['delayed', 'async', 'oneByOne', 'script'];
-    var allowedStarts =  ['inViewport', 'manual', 'autostart'];
 
-    this.type = allowedTypes.indexOf(options.type) === -1 ? allowedTypes[0] : options.type;
-    this.start = allowedStarts.indexOf(options.start) === -1 ? allowedStarts[0] : options.start;
-    this.duration = !!options.duration && options.duration > 0 ? options.duration : 120;
-    this.delay = options.delay >= 0 ? parseInt(options.delay, 10) : null;
+  /**
+   * Check and set the element in the instance
+   * The method will not return enything, but will throw an
+   * error if the parameter is invalid
+   *
+   * @param {DOM|String}   element  SVG Dom element or id of it
+   */
+  Vivus.prototype.setElement = function (element) {
+    // Basic check
+    if (element === undefined) {
+      throw new Error('Vivus [contructor]: "element" parameter is required');
+    }
 
-    if (this.delay > this.duration) {
-      throw new Error('Vivus contructor: delai must be shorter than duration');
+    // Set the element
+    if (element.constructor === String) {
+      element = document.getElementById(element);
+      if (!element) {
+        throw new Error('Vivus [contructor]: "element" parameter is not related to an existing ID');
+      }
+    }
+    if (element.constructor === SVGSVGElement) {
+      this.el = element;
+    } else {
+      throw new Error('Vivus [contructor]: "element" parameter must be a string or a SVGelement');
     }
   };
 
   /**
-   * Map the svg, path by path
-   * and create the scenario fo the animation
+   * Set up user option to the instance
+   * The method will not return enything, but will throw an
+   * error if the parameter is invalid
    *
-   * @return {[type]} [description]
+   * @param  {object} options Object from the constructor
+   */
+  Vivus.prototype.setOptions = function (options) {
+    var allowedTypes = ['delayed', 'async', 'oneByOne', 'script', 'scenario'];
+    var allowedStarts =  ['inViewport', 'manual', 'autostart'];
+
+    // Basic check
+    if (options !== undefined && options.constructor !== Object) {
+      throw new Error('Vivus [contructor]: "options" parameter must be an object');
+    }
+    else {
+      options = options || {};
+    }
+
+    // Set the animation type
+    if (options.type && allowedTypes.indexOf(options.type) === -1) {
+      throw new Error('Vivus [contructor]: ' + options.type + ' is not an existing animation `type`');
+    }
+    else {
+      this.type = options.type || allowedTypes[0];
+    }
+
+    // Set the start type
+    if (options.start && allowedStarts.indexOf(options.start) === -1) {
+      throw new Error('Vivus [contructor]: ' + options.start + ' is not an existing `start` option');
+    }
+    else {
+      this.start = options.start || allowedStarts[0];
+    }
+
+    this.duration = parsePositiveInt(options.duration, 120);
+    this.delay = parsePositiveInt(options.delay, null);
+
+    if (this.delay >= this.duration) {
+      throw new Error('Vivus [contructor]: delai must be shorter than duration');
+    }
+  };
+
+  /**
+   * Set up callback to the instance
+   * The method will not return enything, but will throw an
+   * error if the parameter is invalid
+   *
+   * @param  {Function} callback Callback for the animation end
+   */
+  Vivus.prototype.setCallback = function (callback) {
+    // Basic check
+    if (!!callback && callback.constructor !== Function) {
+      throw new Error('Vivus [contructor]: "callback" parameter must be a function');
+    }
+    this.callback = callback || function () {};
+  };
+
+
+  /**
+   * Core
+   **************************************
+   */
+
+  /**
+   * Map the svg, path by path.
+   * The method return nothing, it just fill the
+   * `map` array. Each item in this array represent
+   * a path element from the SVG, with informations for
+   * the animation.
+   *
+   * ```
+   * [
+   *   {
+   *     el: <DOMobj> the path element
+   *     length: <number> length of the path line
+   *     startAt: <number> time start of the path animation (in frames)
+   *     duration: <number> path animation duration (in frames)
+   *   },
+   *   ...
+   * ]
+   * ```
+   *
    */
   Vivus.prototype.mapping = function () {
     var i, paths, path, pAttrs, pathObj, totalLength, lengthMeter, timePoint;
@@ -333,6 +405,7 @@
       path.style.strokeDashoffset = pathObj.length;
     }
 
+    totalLength = totalLength === 0 ? 1 : totalLength;
     this.delay = this.delay === null ? this.duration / 3 : this.delay;
     this.delayUnit = this.delay / paths.length;
 
@@ -357,102 +430,195 @@
 
       case 'script':
         path = paths[i];
-        pAttrs = this.parseAttr(path.attributes);
-        pathObj.startAt = timePoint + (parseInt(pAttrs['data-delay'], 10) || this.delayUnit || 0);
-        pathObj.duration = (parseInt(pAttrs['data-duration'], 10) || this.duration);
-        timePoint = pAttrs['data-async'] !== undefined ? timePoint + (parseInt(pAttrs['data-delay'], 10) || 0) : pathObj.startAt + pathObj.duration;
+        pAttrs = this.parseAttr(path);
+        pathObj.startAt = timePoint + (parsePositiveInt(pAttrs['data-delay'], this.delayUnit) || 0);
+        pathObj.duration = parsePositiveInt(pAttrs['data-duration'], this.duration);
+        timePoint = pAttrs['data-async'] !== undefined ? timePoint + parsePositiveInt(pAttrs['data-delay']) : pathObj.startAt + pathObj.duration;
+        this.frameLength = Math.max(this.frameLength, (pathObj.startAt + pathObj.duration));
+        break;
+
+      case 'scenario':
+        path = paths[i];
+        pAttrs = this.parseAttr(path);
+        pathObj.startAt = parsePositiveInt(pAttrs['data-start'], this.delayUnit) || 0;
+        pathObj.duration = parsePositiveInt(pAttrs['data-duration'], this.duration);
+        this.frameLength = Math.max(this.frameLength, (pathObj.startAt + pathObj.duration));
         break;
       }
       lengthMeter += pathObj.length;
+      this.frameLength = this.frameLength || this.duration;
     }
   };
 
   /**
-   * Parse attributes of a DOM element to
-   * get an object of attribute => value
+   * Interval method to draw the SVG from current
+   * position of the animation. It update the value of
+   * `currentFrame` and re-trace the SVG.
    *
-   * @param  {object} element DOM element to parse
-   * @return {object}         Object of attributes
+   * It use this.handle to store the requestAnimationFrame
+   * and clear it one the animation is stopped. So this
+   * attribute can be used to know if the animation is
+   * playing.
+   *
+   * Once the animation at the end, this method will
+   * trigger the Vivus callback.
+   *
    */
-  Vivus.prototype.parseAttr = function (element) {
-    var attr, output = {};
-    for (var i = 0; i < element.length; i++) {
-      attr = element[i];
-      output[attr.name] = attr.value;
+  Vivus.prototype.drawer = function () {
+    var self = this;
+
+    if (this.currentFrame < 0) {
+      this.stop();
+      this.currentFrame = 0;
+    } else if (this.currentFrame > this.frameLength) {
+      this.stop();
+      this.currentFrame = this.frameLength;
+      this.callback(this);
+    } else {
+      this.currentFrame += this.speed;
+      this.trace();
+      this.handle = requestAnimFrame(function () {
+        self.drawer();
+      });
     }
-    return output;
   };
 
   /**
-   * Trigger to start of the animation
+   * Draw the SVG at the current instant from the
+   * `currentFrame` value. Here is where most of the magic is.
+   * The trick is to use the `strokeDashoffset` style property.
+   *
+   * For optimisation reasons, a new property called `progress`
+   * is added in each item of `map`. This one contain the current
+   * progress of the path element. Only if the new value is different
+   * the new value will be applied to the DOM element. This
+   * method save a lot of ressources to re-render the SVG. And could
+   * be improuved if the animation couldn't be played forward.
    *
    */
-  Vivus.prototype.init = function () {
+  Vivus.prototype.trace = function () {
+    var i, progress, path;
+    for (i in this.map) {
+      path = this.map[i];
+      progress = (this.currentFrame - path.startAt) / path.duration;
+      progress = Math.max(0, Math.min(1, progress));
+      if (path.progress !== progress) {
+        path.progress = progress;
+        path.el.style.strokeDashoffset = Math.floor(path.length * (1 - progress));
+      }
+    }
+  };
+
+  /**
+   * Trigger to start of the animation.
+   * Depending on the `start` value, a different script
+   * will be applied.
+   *
+   * If the `start` value is not valid, an error will be thrown.
+   * Even if technically, this is impossible.
+   *
+   */
+  Vivus.prototype.starter = function () {
     switch (this.start) {
     case 'manual':
       return;
 
     case 'autostart':
-      this.draw();
+      this.play();
       break;
 
-    default:
+    case 'inViewport':
       var self = this,
       listener = function (e) {
         if (self.isInViewport(self.el, 1)) {
-          self.draw();
+          self.play();
           window.removeEventListener('scroll', listener);
         }
       };
       window.addEventListener('scroll', listener);
+      break;
+
+    default:
+      throw new Error('Vivus [start]: unexisting `start` option');
     }
   };
 
 
-  Vivus.prototype.reset = function() {
-    if (this.isDrawn) {
-      this.isDrawn = false;
-      this.prepairPaths();
-      this.draw();
+  /**
+   * Controls
+   **************************************
+   */
+
+  /**
+   * Reset the instance to the inital state : undraw
+   * Be careful, it just reset the animation, if you're
+   * playing the animation, this won't stop it. But just
+   * make it start from start.
+   *
+   */
+  Vivus.prototype.reset = function () {
+    this.currentFrame = 0;
+    this.trace();
+  };
+
+  /**
+   * Play the animation at the desired speed.
+   * Speed must be a valid number (no zero).
+   * By default, the speed value is 1.
+   * But a negative value is accepted to go forward.
+   *
+   * And works with float too.
+   * But don't forget we are in JavaScript, se be nice
+   * with him and give him a 1/2^x value.
+   *
+   * @param  {number} speed Animation speed [optional]
+   */
+  Vivus.prototype.play = function (speed) {
+    if (speed && typeof speed !== 'number') {
+      throw new Error('Vivus [play]: invalid speed');
+    }
+    this.speed = speed || 1;
+    if (!this.handle) {
+      this.drawer();
     }
   };
 
-  Vivus.prototype.draw = function() {
-    if (this.isDrawn) {
-      return;
-    }
-    this.drawer();
-  };
-
-  Vivus.prototype.drawer = function() {
-    var i, progress, path;
-    var self = this;
-
-    if (!!this.map[this.map.length-1].done) {
+  /**
+   * Stop the current animation, if on progress.
+   * Should not trigger any error.
+   *
+   */
+  Vivus.prototype.stop = function () {
+    if (this.handle) {
       cancelAnimFrame(this.handle);
-      this.callback(this);
-    } else {
-      for (i in this.map) {
-        path = this.map[i];
-        if (!path.done && path.startAt < this.currentFrame) {
-          progress = (this.currentFrame - path.startAt) / path.duration;
-          if (progress > 1) {
-            path.done = true;
-            progress = 1;
-          }
-          path.el.style.strokeDashoffset = Math.floor(path.length * (1 - progress));
-        }
-      }
-      this.handle = requestAnimFrame(function() { self.drawer(); });
+      delete this.handle;
     }
-    this.currentFrame++;
   };
+
 
   /**
    * Utils methods
    * from Codrops
    **************************************
    */
+
+  /**
+   * Parse attributes of a DOM element to
+   * get an object of {attributeName => attribueValue}
+   *
+   * @param  {object} element DOM element to parse
+   * @return {object}         Object of attributes
+   */
+  Vivus.prototype.parseAttr = function (element) {
+    var attr, output = {};
+    if (element && element.attributes) {
+      for (var i = 0; i < element.attributes.length; i++) {
+        attr = element.attributes[i];
+        output[attr.name] = attr.value;
+      }
+    }
+    return output;
+  };
 
   /**
    * Reply if an element is in the page viewport
@@ -494,10 +660,12 @@
     var client = this.docElem.clientHeight,
       inner = window.innerHeight;
 
-    if( client < inner )
+    if (client < inner) {
       return inner;
-    else
+    }
+    else {
       return client;
+    }
   };
 
   /**
@@ -523,13 +691,13 @@
   Vivus.prototype.getOffset = function (el) {
     var offsetTop = 0, offsetLeft = 0;
     do {
-      if ( !isNaN( el.offsetTop ) ) {
+      if (!isNaN(el.offsetTop)) {
         offsetTop += el.offsetTop;
       }
-      if ( !isNaN( el.offsetLeft ) ) {
+      if (!isNaN(el.offsetLeft)) {
         offsetLeft += el.offsetLeft;
       }
-    } while(!!(el = el.offsetParent));
+    } while (!!(el = el.offsetParent));
 
     return {
       top : offsetTop,
@@ -542,7 +710,7 @@
    * `setTimeout` function for deprecated browsers.
    *
    */
-  var requestAnimFrame = function(){
+  var requestAnimFrame = function () {
     return (
       window.requestAnimationFrame       ||
       window.webkitRequestAnimationFrame ||
@@ -560,7 +728,7 @@
    * `cancelTimeout` function for deprecated browsers.
    *
    */
-  var cancelAnimFrame = function(){
+  var cancelAnimFrame = function () {
     return (
       window.cancelAnimationFrame       ||
       window.webkitCancelAnimationFrame ||
@@ -572,6 +740,23 @@
       }
     );
   }();
+
+  /**
+   * Parse string to integer.
+   * If the number is not positive or null
+   * the method will return the default value
+   * or 0 if undefined
+   *
+   * @param {string} value String to parse
+   * @param {*} defaultValue Value to return if the result parsed is invalid
+   * @return {number}
+   *
+   */
+  var parsePositiveInt = function (value, defaultValue) {
+    var output = parseInt(value, 10);
+    defaultValue = defaultValue || 0;
+    return (output >= 0) ? output : defaultValue;
+  };
 
 
   window.Vivus = Vivus;

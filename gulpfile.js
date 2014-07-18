@@ -3,7 +3,8 @@ var gulp      = require('gulp'),
   gutil       = require('gulp-util'),
   uglify      = require('gulp-uglify'),
   concat      = require('gulp-concat'),
-  jshint      = require('gulp-jshint');
+  jshint      = require('gulp-jshint'),
+  karma       = require('gulp-karma');
 
 /**
  * distrib
@@ -35,13 +36,31 @@ gulp.task('lint', function() {
 });
 
 /**
+ * test
+ * run Karma on the scripts
+ *
+ */
+gulp.task('test', function() {
+  // Be sure to return the stream
+  return gulp.src(['src/pathformer.js', 'src/vivus.js', 'test/unit/**.js'])
+    .pipe(karma({
+      configFile: 'test/karma.conf.js',
+      action: 'run'
+    }))
+    .on('error', function(err) {
+      // Make sure failed tests cause gulp to exit non-zero
+      throw err;
+    });
+});
+
+/**
  * develop
  * Task to develop, it run a watch which pass JShint and build
  * the final scripts.
- * 
+ *
  */
 gulp.task('develop', function() {
   gulp.watch('./src/*', function () {
-    gulp.run('lint', 'distrib');
+    gulp.run('lint', 'test', 'distrib');
   });
 });
