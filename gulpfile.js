@@ -29,7 +29,7 @@ gulp.task('distrib', function () {
  * run JShint on the scripts
  *
  */
-gulp.task('lint', function() {
+gulp.task('lint', function () {
   return gulp.src('./src/*.js')
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
@@ -40,14 +40,14 @@ gulp.task('lint', function() {
  * run Karma on the scripts
  *
  */
-gulp.task('test', function() {
+gulp.task('test', function () {
   // Be sure to return the stream
   return gulp.src(['src/pathformer.js', 'src/vivus.js', 'test/unit/**.js'])
     .pipe(karma({
       configFile: 'test/karma.conf.js',
       action: 'run'
     }))
-    .on('error', function(err) {
+    .on('error', function (err) {
       // Make sure failed tests cause gulp to exit non-zero
       throw err;
     });
@@ -59,8 +59,11 @@ gulp.task('test', function() {
  * the final scripts.
  *
  */
-gulp.task('develop', function() {
+gulp.task('develop', function () {
   gulp.watch('./src/*', function () {
     gulp.run('lint', 'test', 'distrib');
+  });
+  gulp.watch('./test/**/*.spec.js', function () {
+    gulp.run('test');
   });
 });

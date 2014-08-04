@@ -153,6 +153,25 @@ describe('Vivus', function () {
     });
   });
 
+  describe('Engine', function () {
+
+    // Mapping
+    it('shoud create a mapping of the SVG', function () {
+      myVivus = new Vivus(svgTag, {});
+      expect(myVivus.map && myVivus.map.length).toEqual(6);
+    });
+
+    it('should map with correct values for start and duration', function () {
+      var i, typeIndex, types = ['delayed', 'async', 'oneByOne', 'script', 'scenario'];
+      for (typeIndex in types) {
+        myVivus = new Vivus(svgTag, {type: types[typeIndex], duration: 200});
+        for (i in myVivus.map) {
+          expect(myVivus.map[i].startAt >= 0).toBe(true);
+          expect(myVivus.map[i].duration >= 0).toBe(true);
+        }
+      }
+    })
+  });
 
 
 });

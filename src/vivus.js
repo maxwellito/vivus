@@ -103,7 +103,7 @@
    * @param  {object} options Object from the constructor
    */
   Vivus.prototype.setOptions = function (options) {
-    var allowedTypes = ['delayed', 'async', 'oneByOne', 'script', 'scenario'];
+    var allowedTypes = ['delayed', 'async', 'oneByOne', 'scenario', 'scenario-sync'];
     var allowedStarts =  ['inViewport', 'manual', 'autostart'];
 
     // Basic check
@@ -198,7 +198,7 @@
 
     totalLength = totalLength === 0 ? 1 : totalLength;
     this.delay = this.delay === null ? this.duration / 3 : this.delay;
-    this.delayUnit = this.delay / paths.length;
+    this.delayUnit = this.delay / (paths.length > 1 ? paths.length - 1 : 1);
 
     for (i = 0; i < paths.length; i++) {
       pathObj = this.map[i];
@@ -219,12 +219,12 @@
         pathObj.duration = this.duration;
         break;
 
-      case 'script':
+      case 'scenario-sync':
         path = paths[i];
         pAttrs = this.parseAttr(path);
         pathObj.startAt = timePoint + (parsePositiveInt(pAttrs['data-delay'], this.delayUnit) || 0);
         pathObj.duration = parsePositiveInt(pAttrs['data-duration'], this.duration);
-        timePoint = pAttrs['data-async'] !== undefined ? timePoint + parsePositiveInt(pAttrs['data-delay']) : pathObj.startAt + pathObj.duration;
+        timePoint = pAttrs['data-async'] !== undefined ? pathObj.startAt : pathObj.startAt + pathObj.duration;
         this.frameLength = Math.max(this.frameLength, (pathObj.startAt + pathObj.duration));
         break;
 
@@ -545,6 +545,5 @@
    */
   var parsePositiveInt = function (value, defaultValue) {
     var output = parseInt(value, 10);
-    defaultValue = defaultValue || 0;
     return (output >= 0) ? output : defaultValue;
   };

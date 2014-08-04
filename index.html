@@ -87,7 +87,7 @@
 				font-size: 0.75em;
 			}
 			.code {
-				width: 100%;
+				overflow: scroll;
 				margin: 0; padding: 10px;
 				border: none;
 				background-color: rgba(0,0,0,0.1);
@@ -331,7 +331,7 @@
 				<p>The option object must respect this structure :</p>
 				<dl>
 					<dt>type <small>string</small></dt>
-					<dd>define what kind of animation will be used: <i>delayed</i>, <i>async</i>, <i>oneByOne</i> or <i>script</i></dd>
+					<dd>define what kind of animation will be used: <i>delayed</i>, <i>async</i>, <i>oneByOne</i>, <i>scenario</i> or <i>scenario-sync</i></dd>
 
 					<dt>duration <small>integer</small></dt>
 					<dd>animation duration, in frames</dd>
@@ -340,7 +340,7 @@
 					<dd>define how to trigger the animation
 						<p class="smaller">
 							<strong>inViewport</strong> once the SVG is in the viewport<br>
-							<strong>manual</strong> give you the freedom to call <i>draw</i> method to start<br>
+							<strong>manual</strong> give you the freedom to call <i>play</i> method to start<br>
 							<strong>autostart</strong> make it start right now<br>
 						</p>
 					</dd>
@@ -349,35 +349,55 @@
 					<dd>time between the drawing of first and last path, in frames (only for <i>delayed</i> animations)</dd>
 				</dl>
 
+				<p>To control the animation, three methods are available : play, stop and reset. The method play take one parameter which is the speed. This value can be positive, negative (to go backwards), or under 1 to play slowly. By default the value is 1.<p/>
+
 			</div>
 		</div>
 
 		<!-- Scripting -->
 		<div class="content">
-			<h2>Custom</h2>
-			<p>This feature allow you to script the animation of your SVG. There is two different ways.</p>
+			<h2>Scenarize</h2>
+			<p>This feature allow you to script the animation of your SVG. For this, the custom values will be set directly in the DOM of the SVG.</p>
 
-			<h3><i>script</i> type</h3>
-			<p>It's not the sexiest code ever, but quite flexible, and easy to use, I would say. The behaviour is quite different, let's see.</p>
-			<p>First, the animation must be set with the type <i>script</i>. The behaviour is the same as `oneByOne` : synchronous.<br>At this point, the attributes <i>duration</i> and <i>delay</i> are the default value for each path element (so not global for the entire animation, as before). It means, if the options define 20 for duration and 2 for delay : each path element will take 20 frames to be draw, and 2 frames before to start.</p>
-			<p>Second, define a custom rules for each element in your SVG via extra attributes in your SVG DOM :</p>
+			<h3>{type: '<i>scenario</i>'}</h3>
+			<p>This type is easier to understand, but longer to implement. You just have to define the start and duration of each element with <i>data-start</i> and <i>data-duration</i> attributes. If missing, it will use the default value given to the constructor.</p>
+			<p>The good point about this type is the flexibility. You don't have to respect the order/stack of the SVG. You can start with the last element, then continue with the first, to finish with all the rest at the same time.</p>
+
+			<p>Then define custom rules for each element in your SVG via extra attributes in your SVG DOM :</p>
+
+			<dl>
+				<dt>data-start <small>integer</small></dt>
+				<dd>time when the animation must start, in frames</dd>
+
+				<dt>data-duration <small>integer</small></dt>
+				<dd>animation duration of this path, in frames</dd>
+			</dl>
+
+			<pre class="code">
+&lt;svg&gt;
+  &lt;circle <i>data-start=&quot;0&quot;</i> <i>data-duration=&quot;10&quot;</i> ... /&gt;
+  &lt;circle <i>data-start=&quot;20&quot;</i> <i>data-duration=&quot;10&quot;</i> ... /&gt;
+  &lt;circle <i>data-start=&quot;20&quot;</i> <i>data-duration=&quot;20&quot;</i> ... /&gt;
+  &lt;circle <i>data-start=&quot;0&quot;</i> <i>data-duration=&quot;30&quot;</i> ... /&gt;
+&lt;/svg&gt;</pre>
+
+			<h3>{type: '<i>scenario-sync</i>'}</h3>
+			<p>It's not the sexiest code ever, but quite flexible. The behaviour is quite different, let's see.</p>
+			<p>By using this animation type, the default behaviour is the same as `oneByOne`. But here, you can define some properties on a specific path item. Like the duration, the delay to start (from the end of the previous path) and if it should be played asyncronously.</p>
 
 			<dl>
 				<dt>data-delay <small>integer</small></dt>
 				<dd>time between the end of the animation of the previous path and the start of the current path, in frames</dd>
 
 				<dt>data-duration <small>integer</small></dt>
-				<dd>duration of this path animation, in frames</dd>
+				<dd>animation duration of this path, in frames</dd>
 
 				<dt>data-async <small>(no value required)</small></dt>
 				<dd>make the drawing of this path asynchronous. It means the next path will start at the same time.</dd>
 			</dl>
 
 			<p>If a path does not have an attribute for duration or delay. The default one, set in options, will be used.</p>
-
-			<h3><i>scenario</i> type</h3>
-			<p>This type is easier to understand, but longer to implement. You just have to define the start and duration of each element with <i>data-start</i> and <i>data-duration</i> attributes. If missing, it will use the default value given to the constructor.</p>
-			<p>The good point about this solution is the flexibility. You don't have to respect the order/stack of the SVG. You can start with the last element, then continue with the first, to finish with all the rest at the same time.</p>
+			<p>For an easier debug, have a look to the attribute <i>map</i> of your Vivus object. This one contain the mapping of your animation. If you're using Google Chrome, I recommand you to use `console.table` to get a nice output of the array, which will make your debug easier.</p>
 
 		</div>
 
@@ -437,24 +457,17 @@
 						<!-- Design (color lines on the front) -->
 						<!-- All the lines will start at the same time, because they all have the attribute `data-async` -->
 						<line data-async fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="47.583" y1="101.505" x2="51.561" y2="88.267"/>
-
 						<line data-async fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="53.391" y1="102.326" x2="57.047" y2="90.125"/>
-
 						<line data-async fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="59.224" y1="103.068" x2="62.749" y2="91.295"/>
-
 						<line data-async fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="65.057" y1="103.814" x2="69.015" y2="90.637"/>
-
 						<line data-async fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="72.87" y1="19.969" x2="75.497" y2="11.082"/>
-
 						<line data-async fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="78.512" y1="21.325" x2="81.317" y2="11.868"/>
-
 						<line data-async fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="83.833" y1="23.718" x2="87.16" y2="12.582"/>
-
 						<line data-async fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="89.145" y1="26.141" x2="92.939" y2="13.498"/>
 
 					</svg>
 					<div class="example-description">
-						<p>Here is an example, a polaroid.<br>I recommend you to look at the source code, it's well commented.</p>
+						<p>Here is an example using <i>scenario-sync</i>.<br>I recommend you to look at the source code, it's well commented.</p>
 						<p>The idea is to first, draw the case asynchronously, then after a little pause start to draw the lens, following by the flash and the picture output. To finish with the stripes on the front.</p>
 						<button onclick="pola.reset(); pola.play();">replay</button>
 						<button onclick="pola.play(-3);">rewind</button>
@@ -475,15 +488,15 @@
 		<script src="dist/vivus.js"></script>
 		<script>
 
-			var hi = new Vivus('tape', {type: 'script', duration: 20, start: 'autostart'}, function () {
+			var hi = new Vivus('tape', {type: 'scenario-sync', duration: 20, start: 'autostart'}, function () {
 					if (console) {
 						console.log('Animation finished. [log triggered from callback]');
 					}
 				}),
-				obt1 = new Vivus('opturateur1', {type: 'scenario'}),
-				obt2 = new Vivus('opturateur2', {type: 'async', duration: 200}),
-				obt3 = new Vivus('opturateur3', {type: 'oneByOne', duration: 200}),
-				pola = new Vivus('polaroid', {type: 'script', duration: 20});
+				obt1 = new Vivus('opturateur1', {type: 'delayed', duration: 150}),
+				obt2 = new Vivus('opturateur2', {type: 'async', duration: 150}),
+				obt3 = new Vivus('opturateur3', {type: 'oneByOne', duration: 150}),
+				pola = new Vivus('polaroid', {type: 'scenario-sync', duration: 20});
 		</script>
 	</body>
 </html>

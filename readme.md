@@ -68,14 +68,42 @@ define how to trigger the animation
 - `delay` (integer)
 time between the drawing of first and last path, in frames (only for delayed animations)
 
-## Scripting
+The Vivus object got 3 controls methods:
 
-This feature is still in beta and a bit fragile, it allow you to script the animation of your SVG. It's not the sexiest code ever, but quite flexible, and easy to use, I would say. The behaviour is quite different, let's see.
+- `play(speed)` Play the animation with the speed given in parameter. This value can be negative to go backward, between 0 and 1 to go slowly, or superior to 1 to go fast. By default the value is 1.
+- `stop()` Stop the animation.
+- `reset()` Reinitialise the SVG to the original state: undraw.
 
-First, the animation must be set with the type script. The behaviour is the same as `oneByOne` : synchronous.
-At this point, the attributes duration and delay are the default value for each path element (so not global for the entire animation, as before). It means, if the options define 20 for duration and 2 for delay : each path element will take 20 frames to be draw, and 2 frames before to start.
+## Scenarize
 
-Second, define a custom rules for each element in your SVG via extra attributes in your SVG DOM :
+This feature allow you to script the animation of your SVG. For this, the custom values will be set directly in the DOM of the SVG.
+
+### `scenario`
+
+This type is easier to understand, but longer to implement. You just have to define the start and duration of each element with `data-start` and `data-duration` attributes. If missing, it will use the default value given to the constructor.
+The good point about this type is the flexibility. You don't have to respect the order/stack of the SVG. You can start with the last element, then continue with the first, to finish with all the rest at the same time.
+
+Then define custom rules for each element in your SVG via extra attributes in your SVG DOM :
+
+- `data-start` (integer)
+time when the animation must start, in frames
+- `data-duration` (integer)
+animation duration of this path, in frames
+
+
+```html
+<svg>
+  <path data-start="0" data-duration="10" .../>
+  <path data-start="20" data-duration="10" .../>
+  <path data-start="20" data-duration="20" .../>
+  <path data-start="0" data-duration="30" .../>
+</svg>
+```
+
+### `scenario-sync`
+
+It's not the sexiest code ever, but quite flexible. The behaviour is quite different, let's see.
+By using this animation type, the default behaviour is the same as `oneByOne`. But here, you can define some properties on a specific path item. Like the duration, the delay to start (from the end of the previous path) and if it should be played asyncronously.
 
 - `data-delay` (integer)
 time between the end of the animation of the previous path and the start of the current path, in frames
@@ -108,7 +136,17 @@ This scenario should give us
 
 I'm sorry if it does not look very sexy, and it's not really easy to use. I'm happy to make any change, as long as the idea sounds interesting. Post an issue, I'll be very happy to talk about it!
 
-The road is still long, add features, add tests, add Grunt tasks, make the code better... fix the terrible english in the documentation.
+## Debug
+
+For an easier debug, have a look to the attribute `map` of your Vivus object. This one contain the mapping of your animation. If you're using Google Chrome, I recommand you to use `console.table` to get a nice output of the array, which will make your debug easier.
+
+```javascript
+var logo = new Vivus('myLogo', {type: 'scenario-sync'});
+
+// The property 'map' contain all the SVG mapping
+console.table(logo.map);
+```
+
 
 ## TO DO
 

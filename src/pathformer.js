@@ -75,7 +75,6 @@
    */
   Pathformer.prototype.lineToPath = function (element) {
     var newElement = {};
-    newElement.debug = 'modified-line';
     newElement.d = 'M' + element.x1 + ',' + element.y1 + 'L' + element.x2 + ',' + element.y2;
     return newElement;
   };
@@ -93,7 +92,6 @@
     var newElement = {};
     element.x = element.x || 0;
     element.y = element.y || 0;
-    newElement.debug = 'modified-rect';
     newElement.d  = 'M' + element.x + ' ' + element.y + ' ';
     newElement.d += 'L' + (element.x + element.width) + ' ' + element.y + ' ';
     newElement.d += 'L' + (element.x + element.width) + ' ' + (element.y + element.height) + ' ';
@@ -110,7 +108,6 @@
    */
   Pathformer.prototype.polylineToPath = function (element) {
     var newElement = {};
-    newElement.debug = 'modified-polyline';
     var points = element.points.split(' ');
     var path = "M" + points[0];
     for(var i = 1; i < points.length; i++) {
@@ -134,7 +131,6 @@
         endY = element.cy;
 
     var newElement = {};
-    newElement.debug = 'modified-elipse';
     newElement.d = "M" + startX + "," + startY +
                    "A" + element.rx + "," + element.ry + " 0,1,1 " + endX + "," + endY +
                    "A" + element.rx + "," + element.ry + " 0,1,1 " + startX + "," + endY;
@@ -154,7 +150,6 @@
         startY = element.cy;
     var endX = parseFloat(element.cx) + parseFloat(element.r),
         endY = element.cy;
-    newElement.debug = 'modified-circle';
     newElement.d = "M" + startX + "," + startY +
                 "A" + element.r + "," + element.r + " 0,1,1 " + endX + "," + endY +
                 "A" + element.r + "," + element.r + " 0,1,1 " + startX + "," + endY;
