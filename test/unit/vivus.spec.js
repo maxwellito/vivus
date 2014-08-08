@@ -133,9 +133,9 @@ describe('Vivus', function () {
       expect(myVivus.duration > 0).toBe(true);
     });
 
-    it('should override `delay` if invalid', function () {
+    it('should override `delay` if invalid, with a null value', function () {
       myVivus = new Vivus(svgTag, {delay: -12});
-      expect(!myVivus.delay).toBe(true);
+      expect(!myVivus.delay).toBe(false);
     });
 
     it('should set up default values', function () {
@@ -162,7 +162,7 @@ describe('Vivus', function () {
     });
 
     it('should map with correct values for start and duration', function () {
-      var i, typeIndex, types = ['delayed', 'async', 'oneByOne', 'script', 'scenario'];
+      var i, typeIndex, types = ['delayed', 'async', 'oneByOne', 'scenario', 'scenario-sync'];
       for (typeIndex in types) {
         myVivus = new Vivus(svgTag, {type: types[typeIndex], duration: 200});
         for (i in myVivus.map) {
