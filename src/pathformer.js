@@ -18,22 +18,24 @@
    */
   function Pathformer(element) {
     // Test params
-    if (!element) {
-      throw new Error('Pathformer contructor: "element" parameter is required');
+    if (typeof element === 'undefined') {
+      throw new Error('Pathformer [contructor]: "element" parameter is required');
     }
 
     // Set the element
     if (element.constructor === String) {
       element = document.getElementById(element);
       if (!element) {
-        throw new Error('Pathformer contructor: "element" parameter is not related to an existing ID');
+        throw new Error('Pathformer [contructor]: "element" parameter is not related to an existing ID');
       }
     }
     if (element.constructor === SVGSVGElement) {
       this.el = element;
     } else {
-      throw new Error('Pathformer contructor: "element" parameter must be a string or a SVGelement');
+      throw new Error('Pathformer [contructor]: "element" parameter must be a string or a SVGelement');
     }
+
+
 
     // Start
     this.scan(element);
@@ -180,8 +182,8 @@
    * Parse attributes of a DOM element to
    * get an object of attribute => value
    *
-   * @param  {object} element DOM element to parse
-   * @return {object}         Object of attributes
+   * @param  {NamedNodeMap} attributes Attributes object from DOM element to parse
+   * @return {object}                  Object of attributes
    */
   Pathformer.prototype.parseAttr = function (element) {
     var attr, output = {};

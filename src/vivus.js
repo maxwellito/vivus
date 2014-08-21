@@ -77,7 +77,7 @@
    */
   Vivus.prototype.setElement = function (element) {
     // Basic check
-    if (element === undefined) {
+    if (typeof element === 'undefined') {
       throw new Error('Vivus [contructor]: "element" parameter is required');
     }
 
