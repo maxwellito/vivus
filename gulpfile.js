@@ -23,7 +23,6 @@ gulp.task('distrib', function () {
     .pipe(gulp.dest('./dist'));
 });
 
-
 /**
  * lint
  * run JShint on the scripts
