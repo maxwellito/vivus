@@ -136,6 +136,24 @@ This scenario should give us
 
 I'm sorry if it does not look very sexy, and it's not really easy to use. I'm happy to make any change, as long as the idea sounds interesting. Post an issue, I'll be very happy to talk about it!
 
+## Development
+
+To make it easy, a gulp file is set up to automise minifying, JShint and tests.
+If you have never used Gulp before, this is a good opportunity. To use it, you need to install NodeJS first then run `sudo npm install -g gulp`.
+
+To start, you need to install the repo dependencies:
+
+```bash
+$ npm install
+```
+
+Then you can run Gulp with one of the following tasks:
+
+- `distrib` make the build (generate `dist/vivus.js` and `dist/vivus.min.js`)
+- `lint` run JShint on the source files
+- `test` run Karma
+- `develop` keep watching your files, if any change is applied, Gulp will run the task(s) related to it.
+
 ## Debug
 
 For an easier debug, have a look to the attribute `map` of your Vivus object. This one contain the mapping of your animation. If you're using Google Chrome, I recommand you to use `console.table` to get a nice output of the array, which will make your debug easier.
@@ -146,14 +164,3 @@ var logo = new Vivus('myLogo', {type: 'scenario-sync'});
 // The property 'map' contain all the SVG mapping
 console.table(logo.map);
 ```
-
-
-## TO DO
-
-[ ] Explain recommandations for SVG structure (no fill, just strokes) and any hidden item
-[ ] Detail new type 'scenario'
-[x] Set up new animation type : 'scenario'
-[x] New play system (play, pause)
-[ ] Tests bitch!
-[x] Review comments for JSdoc (and better comments)
-[x] Add SVG source for doc pictures

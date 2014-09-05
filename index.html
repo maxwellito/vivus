@@ -359,6 +359,8 @@
 			<h2>Scenarize</h2>
 			<p>This feature allow you to script the animation of your SVG. For this, the custom values will be set directly in the DOM of the SVG.</p>
 
+			<hr>
+
 			<h3>{type: '<i>scenario</i>'}</h3>
 			<p>This type is easier to understand, but longer to implement. You just have to define the start and duration of each element with <i>data-start</i> and <i>data-duration</i> attributes. If missing, it will use the default value given to the constructor.</p>
 			<p>The good point about this type is the flexibility. You don't have to respect the order/stack of the SVG. You can start with the last element, then continue with the first, to finish with all the rest at the same time.</p>
@@ -380,6 +382,8 @@
   &lt;circle <i>data-start=&quot;20&quot;</i> <i>data-duration=&quot;20&quot;</i> ... /&gt;
   &lt;circle <i>data-start=&quot;0&quot;</i> <i>data-duration=&quot;30&quot;</i> ... /&gt;
 &lt;/svg&gt;</pre>
+
+			<hr>
 
 			<h3>{type: '<i>scenario-sync</i>'}</h3>
 			<p>It's not the sexiest code ever, but quite flexible. The behaviour is quite different, let's see.</p>
