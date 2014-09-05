@@ -257,16 +257,17 @@
    */
   Vivus.prototype.drawer = function () {
     var self = this;
+    this.currentFrame += this.speed;
 
-    if (this.currentFrame < 0) {
+    if (this.currentFrame <= 0) {
       this.stop();
-      this.currentFrame = 0;
-    } else if (this.currentFrame > this.frameLength) {
+      this.reset();
+    } else if (this.currentFrame >= this.frameLength) {
       this.stop();
       this.currentFrame = this.frameLength;
+      this.trace();
       this.callback(this);
     } else {
-      this.currentFrame += this.speed;
       this.trace();
       this.handle = requestAnimFrame(function () {
         self.drawer();

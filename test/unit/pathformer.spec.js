@@ -29,13 +29,13 @@ describe('Pathformer', function () {
     document.body.appendChild(svgTag);
   });
 
-  describe('Param tests', function () {
+  describe('[param tests]', function () {
 
     // Tests about the SVG element
     it('should throw an error if the SVG is given in parameter', function () {
       expect(function () {
         new Pathformer();
-      }).toThrow('Pathformer [contructor]: "element" parameter is required');
+      }).toThrow(new Error('Pathformer [contructor]: "element" parameter is required'));
     });
 
     it('should work with only the SVG id', function () {
@@ -53,7 +53,7 @@ describe('Pathformer', function () {
     it('should throw an error if the SVG ID given is invalid', function () {
       expect(function () {
         new Pathformer('my-unexisting-svg');
-      }).toThrow('Pathformer [contructor]: "element" parameter is not related to an existing ID');
+      }).toThrow(new Error('Pathformer [contructor]: "element" parameter is not related to an existing ID'));
     });
 
     it('should throw an error if the ID given is not related to a SVG element', function () {
@@ -62,20 +62,20 @@ describe('Pathformer', function () {
       document.body.appendChild(divTag);
       expect(function () {
         new Pathformer('my-div');
-      }).toThrow('Pathformer [contructor]: "element" parameter must be a string or a SVGelement');
+      }).toThrow(new Error('Pathformer [contructor]: "element" parameter must be a string or a SVGelement'));
     });
 
     it('should throw an error if the element is not a correct type (DOM object or string)', function () {
-      expect(function () { new Pathformer({}); }).toThrow('Pathformer [contructor]: "element" parameter must be a string or a SVGelement');
-      expect(function () { new Pathformer(42); }).toThrow('Pathformer [contructor]: "element" parameter must be a string or a SVGelement');
-      expect(function () { new Pathformer(false); }).toThrow('Pathformer [contructor]: "element" parameter must be a string or a SVGelement');
-      expect(function () { new Pathformer(new Date()); }).toThrow('Pathformer [contructor]: "element" parameter must be a string or a SVGelement');
-      expect(function () { new Pathformer(function () {}); }).toThrow('Pathformer [contructor]: "element" parameter must be a string or a SVGelement');
-      expect(function () { new Pathformer(document.createElementNS('http://www.w3.org/2000/svg','div')); }).toThrow('Pathformer [contructor]: "element" parameter must be a string or a SVGelement');
+      expect(function () { new Pathformer({}); }).toThrow(new Error('Pathformer [contructor]: "element" parameter must be a string or a SVGelement'));
+      expect(function () { new Pathformer(42); }).toThrow(new Error('Pathformer [contructor]: "element" parameter must be a string or a SVGelement'));
+      expect(function () { new Pathformer(false); }).toThrow(new Error('Pathformer [contructor]: "element" parameter must be a string or a SVGelement'));
+      expect(function () { new Pathformer(new Date()); }).toThrow(new Error('Pathformer [contructor]: "element" parameter must be a string or a SVGelement'));
+      expect(function () { new Pathformer(function () {}); }).toThrow(new Error('Pathformer [contructor]: "element" parameter must be a string or a SVGelement'));
+      expect(function () { new Pathformer(document.createElementNS('http://www.w3.org/2000/svg','div')); }).toThrow(new Error('Pathformer [contructor]: "element" parameter must be a string or a SVGelement'));
     });
   });
 
-  describe('Translation methods', function () {
+  describe('[translation]', function () {
 
     // Line object
     describe('line', function () {
@@ -160,7 +160,7 @@ describe('Pathformer', function () {
     });
   });
 
-  describe('Utils methods', function () {
+  describe('[utils]', function () {
 
     describe('attribute parser', function () {
       it('should return an empty object if attributes length are undefined', function () {
