@@ -118,6 +118,30 @@ describe('Pathformer', function () {
         var output = Pathformer.prototype.polylineToPath(polyline);
         expect(output.d.substr(-1)).not.toEqual('Z');
       });
+
+      it('should ignore incorrect points', function () {
+        var output;
+        polyline.points += ' 43';
+        output = Pathformer.prototype.polylineToPath(polyline);
+        expect(output.d.indexOf('43')).toEqual(-1);
+      });
+    });
+
+    // Polygon object
+    describe('polygon', function () {
+      var polygon = {
+          points: '2,3 4,5 6,7'
+      };
+
+      it('should return an object with a `d` attribute', function () {
+        var output = Pathformer.prototype.polygonToPath(polygon);
+        expect(output.d).toBeDefined();
+      });
+
+      it('should return an object with a closed shape', function () {
+        var output = Pathformer.prototype.polygonToPath(polygon);
+        expect(output.d.substr(-1)).toEqual('Z');
+      });
     });
 
     // Elipse object

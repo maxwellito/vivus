@@ -47,7 +47,7 @@
    *
    * @type {Array}
    */
-  Pathformer.prototype.TYPES = ['line', 'elipse', 'circle', 'polyline', 'rect'];
+  Pathformer.prototype.TYPES = ['line', 'elipse', 'circle', 'polygon', 'polyline', 'rect'];
 
   /**
    * Finds the elements compatible for transform
@@ -63,7 +63,7 @@
       fn = this[element.tagName.toLowerCase() + 'ToPath'];
       pathData = fn(this.parseAttr(element.attributes));
       pathDom = this.pathMaker(element, pathData);
-      svg.replaceChild(pathDom, element);
+      element.parentNode.replaceChild(pathDom, element);
     }
   };
 
@@ -91,13 +91,15 @@
    * @return {object}             Data for a `path` element
    */
   Pathformer.prototype.rectToPath = function (element) {
-    var newElement = {};
-    element.x = element.x || 0;
-    element.y = element.y || 0;
-    newElement.d  = 'M' + element.x + ' ' + element.y + ' ';
-    newElement.d += 'L' + (element.x + element.width) + ' ' + element.y + ' ';
-    newElement.d += 'L' + (element.x + element.width) + ' ' + (element.y + element.height) + ' ';
-    newElement.d += 'L' + element.x + ' ' + (element.y + element.height) + ' Z';
+    var newElement = {},
+      x = parseFloat(element.x) || 0,
+      y = parseFloat(element.y) || 0,
+      width = parseFloat(element.width) || 0,
+      height = parseFloat(element.height) || 0;
+    newElement.d  = 'M' + x + ' ' + y + ' ';
+    newElement.d += 'L' + (x + width) + ' ' + y + ' ';
+    newElement.d += 'L' + (x + width) + ' ' + (y + height) + ' ';
+    newElement.d += 'L' + x + ' ' + (y + height) + ' Z';
     return newElement;
   };
 
@@ -113,9 +115,27 @@
     var points = element.points.split(' ');
     var path = "M" + points[0];
     for(var i = 1; i < points.length; i++) {
-      path += "L"+points[i];
+      if (points[i].indexOf(',') !== -1) {
+        path += "L"+points[i];
+      }
     }
     newElement.d = path;
+    return newElement;
+  };
+
+  /**
+   * Read `polygon` element to extract and transform
+   * data, to make it ready for a `path` object.
+   * This method rely on polylineToPath, because the
+   * logic is similar. THe path created is just closed,
+   * so it needs an 'Z' at the end.
+   *
+   * @param  {DOMelement} element Polygon element to transform
+   * @return {object}             Data for a `path` element
+   */
+  Pathformer.prototype.polygonToPath = function (element) {
+    var newElement = Pathformer.prototype.polylineToPath(element);
+    newElement.d += 'Z';
     return newElement;
   };
 
