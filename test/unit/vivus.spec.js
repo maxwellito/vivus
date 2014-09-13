@@ -189,6 +189,35 @@ describe('Vivus', function () {
         });
       });
 
+      it('should call destroy method once the animation is finished', function (done) {
+        var destroySpy = jasmine.createSpy('spy');
+        myVivus = new Vivus(svgTag, {
+          type: 'oneByOne',
+          duration: 2,
+          start: 'manual',
+          selfDestroy: true
+        }, function () {
+          expect(destroySpy.calls.count()).toEqual(1);
+          done();
+        });
+        myVivus.destroy = destroySpy;
+        myVivus.play();
+      });
+
+      it('should\' call destroy method if selfDestroy option is not present', function (done) {
+        var destroySpy = jasmine.createSpy('spy');
+        myVivus = new Vivus(svgTag, {
+          type: 'oneByOne',
+          duration: 2,
+          start: 'manual'
+        }, function () {
+          expect(destroySpy.calls.count()).toEqual(0);
+          done();
+        });
+        myVivus.destroy = destroySpy;
+        myVivus.play();
+      });
+
       it('should stop the animation once it reaches currentFrame == 0', function (done) {
         myVivus = new Vivus(svgTag, {
           type: 'oneByOne',
@@ -274,6 +303,17 @@ describe('Vivus', function () {
       expect(myVivus.handle).not.toBeDefined();
       myVivus.stop();
       expect(myVivus.handle).not.toBeDefined();
+    });
+
+    it('should remove all unecessary styling on every path element', function () {
+      var i, paths;
+      myVivus.destroy();
+
+      paths = svgTag.querySelectorAll('path');
+      for (i = 0; i < paths.length; i++) {
+        expect(!!paths[i].style.strokeDashoffset).toEqual(false);
+        expect(!!paths[i].style.strokeDasharray).toEqual(false);
+      }
     });
 
 

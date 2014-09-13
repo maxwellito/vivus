@@ -132,6 +132,7 @@
 
     this.duration = parsePositiveInt(options.duration, 120);
     this.delay = parsePositiveInt(options.delay, null);
+    this.selfDestroy = !!options.selfDestroy;
 
     if (this.delay >= this.duration) {
       throw new Error('Vivus [contructor]: delai must be shorter than duration');
@@ -266,6 +267,9 @@
       this.stop();
       this.currentFrame = this.frameLength;
       this.trace();
+      if (this.selfDestroy) {
+        this.destroy();
+      }
       this.callback(this);
     } else {
       this.trace();
@@ -290,7 +294,7 @@
    */
   Vivus.prototype.trace = function () {
     var i, progress, path;
-    for (i in this.map) {
+    for (i = 0; i < this.map.length; i++) {
       path = this.map[i];
       progress = (this.currentFrame - path.startAt) / path.duration;
       progress = Math.max(0, Math.min(1, progress));
@@ -384,6 +388,21 @@
     if (this.handle) {
       cancelAnimFrame(this.handle);
       delete this.handle;
+    }
+  };
+
+  /**
+   * Destroy the instance.
+   * Remove all bad styling attributes on all
+   * path tags
+   * 
+   */
+  Vivus.prototype.destroy = function () {
+    var i, path;
+    for (i = 0; i < this.map.length; i++) {
+      path = this.map[i];
+      path.el.style.strokeDashoffset = null;
+      path.el.style.strokeDasharray = null;
     }
   };
 

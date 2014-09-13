@@ -67,6 +67,7 @@ define how to trigger the animation
   - `autostart` make it start right now
 - `delay` (integer)
 time between the drawing of first and last path, in frames (only for delayed animations)
+- `selfDestroy` (boolean) remove all extra styling on the SVG, and leave it as original
 
 The Vivus object got 3 controls methods:
 
