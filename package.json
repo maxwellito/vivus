@@ -1,0 +1,35 @@
+{
+  "name": "vivus",
+  "version": "0.0.1",
+  "description": "JavaScript library to make drawing animation on SVG",
+  "main": "index.js",
+  "scripts": {
+    "test": "karma"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maxwellito/vivus.git"
+  },
+  "author": "maxwellito",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/maxwellito/vivus/issues"
+  },
+  "homepage": "https://github.com/maxwellito/vivus",
+  "engine": {
+    "node": ">=0.10.22"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.5",
+    "gulp-concat": "^2.2.0",
+    "gulp-imports": "0.0.2",
+    "gulp-jshint": "^1.6.3",
+    "gulp-karma": "0.0.4",
+    "gulp-uglify": "^0.3.1",
+    "gulp-util": "^2.2.19",
+    "karma": "^0.12.17",
+    "karma-chrome-launcher": "^0.1.4",
+    "karma-coverage": "^0.2.6",
+    "karma-jasmine": "~0.2.0"
+  }
+}

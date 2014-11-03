@@ -2,13 +2,13 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>vivus.js - svg animation</title>
 		<meta name="description" content="SVG Drawing Animation" />
 
 		<style type="text/css">
-			
+
 			/* Base style */
 			body {
 				margin: 0 0 40px;
@@ -87,7 +87,7 @@
 				font-size: 0.75em;
 			}
 			.code {
-				width: 100%;
+				overflow: scroll;
 				margin: 0; padding: 10px;
 				border: none;
 				background-color: rgba(0,0,0,0.1);
@@ -185,7 +185,7 @@
 		<!-- Head: HI THERE -->
 		<div class="bloc bloc-head">
 			<svg height="300" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-				 viewBox="0 0 404.7 354" enable-background="new 0 0 404.7 354" id="tape" onclick="new Vivus('tape', {type: 'script', duration: 20, start: 'autostart'});">
+				 viewBox="0 0 404.7 354" enable-background="new 0 0 404.7 354" id="tape" onclick="hi.reset(); hi.play();">
 
 				<!-- HI -->
 				<path fill="none" data-duration="10" stroke="#FFFFFF" stroke-width="4" d="M324.6,61.2c16.6,0,29.5-12.9,29.5-29.5c0-16.6-12.9-29.5-29.5-29.5c-16.6,0-29.5,12.9-29.5,29.5C295.1,48.4,308,61.2,324.6,61.2z"/>
@@ -205,9 +205,9 @@
 				<polyline fill="none" data-async stroke="#FFFFFF" stroke-width="4" points="1.9,40.2 26,63.2 39.7,63.2"/>
 				<line fill="none" data-async stroke="#FFFFFF" stroke-width="4" x1="129.2" y1="12.2" x2="148.2" y2="33.2"/>
 				<line fill="none" data-async stroke="#FFFFFF" stroke-width="4" x1="303.9" y1="53" x2="328.1" y2="77.2"/>
-				
+
 				<line fill="none" stroke="#FFFFFF" stroke-width="4" x1="345.1" y1="10.5" x2="368.7" y2="34"/>
-				
+
 				<!-- there -->
 				<path fill="none" data-delay="30" data-duration="60" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" d="M76.8,337.3c0,0,1.9,12.2,13.1,12.2c22.1,0,23.8-1.8,59-66.4c-19.7,35.7-36.4,66.2-19.3,66.2c15.2,0,22.9-14.2,28.3-23.7c3.3-0.5,24-3.2,35-25.5c4-8.1,4.1-17.8-8.1-15.2c-5.6,1.2-13.1,14.8-15.7,19.2c-7.6,12.7-22.4,45.2-22.4,45.2s10.3-22.4,21.5-22.4c15.5,0-9.4,22.4,4.7,22.4c4.9,0,11.7-11.4,16.6-20.9c7.5,4.7,19.7,1.7,24.5-8.1c10.1-20.4-14.4-12.8-24.5,8.1c-5.5,11.3-2.2,21.1,11.2,21.1c16.4,0,26.1-28.3,30.5-37.5c9.9,2.5,14,2.5,22.7-1.1c-3.5,5.1-24,38.1-8.3,38.1c6.7,0,11.7-11.4,16.6-20.9c7.5,4.7,19.7,1.7,24.5-8.1c10.1-20.4-14.4-12.8-24.5,8.1c-5.5,11.3-2.2,21.1,11.2,21.1c16.4,0,20.6-4,24.7-10.5"/>
 
@@ -222,7 +222,7 @@
 			<p class="intro-links">
 				<a href="//github.com/maxwellito/vivus" class="button bigger">View on GitHub</a>
 			</p>
-			
+
 		</div>
 
 		<!-- Animation examples/demo -->
@@ -233,80 +233,77 @@
 				<div>
 					<div class="col3">
 						<svg id="opturateur1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-				 width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" onclick="new Vivus('opturateur1', {type: 'delayed', duration: 200, start: 'autostart'})">
+				 width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" onclick="obt1.reset(); obt1.play();">
 							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="90"/>
 							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="85.74"/>
 							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="72.947"/>
 							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="39.74"/>
 							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="34.042" y1="131.189" x2="67.047" y2="77.781"/>
+							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="31.306" y1="75.416" x2="92.41" y2="60.987"/>
+							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="68.81" y1="34.042" x2="122.219" y2="67.046"/>
+							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="124.584" y1="31.305" x2="139.013" y2="92.409"/>
 							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="165.957" y1="68.809" x2="132.953" y2="122.219"/>
+							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="168.693" y1="124.584" x2="107.59" y2="139.012"/>
 							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="131.19" y1="165.957" x2="77.781" y2="132.953"/>
 							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="75.417" y1="168.693" x2="60.987" y2="107.59"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="34.042" y1="131.189" x2="67.047" y2="77.781"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="124.584" y1="31.305" x2="139.013" y2="92.409"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="68.81" y1="34.042" x2="122.219" y2="67.046"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="31.306" y1="75.416" x2="92.41" y2="60.987"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="168.693" y1="124.584" x2="107.59" y2="139.012"/>
 						</svg>
 						<div class="col-container">
 							<h3>Delayed</h3>
 							<p>Every path element is drawn at the same time with a little delay at the start. This is the animation by default.</p>
-							<button onclick="new Vivus('opturateur1', {type: 'delayed', duration: 200, start: 'autostart'})">replay</button>
+							<button onclick="obt1.reset(); obt1.play();">replay</button>
 						</div>
 					</div>
 
 					<div class="col3">
 						<svg id="opturateur2" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-				 width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" onclick="new Vivus('opturateur2', {type: 'async', duration: 200, start: 'autostart'})">
+				 width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" onclick="obt2.reset(); obt2.play();">
 							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="90"/>
 							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="85.74"/>
 							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="72.947"/>
 							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="39.74"/>
 							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="34.042" y1="131.189" x2="67.047" y2="77.781"/>
+							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="31.306" y1="75.416" x2="92.41" y2="60.987"/>
+							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="68.81" y1="34.042" x2="122.219" y2="67.046"/>
+							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="124.584" y1="31.305" x2="139.013" y2="92.409"/>
 							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="165.957" y1="68.809" x2="132.953" y2="122.219"/>
+							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="168.693" y1="124.584" x2="107.59" y2="139.012"/>
 							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="131.19" y1="165.957" x2="77.781" y2="132.953"/>
 							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="75.417" y1="168.693" x2="60.987" y2="107.59"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="34.042" y1="131.189" x2="67.047" y2="77.781"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="124.584" y1="31.305" x2="139.013" y2="92.409"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="68.81" y1="34.042" x2="122.219" y2="67.046"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="31.306" y1="75.416" x2="92.41" y2="60.987"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="168.693" y1="124.584" x2="107.59" y2="139.012"/>
 						</svg>
 						<div class="col-container">
 							<h3>Async</h3>
 							<p>Each line is drawn asynchronously. They all starts and finishes at the same time, this is why `async`.</p>
-							<button onclick="new Vivus('opturateur2', {type: 'async', duration: 200, start: 'autostart'})">replay</button>
+							<button onclick="obt2.reset(); obt2.play();">replay</button>
 						</div>
 					</div>
 
 					<div class="col3">
 						<svg id="opturateur3" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-				 width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" onclick="new Vivus('opturateur3', {type: 'oneByOne', duration: 200, start: 'autostart'})">
+				 width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" onclick="obt3.reset(); obt3.play();">
 							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="90"/>
 							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="85.74"/>
 							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="72.947"/>
 							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="39.74"/>
 							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="34.042" y1="131.189" x2="67.047" y2="77.781"/>
+							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="31.306" y1="75.416" x2="92.41" y2="60.987"/>
+							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="68.81" y1="34.042" x2="122.219" y2="67.046"/>
+							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="124.584" y1="31.305" x2="139.013" y2="92.409"/>
 							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="165.957" y1="68.809" x2="132.953" y2="122.219"/>
+							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="168.693" y1="124.584" x2="107.59" y2="139.012"/>
 							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="131.19" y1="165.957" x2="77.781" y2="132.953"/>
 							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="75.417" y1="168.693" x2="60.987" y2="107.59"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="34.042" y1="131.189" x2="67.047" y2="77.781"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="124.584" y1="31.305" x2="139.013" y2="92.409"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="68.81" y1="34.042" x2="122.219" y2="67.046"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="31.306" y1="75.416" x2="92.41" y2="60.987"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="168.693" y1="124.584" x2="107.59" y2="139.012"/>
 						</svg>
 						<div class="col-container">
 							<h3>OneByOne</h3>
 							<p>Each path element is drawn one after each other. This animation give a proper impression of live drawing.</p>
-							<button onclick="new Vivus('opturateur3', {type: 'oneByOne', duration: 200, start: 'autostart'})">replay</button>
+							<button onclick="obt3.reset(); obt3.play();">replay</button>
 						</div>
 					</div>
 				</div>
 				<div class="clearer"></div>
 			</div>
 		</div>
-		
+
 		<!-- How it works? -->
 		<div class="content">
 			<h2>How it works?</h2>
@@ -322,10 +319,8 @@
 				<h2>How to use it?</h2>
 				<p>As I said, no dependencies here. Just need to include the scripts.</p>
 				<p class="code">
-					new Pathformer('my-svg-id');<br>
 					new Vivus('my-svg-id', {type: 'delayed', duration: 200}, myCallback);
 				</p>
-				<p>First, let's run the pathformer, to rebuild your SVG with path elements.<br>Of course, this call is not required if your SVG contain path elements only.</p>
 				<p>The Vivus constructor asks 3 parameters :</p>
 				<ul>
 					<li>ID of the SVG to animate (or the DOM element)</li>
@@ -336,46 +331,81 @@
 				<p>The option object must respect this structure :</p>
 				<dl>
 					<dt>type <small>string</small></dt>
-					<dd>define what kind of animation will be used: <i>delayed</i>, <i>async</i>, <i>oneByOne</i> or <i>script</i></dd>
-					
+					<dd>define what kind of animation will be used: <i>delayed</i>, <i>async</i>, <i>oneByOne</i>, <i>scenario</i> or <i>scenario-sync</i></dd>
+
 					<dt>duration <small>integer</small></dt>
 					<dd>animation duration, in frames</dd>
-					
+
 					<dt>start <small>string</small></dt>
 					<dd>define how to trigger the animation
 						<p class="smaller">
 							<strong>inViewport</strong> once the SVG is in the viewport<br>
-							<strong>manual</strong> give you the freedom to call <i>draw</i> method to start<br>
+							<strong>manual</strong> give you the freedom to call <i>play</i> method to start<br>
 							<strong>autostart</strong> make it start right now<br>
 						</p>
 					</dd>
-					
+
 					<dt>delay <small>integer</small></dt>
 					<dd>time between the drawing of first and last path, in frames (only for <i>delayed</i> animations)</dd>
+
+					<dt>selfDestroy <small>boolean</small></dt>
+					<dd>remove all extra styling on the SVG, and leave it as original</dd>
 				</dl>
+
+				<p>To control the animation, three methods are available : play, stop and reset. The method play take one parameter which is the speed. This value can be positive, negative (to go backwards), or under 1 to play slowly. By default the value is 1.<p/>
 
 			</div>
 		</div>
 
 		<!-- Scripting -->
 		<div class="content">
-			<h2>Scripting</h2>
-			<p>This feature is still in beta and a bit fragile, it allow you to script the animation of your SVG. It's not the sexiest code ever, but quite flexible, and easy to use, I would say. The behaviour is quite different, let's see.</p>
-			<p>First, the animation must be set with the type <i>script</i>. The behavious is the same as `oneByOne` : synchronous.<br>At this point, the attributes <i>duration</i> and <i>delay</i> are the default value for each path element (so not global for the entire animation, as before). It means, if the options define 20 for duration and 2 for delay : each path element will take 20 frames to be draw, and 2 frames before to start.</p>
-			<p>Second, define a custom rules for each element in your SVG via extra attributes in your SVG DOM :</p>
+			<h2>Scenarize</h2>
+			<p>This feature allow you to script the animation of your SVG. For this, the custom values will be set directly in the DOM of the SVG.</p>
+
+			<hr>
+
+			<h3>{type: '<i>scenario</i>'}</h3>
+			<p>This type is easier to understand, but longer to implement. You just have to define the start and duration of each element with <i>data-start</i> and <i>data-duration</i> attributes. If missing, it will use the default value given to the constructor.</p>
+			<p>The good point about this type is the flexibility. You don't have to respect the order/stack of the SVG. You can start with the last element, then continue with the first, to finish with all the rest at the same time.</p>
+
+			<p>Then define custom rules for each element in your SVG via extra attributes in your SVG DOM :</p>
+
+			<dl>
+				<dt>data-start <small>integer</small></dt>
+				<dd>time when the animation must start, in frames</dd>
+
+				<dt>data-duration <small>integer</small></dt>
+				<dd>animation duration of this path, in frames</dd>
+			</dl>
+
+			<pre class="code">
+&lt;svg&gt;
+  &lt;circle <i>data-start=&quot;0&quot;</i> <i>data-duration=&quot;10&quot;</i> ... /&gt;
+  &lt;circle <i>data-start=&quot;20&quot;</i> <i>data-duration=&quot;10&quot;</i> ... /&gt;
+  &lt;circle <i>data-start=&quot;20&quot;</i> <i>data-duration=&quot;20&quot;</i> ... /&gt;
+  &lt;circle <i>data-start=&quot;0&quot;</i> <i>data-duration=&quot;30&quot;</i> ... /&gt;
+&lt;/svg&gt;</pre>
+
+			<hr>
+
+			<h3>{type: '<i>scenario-sync</i>'}</h3>
+			<p>It's not the sexiest code ever, but quite flexible. The behaviour is quite different, let's see.</p>
+			<p>By using this animation type, the default behaviour is the same as `oneByOne`. But here, you can define some properties on a specific path item. Like the duration, the delay to start (from the end of the previous path) and if it should be played asyncronously.</p>
 
 			<dl>
 				<dt>data-delay <small>integer</small></dt>
 				<dd>time between the end of the animation of the previous path and the start of the current path, in frames</dd>
-				
+
 				<dt>data-duration <small>integer</small></dt>
-				<dd>duration of this path animation, in frames</dd>
-				
+				<dd>animation duration of this path, in frames</dd>
+
 				<dt>data-async <small>(no value required)</small></dt>
 				<dd>make the drawing of this path asynchronous. It means the next path will start at the same time.</dd>
 			</dl>
 
 			<p>If a path does not have an attribute for duration or delay. The default one, set in options, will be used.</p>
+			<p>For an easier debug, have a look to the attribute <i>map</i> of your Vivus object. This one contain the mapping of your animation. If you're using Google Chrome, I recommand you to use `console.table` to get a nice output of the array, which will make your debug easier.</p>
+
 		</div>
 
 		<!-- Scripting example -->
@@ -384,7 +414,7 @@
 
 				<div class="script-example">
 					<svg id="polaroid" class="example-svg" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-				 viewBox="0 0 200 160" enable-background="new 0 0 200 160" onclick="new Vivus('polaroid', {type: 'script', duration: 20, start: 'autostart'})">
+				 viewBox="0 0 200 160" enable-background="new 0 0 200 160" onclick="pola.reset(); pola.play();">
 
 				 		<!-- Case -->
 				 		<!-- The case items will be drawn at the same time (attribute `data-async` on each tag) with a custom duration of 40 frames (attribute `data-duration`). WARNING: When you want to draw a bloc asynchronously (like here), the last item need to be `data-async` free. Otherwise the following tags will also start at the same time. I know it's a bit confusing, play a bit with it and you'll see. -->
@@ -424,36 +454,30 @@
 						<path fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
 							M103.789,29.275c-0.568,1.841,0.582,3.549,2.57,3.818l12.807,1.72c1.988,0.266,4.062-1.012,4.633-2.851l1.66-5.38
 							c0.568-1.843-0.582-3.551-2.57-3.816l-12.807-1.72c-1.988-0.268-4.062,1.01-4.633,2.85L103.789,29.275z"/>
-						
+
 						<!-- Output -->
 						<!-- Same case as Flash -->
 						<path fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
 							M11.129,105.791c-0.297,0.965,0.305,1.855,1.346,1.994l81.446,10.932c1.038,0.141,2.123-0.527,2.42-1.49l0,0
 							c0.298-0.961-0.304-1.855-1.343-1.996l-81.447-10.93C12.51,104.16,11.426,104.828,11.129,105.791L11.129,105.791z"/>
-						
+
 						<!-- Design (color lines on the front) -->
 						<!-- All the lines will start at the same time, because they all have the attribute `data-async` -->
 						<line data-async fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="47.583" y1="101.505" x2="51.561" y2="88.267"/>
-					
 						<line data-async fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="53.391" y1="102.326" x2="57.047" y2="90.125"/>
-					
 						<line data-async fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="59.224" y1="103.068" x2="62.749" y2="91.295"/>
-					
 						<line data-async fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="65.057" y1="103.814" x2="69.015" y2="90.637"/>
-					
 						<line data-async fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="72.87" y1="19.969" x2="75.497" y2="11.082"/>
-					
 						<line data-async fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="78.512" y1="21.325" x2="81.317" y2="11.868"/>
-					
 						<line data-async fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="83.833" y1="23.718" x2="87.16" y2="12.582"/>
-					
 						<line data-async fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="89.145" y1="26.141" x2="92.939" y2="13.498"/>
 
 					</svg>
 					<div class="example-description">
-						<p>Here is an example, a polaroid.<br>I recommend you to look at the source code, it's well commented.</p>
+						<p>Here is an example using <i>scenario-sync</i>.<br>I recommend you to look at the source code, it's well commented.</p>
 						<p>The idea is to first, draw the case asynchronously, then after a little pause start to draw the lens, following by the flash and the picture output. To finish with the stripes on the front.</p>
-						<button onclick="new Vivus('polaroid', {type: 'script', duration: 20, start: 'autostart'})">replay</button>
+						<button onclick="pola.reset(); pola.play();">replay</button>
+						<button onclick="pola.play(-3);">rewind</button>
 					</div>
 					<div class="clearer"></div>
 
@@ -466,27 +490,20 @@
 			<p class="goodbye-head">Thanks for watching.</p>
 			<p class="goodbye-sub">Made with <span class="striked">love</span> <span class="italic">a keyboard</span></p>
 		</div>
-		
+
 		<!-- Le scripts -->
-		<script src="src/vivus.js"></script>
-		<script src="src/pathformer.js"></script>
+		<script src="dist/vivus.js"></script>
 		<script>
-			new Pathformer('tape');
-			new Vivus('tape', {type: 'script', duration: 20, start: 'autostart'}, function () {
-				if (console) {
-					console.log('Animation finished.');
-				}
-			});
 
-			new Pathformer('opturateur1');
-			new Pathformer('opturateur2');
-			new Pathformer('opturateur3');
-			new Vivus('opturateur1', {type: 'delayed', duration: 200});
-			new Vivus('opturateur2', {type: 'async', duration: 200});
-			new Vivus('opturateur3', {type: 'oneByOne', duration: 200});
-
-			new Pathformer('polaroid');
-			new Vivus('polaroid', {type: 'script', duration: 20});
+			var hi = new Vivus('tape', {type: 'scenario-sync', duration: 20, start: 'autostart'}, function () {
+					if (console) {
+						console.log('Animation finished. [log triggered from callback]');
+					}
+				}),
+				obt1 = new Vivus('opturateur1', {type: 'delayed', duration: 150}),
+				obt2 = new Vivus('opturateur2', {type: 'async', duration: 150}),
+				obt3 = new Vivus('opturateur3', {type: 'oneByOne', duration: 150}),
+				pola = new Vivus('polaroid', {type: 'scenario-sync', duration: 20});
 		</script>
 	</body>
 </html>
