@@ -28,22 +28,24 @@
    */
   function Pathformer(element) {
     // Test params
-    if (!element) {
-      throw new Error('Pathformer contructor: "element" parameter is required');
+    if (typeof element === 'undefined') {
+      throw new Error('Pathformer [contructor]: "element" parameter is required');
     }
 
     // Set the element
     if (element.constructor === String) {
       element = document.getElementById(element);
       if (!element) {
-        throw new Error('Pathformer contructor: "element" parameter is not related to an existing ID');
+        throw new Error('Pathformer [contructor]: "element" parameter is not related to an existing ID');
       }
     }
     if (element.constructor === SVGSVGElement) {
       this.el = element;
     } else {
-      throw new Error('Pathformer contructor: "element" parameter must be a string or a SVGelement');
+      throw new Error('Pathformer [contructor]: "element" parameter must be a string or a SVGelement');
     }
+
+
 
     // Start
     this.scan(element);
@@ -55,7 +57,7 @@
    *
    * @type {Array}
    */
-  Pathformer.prototype.TYPES = ['line', 'elipse', 'circle', 'polyline', 'rect'];
+  Pathformer.prototype.TYPES = ['line', 'elipse', 'circle', 'polygon', 'polyline', 'rect'];
 
   /**
    * Finds the elements compatible for transform
@@ -71,7 +73,7 @@
       fn = this[element.tagName.toLowerCase() + 'ToPath'];
       pathData = fn(this.parseAttr(element.attributes));
       pathDom = this.pathMaker(element, pathData);
-      svg.replaceChild(pathDom, element);
+      element.parentNode.replaceChild(pathDom, element);
     }
   };
 
@@ -85,7 +87,6 @@
    */
   Pathformer.prototype.lineToPath = function (element) {
     var newElement = {};
-    newElement.debug = 'modified-line';
     newElement.d = 'M' + element.x1 + ',' + element.y1 + 'L' + element.x2 + ',' + element.y2;
     return newElement;
   };
@@ -100,14 +101,15 @@
    * @return {object}             Data for a `path` element
    */
   Pathformer.prototype.rectToPath = function (element) {
-    var newElement = {};
-    element.x = element.x || 0;
-    element.y = element.y || 0;
-    newElement.debug = 'modified-rect';
-    newElement.d  = 'M' + element.x + ' ' + element.y + ' ';
-    newElement.d += 'L' + (element.x + element.width) + ' ' + element.y + ' ';
-    newElement.d += 'L' + (element.x + element.width) + ' ' + (element.y + element.height) + ' ';
-    newElement.d += 'L' + element.x + ' ' + (element.y + element.height) + ' Z';
+    var newElement = {},
+      x = parseFloat(element.x) || 0,
+      y = parseFloat(element.y) || 0,
+      width = parseFloat(element.width) || 0,
+      height = parseFloat(element.height) || 0;
+    newElement.d  = 'M' + x + ' ' + y + ' ';
+    newElement.d += 'L' + (x + width) + ' ' + y + ' ';
+    newElement.d += 'L' + (x + width) + ' ' + (y + height) + ' ';
+    newElement.d += 'L' + x + ' ' + (y + height) + ' Z';
     return newElement;
   };
 
@@ -120,13 +122,30 @@
    */
   Pathformer.prototype.polylineToPath = function (element) {
     var newElement = {};
-    newElement.debug = 'modified-polyline';
     var points = element.points.split(' ');
     var path = "M" + points[0];
     for(var i = 1; i < points.length; i++) {
-      path += "L"+points[i];
+      if (points[i].indexOf(',') !== -1) {
+        path += "L"+points[i];
+      }
     }
     newElement.d = path;
+    return newElement;
+  };
+
+  /**
+   * Read `polygon` element to extract and transform
+   * data, to make it ready for a `path` object.
+   * This method rely on polylineToPath, because the
+   * logic is similar. THe path created is just closed,
+   * so it needs an 'Z' at the end.
+   *
+   * @param  {DOMelement} element Polygon element to transform
+   * @return {object}             Data for a `path` element
+   */
+  Pathformer.prototype.polygonToPath = function (element) {
+    var newElement = Pathformer.prototype.polylineToPath(element);
+    newElement.d += 'Z';
     return newElement;
   };
 
@@ -144,7 +163,6 @@
         endY = element.cy;
 
     var newElement = {};
-    newElement.debug = 'modified-elipse';
     newElement.d = "M" + startX + "," + startY +
                    "A" + element.rx + "," + element.ry + " 0,1,1 " + endX + "," + endY +
                    "A" + element.rx + "," + element.ry + " 0,1,1 " + startX + "," + endY;
@@ -164,7 +182,6 @@
         startY = element.cy;
     var endX = parseFloat(element.cx) + parseFloat(element.r),
         endY = element.cy;
-    newElement.debug = 'modified-circle';
     newElement.d = "M" + startX + "," + startY +
                 "A" + element.r + "," + element.r + " 0,1,1 " + endX + "," + endY +
                 "A" + element.r + "," + element.r + " 0,1,1 " + startX + "," + endY;
@@ -195,8 +212,8 @@
    * Parse attributes of a DOM element to
    * get an object of attribute => value
    *
-   * @param  {object} element DOM element to parse
-   * @return {object}         Object of attributes
+   * @param  {NamedNodeMap} attributes Attributes object from DOM element to parse
+   * @return {object}                  Object of attributes
    */
   Pathformer.prototype.parseAttr = function (element) {
     var attr, output = {};
@@ -286,7 +303,7 @@
    */
   Vivus.prototype.setElement = function (element) {
     // Basic check
-    if (element === undefined) {
+    if (typeof element === 'undefined') {
       throw new Error('Vivus [contructor]: "element" parameter is required');
     }
 
@@ -312,7 +329,7 @@
    * @param  {object} options Object from the constructor
    */
   Vivus.prototype.setOptions = function (options) {
-    var allowedTypes = ['delayed', 'async', 'oneByOne', 'script', 'scenario'];
+    var allowedTypes = ['delayed', 'async', 'oneByOne', 'scenario', 'scenario-sync'];
     var allowedStarts =  ['inViewport', 'manual', 'autostart'];
 
     // Basic check
@@ -341,6 +358,7 @@
 
     this.duration = parsePositiveInt(options.duration, 120);
     this.delay = parsePositiveInt(options.delay, null);
+    this.selfDestroy = !!options.selfDestroy;
 
     if (this.delay >= this.duration) {
       throw new Error('Vivus [contructor]: delai must be shorter than duration');
@@ -407,7 +425,7 @@
 
     totalLength = totalLength === 0 ? 1 : totalLength;
     this.delay = this.delay === null ? this.duration / 3 : this.delay;
-    this.delayUnit = this.delay / paths.length;
+    this.delayUnit = this.delay / (paths.length > 1 ? paths.length - 1 : 1);
 
     for (i = 0; i < paths.length; i++) {
       pathObj = this.map[i];
@@ -428,12 +446,12 @@
         pathObj.duration = this.duration;
         break;
 
-      case 'script':
+      case 'scenario-sync':
         path = paths[i];
         pAttrs = this.parseAttr(path);
         pathObj.startAt = timePoint + (parsePositiveInt(pAttrs['data-delay'], this.delayUnit) || 0);
         pathObj.duration = parsePositiveInt(pAttrs['data-duration'], this.duration);
-        timePoint = pAttrs['data-async'] !== undefined ? timePoint + parsePositiveInt(pAttrs['data-delay']) : pathObj.startAt + pathObj.duration;
+        timePoint = pAttrs['data-async'] !== undefined ? pathObj.startAt : pathObj.startAt + pathObj.duration;
         this.frameLength = Math.max(this.frameLength, (pathObj.startAt + pathObj.duration));
         break;
 
@@ -466,16 +484,20 @@
    */
   Vivus.prototype.drawer = function () {
     var self = this;
+    this.currentFrame += this.speed;
 
-    if (this.currentFrame < 0) {
+    if (this.currentFrame <= 0) {
       this.stop();
-      this.currentFrame = 0;
-    } else if (this.currentFrame > this.frameLength) {
+      this.reset();
+    } else if (this.currentFrame >= this.frameLength) {
       this.stop();
       this.currentFrame = this.frameLength;
+      this.trace();
+      if (this.selfDestroy) {
+        this.destroy();
+      }
       this.callback(this);
     } else {
-      this.currentFrame += this.speed;
       this.trace();
       this.handle = requestAnimFrame(function () {
         self.drawer();
@@ -498,7 +520,7 @@
    */
   Vivus.prototype.trace = function () {
     var i, progress, path;
-    for (i in this.map) {
+    for (i = 0; i < this.map.length; i++) {
       path = this.map[i];
       progress = (this.currentFrame - path.startAt) / path.duration;
       progress = Math.max(0, Math.min(1, progress));
@@ -592,6 +614,21 @@
     if (this.handle) {
       cancelAnimFrame(this.handle);
       delete this.handle;
+    }
+  };
+
+  /**
+   * Destroy the instance.
+   * Remove all bad styling attributes on all
+   * path tags
+   * 
+   */
+  Vivus.prototype.destroy = function () {
+    var i, path;
+    for (i = 0; i < this.map.length; i++) {
+      path = this.map[i];
+      path.el.style.strokeDashoffset = null;
+      path.el.style.strokeDasharray = null;
     }
   };
 
@@ -754,7 +791,6 @@
    */
   var parsePositiveInt = function (value, defaultValue) {
     var output = parseInt(value, 10);
-    defaultValue = defaultValue || 0;
     return (output >= 0) ? output : defaultValue;
   };
 
