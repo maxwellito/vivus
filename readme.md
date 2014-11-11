@@ -155,6 +155,10 @@ Then you can run Gulp with one of the following tasks:
 - `test` run Karma
 - `develop` keep watching your files, if any change is applied, Gulp will run the task(s) related to it.
 
+## Troubleshoot
+
+For Firefox users, you might encounter some glitches, depending on your SVG and browser version. On versions before 36, there is a problem to retrieve path length via `getTotalLength` method. Returning 174321516544 instead of 209 (I'm not exagerating, it come from a real case), messing up the entire animation treatment. Unfortunately, there's nothing that this library can do, this is due to Firefox. I hope to find a workaround. At the moment, I can only recommend you to test your animation on previous versions of Firefox.
+
 ## Debug
 
 For an easier debug, have a look to the attribute `map` of your Vivus object. This one contain the mapping of your animation. If you're using Google Chrome, I recommand you to use `console.table` to get a nice output of the array, which will make your debug easier.
