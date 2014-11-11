@@ -17,7 +17,7 @@ describe('Vivus', function () {
 
     // Create the SVG
     svgTag = document.createElementNS('http://www.w3.org/2000/svg','svg');
-    svgTag.id = 'my-svg';
+    svgTag.id = svgTagId;
     svgTag.innerHTML = '<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="72.947"/>' +
       '<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="39.74"/>' +
       '<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="34.042" y1="131.189" x2="67.047" y2="77.781"/>' +
@@ -172,6 +172,38 @@ describe('Vivus', function () {
             expect(myVivus.map[i].duration >= 0).toBe(true);
           }
         }
+      });
+
+      // Tests for 'getTotalLength' method in case of awkward results
+      describe('SVG parsing issue', function () {
+
+        var getTotalLengthBkp = SVGPathElement.prototype.getTotalLength,
+          warnBkp = console.warn;
+
+        beforeEach(function () {
+          SVGPathElement.prototype.getTotalLength = function () {
+            return NaN;
+          };
+        });
+
+        afterEach(function () {
+          SVGPathElement.prototype.getTotalLength = getTotalLengthBkp;
+          console.warn = warnBkp;
+        });
+        
+        it('shoud call console.warn if a path length is NaN', function () {
+          var warnSpy = jasmine.createSpy('spy');
+          console.warn = warnSpy;
+          myVivus = new Vivus(svgTag);
+          expect(warnSpy.calls.count()).toEqual(6);
+          expect(myVivus.map.length).toEqual(0);
+        });
+
+        it('shoudn\'t call console.warn if not defined a path length is NaN', function () {
+          console.warn = null;
+          myVivus = new Vivus(svgTag);
+          expect(myVivus.map.length).toEqual(0);
+        });
       });
     });
 
