@@ -417,6 +417,13 @@
         el: path,
         length: Math.ceil(path.getTotalLength())
       };
+      // Test if the path length is correct
+      if (isNaN(pathObj.length)) {
+        if (console && console.warn) {
+          console.warn('Vivus [mapping]: cannot retrieve a path element length', path);
+        }
+        continue;
+      }
       totalLength += pathObj.length;
       this.map.push(pathObj);
       path.style.strokeDasharray = pathObj.length + ' ' + (pathObj.length + 10);
@@ -427,7 +434,7 @@
     this.delay = this.delay === null ? this.duration / 3 : this.delay;
     this.delayUnit = this.delay / (paths.length > 1 ? paths.length - 1 : 1);
 
-    for (i = 0; i < paths.length; i++) {
+    for (i = 0; i < this.map.length; i++) {
       pathObj = this.map[i];
 
       switch (this.type) {
