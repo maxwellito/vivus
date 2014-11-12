@@ -104,7 +104,7 @@ animation duration of this path, in frames
 ### `scenario-sync`
 
 It's not the sexiest code ever, but quite flexible. The behaviour is quite different, let's see.
-By using this animation type, the default behaviour is the same as `oneByOne`. But here, you can define some properties on a specific path item. Like the duration, the delay to start (from the end of the previous path) and if it should be played asyncronously.
+By using this animation type, the default behaviour is the same as `oneByOne`. But here, you can define some properties on a specific path item. Like the duration, the delay to start (from the end of the previous path) and if it should be played asynchronously.
 
 - `data-delay` (integer)
 time between the end of the animation of the previous path and the start of the current path, in frames
@@ -157,11 +157,11 @@ Then you can run Gulp with one of the following tasks:
 
 ## Troubleshoot
 
-For Firefox users, you might encounter some glitches, depending on your SVG and browser version. On versions before 36, there is a problem to retrieve path length via `getTotalLength` method. Returning 174321516544 instead of 209 (I'm not exagerating, it come from a real case), messing up the entire animation treatment. Unfortunately, there's nothing that this library can do, this is due to Firefox. I hope to find a workaround. At the moment, I can only recommend you to test your animation on previous versions of Firefox.
+For Firefox users, you might encounter some glitches, depending on your SVG and browser version. On versions before 36, there is a problem to retrieve path length via `getTotalLength` method. Returning 174321516544 instead of 209 (I'm not exaggerating, it come from a real case), messing up the entire animation treatment. Unfortunately, there's nothing that this library can do, this is due to Firefox. I hope to find a workaround. At the moment, I can only recommend you to test your animation on previous versions of Firefox.
 
 ## Debug
 
-For an easier debug, have a look to the attribute `map` of your Vivus object. This one contain the mapping of your animation. If you're using Google Chrome, I recommand you to use `console.table` to get a nice output of the array, which will make your debug easier.
+For an easier debug, have a look to the attribute `map` of your Vivus object. This one contain the mapping of your animation. If you're using Google Chrome, I recommend you to use `console.table` to get a nice output of the array, which will make your debug easier.
 
 ```javascript
 var logo = new Vivus('myLogo', {type: 'scenario-sync'});
