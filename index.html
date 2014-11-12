@@ -217,8 +217,8 @@
 
 		<!-- Intro -->
 		<div class="content">
-			<h1>vivus<small>, to bring your SVGs to life</small></h1>
-			<p>Vivus is a little JavaScript class (little because it's lightweight and have no dependency) to make drawing animation with SVGs in a webpage. Different animations are available, even scripting the entire SVG to do whatever you want.</p>
+			<h1>vivus<small>, bringing your SVGs to life</small></h1>
+			<p>Vivus is a little JavaScript class (little because it's lightweight and has no dependencies) to make animating SVGs easy. Different animations are available, and you can even script the entire SVG to do whatever you want.</p>
 			<p class="intro-links">
 				<a href="//github.com/maxwellito/vivus" class="button bigger">View on GitHub</a>
 			</p>
@@ -229,7 +229,7 @@
 		<div class="bloc bloc-anim">
 			<div class="content">
 
-				<h2>How it looks?</h2>
+				<h2>How it looks</h2>
 				<div>
 					<div class="col3">
 						<svg id="opturateur1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
@@ -249,7 +249,7 @@
 						</svg>
 						<div class="col-container">
 							<h3>Delayed</h3>
-							<p>Every path element is drawn at the same time with a little delay at the start. This is the animation by default.</p>
+							<p>Every path element is drawn at the same time with a little delay at the start. This is default animation.</p>
 							<button onclick="obt1.reset(); obt1.play();">replay</button>
 						</div>
 					</div>
@@ -272,7 +272,7 @@
 						</svg>
 						<div class="col-container">
 							<h3>Async</h3>
-							<p>Each line is drawn asynchronously. They all starts and finishes at the same time, this is why `async`.</p>
+							<p>Each line is drawn asynchronously. They all start and finishe at the same time, hence `async`.</p>
 							<button onclick="obt2.reset(); obt2.play();">replay</button>
 						</div>
 					</div>
@@ -295,7 +295,7 @@
 						</svg>
 						<div class="col-container">
 							<h3>OneByOne</h3>
-							<p>Each path element is drawn one after each other. This animation give a proper impression of live drawing.</p>
+							<p>Each path element is drawn one after each other. This animation gives the impression of live drawing.</p>
 							<button onclick="obt3.reset(); obt3.play();">replay</button>
 						</div>
 					</div>
@@ -306,29 +306,30 @@
 
 		<!-- How it works? -->
 		<div class="content">
-			<h2>How it works?</h2>
-			<p>To make this effect, the script use the CSS property <i>strokeDashoffset</i>. This property manage the stroke offset on every line of the SVG. Add some JavaScript to update progressively this value, and the magic begins.<br>Unfortunately, there's a problem, this property is only available on <i>path</i> elements. Or, in a SVG there a lot of <i>circle</i>, <i>rect</i>, <i>line</i>, <i>polyline</i>... and they are breaking the animation. So an other class is available in the repo, called <i>pathformer</i>. It's made to transform all objects of your SVG into path elements, to can use the property and animate your SVG.<br>The animation always draw elements in the same order as they are set in the SVG tag.</p>
+			<h2>How it works</h2>
+			<p>To make this effect, the script use the CSS property <i>strokeDashoffset</i>. This property manages the stroke offset on every line of the SVG. Add some JavaScript to update this value progressively, and the magic begins.<br>Unfortunately, there's a problem, this property is only available on <i>path</i> elements. So if you use <i>circle</i>, <i>rect</i>, <i>line</i>, or <i>polyline</i>, they will break the animation. Because of this, another class is available in the repo, called <i>pathformer</i>. It's made to transform all the objects in your SVG into path elements, so you can use this property and then animate your SVG.<br>The animation always draws elements in the same order as they are set in the SVG tag.</p>
 
-			<p>The code is quite inspired from other repo. The drawer is inspired from the excellent <a href="http://tympanus.net/codrops/">Codrops</a> about the post <a href="http://tympanus.net/codrops/2013/12/30/svg-drawing-animation/">SVG Drawing Animation</a> (if you don't know this website, get ready for mind-blowing). Then for the <i>pathformer</i>, there's a lot of works from <a href="https://github.com/Waest/SVGPathConverter">SVGPathConverter</a> by <a href="https://github.com/Waest">Waest</a>.</p>
+			<p>The code is inspired from other repo. The drawer is inspired from the excellent <a href="http://tympanus.net/codrops/">Codrops</a> post about <a href="http://tympanus.net/codrops/2013/12/30/svg-drawing-animation/">SVG Drawing Animation</a> (if you didn't know about this website, get ready for mind-blowing). The <i>pathformer</i> is inspired quite a bit from <a href="https://github.com/Waest/SVGPathConverter">SVGPathConverter</a> by <a href="https://github.com/Waest">Waest</a>.</p>
 		</div>
 
 		<!-- How to use it? -->
 		<div class="bloc bloc-documentation">
 			<div class="content">
 
-				<h2>How to use it?</h2>
-				<p>As I said, no dependencies here. Just need to include the scripts.</p>
+				<h2>How to use it</h2>
+				<p>As I said, no dependencies here. You just need to include the scripts.</p>
+
 				<p class="code">
 					new Vivus('my-svg-id', {type: 'delayed', duration: 200}, myCallback);
 				</p>
-				<p>The Vivus constructor asks 3 parameters :</p>
+				<p>The Vivus constructor asks for 3 parameters :</p>
 				<ul>
 					<li>ID of the SVG to animate (or the DOM element)</li>
-					<li>Option object (described in the following)</li>
+					<li>Options object (described in the following)</li>
 					<li>Callback to call at the end of the animation (optional)</li>
 				</ul>
 
-				<p>The option object must respect this structure :</p>
+				<p>The options object must respect this structure :</p>
 				<dl>
 					<dt>type <small>string</small></dt>
 					<dd>define what kind of animation will be used: <i>delayed</i>, <i>async</i>, <i>oneByOne</i>, <i>scenario</i> or <i>scenario-sync</i></dd>
@@ -352,7 +353,7 @@
 					<dd>remove all extra styling on the SVG, and leave it as original</dd>
 				</dl>
 
-				<p>To control the animation, three methods are available : play, stop and reset. The method play take one parameter which is the speed. This value can be positive, negative (to go backwards), or under 1 to play slowly. By default the value is 1.<p/>
+				<p>To control the animation, three methods are available : play, stop and reset. The method play takes one parameter which is the speed. This value can be positive, negative (to go backwards), or under 1 to play slowly. By default the value is 1.</p>
 
 			</div>
 		</div>
@@ -360,12 +361,12 @@
 		<!-- Scripting -->
 		<div class="content">
 			<h2>Scenarize</h2>
-			<p>This feature allow you to script the animation of your SVG. For this, the custom values will be set directly in the DOM of the SVG.</p>
+			<p>This feature allows you to script the animation of your SVG. To do this, the custom values will be set directly in the DOM of the SVG.</p>
 
 			<hr>
 
 			<h3>{type: '<i>scenario</i>'}</h3>
-			<p>This type is easier to understand, but longer to implement. You just have to define the start and duration of each element with <i>data-start</i> and <i>data-duration</i> attributes. If missing, it will use the default value given to the constructor.</p>
+			<p>This type is easier to understand, but takes longer to implement. You just have to define the start and duration of each element with <i>data-start</i> and <i>data-duration</i> attributes. If missing, it will use the default value given to the constructor.</p>
 			<p>The good point about this type is the flexibility. You don't have to respect the order/stack of the SVG. You can start with the last element, then continue with the first, to finish with all the rest at the same time.</p>
 
 			<p>Then define custom rules for each element in your SVG via extra attributes in your SVG DOM :</p>
