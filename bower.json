@@ -7,9 +7,9 @@
     "assets/",
     "src/",
     "test/",
-    "./gitignore",
-    "./gulpfile.js",
-    "./index.html",
-    "./package.json"
+    ".gitignore",
+    "gulpfile.js",
+    "index.html",
+    "package.json"
   ]
 }
