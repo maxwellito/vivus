@@ -1,0 +1,18 @@
+{
+  "name": "vivus",
+  "version": "0.0.1",
+  "description": "JavaScript library to make drawing animation on SVG",
+  "main": "",
+  "ignore": [
+    ".jshintrc",
+    "**/*.txt"
+  ],
+  "dependencies": {
+    "<name>": "<version>",
+    "<name>": "<folder>",
+    "<name>": "<package>"
+  },
+  "devDependencies": {
+    "<test-framework-name>": "<version>"
+  }
+}
