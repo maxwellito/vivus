@@ -339,6 +339,7 @@
         }
       };
       window.addEventListener('scroll', listener);
+      listener();
       break;
 
     default:
@@ -446,20 +447,19 @@
    * @return {boolean}
    */
   Vivus.prototype.isInViewport = function (el, h) {
-    while (!el.offsetTop) {
-      el = el.parentElement;
-    }
-    var elH = el.offsetHeight,
-      scrolled = this.scrollY(),
-      viewed = scrolled + this.getViewportH(),
-      elTop = this.getOffset(el).top,
-      elBottom = elTop + elH,
-      // if 0, the element is considered in the viewport as soon as it enters.
-      // if 1, the element is considered in the viewport only when it's fully inside
-      // value in percentage (1 >= h >= 0)
-      height = h || 0;
+    var scrolled   = this.scrollY(),
+      viewed       = scrolled + this.getViewportH(),
+      elBCR        = el.getBoundingClientRect(),
+      elHeight     = elBCR.height,
+      elTop        = scrolled + elBCR.top,
+      elBottom     = elTop + elHeight;
 
-    return (elTop + elH * height) <= viewed && (elBottom) >= scrolled;
+    // if 0, the element is considered in the viewport as soon as it enters.
+    // if 1, the element is considered in the viewport only when it's fully inside
+    // value in percentage (1 >= h >= 0)
+    height = h || 0;
+
+    return (elTop + elHeight * h) <= viewed && (elBottom) >= scrolled;
   };
 
   /**
@@ -493,34 +493,6 @@
    */
   Vivus.prototype.scrollY = function () {
     return window.pageYOffset || this.docElem.scrollTop;
-  };
-
-  /**
-   * Get the offset position of an element
-   * in the viewport. The returned object
-   * contain `top` and `left` property.
-   *
-   * With help from:
-   * http://stackoverflow.com/a/5598797/989439
-   *
-   * @param  {DOMelement} el Element to observe
-   * @return {object}        Offset position
-   */
-  Vivus.prototype.getOffset = function (el) {
-    var offsetTop = 0, offsetLeft = 0;
-    do {
-      if (!isNaN(el.offsetTop)) {
-        offsetTop += el.offsetTop;
-      }
-      if (!isNaN(el.offsetLeft)) {
-        offsetLeft += el.offsetLeft;
-      }
-    } while (!!(el = el.offsetParent));
-
-    return {
-      top : offsetTop,
-      left : offsetLeft
-    };
   };
 
   /**
