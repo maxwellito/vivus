@@ -31,7 +31,7 @@
    *    the end of the first one will trigger the draw
    *    of the next one
    *
-   * All these values can be overritten individualy
+   * All these values can be overwritten individually
    * for each path item in the SVG
    * The value of frames will always take the advantage of
    * the duration value.
@@ -70,7 +70,7 @@
 
   /**
    * Check and set the element in the instance
-   * The method will not return enything, but will throw an
+   * The method will not return anything, but will throw an
    * error if the parameter is invalid
    *
    * @param {DOM|String}   element  SVG Dom element or id of it
@@ -78,26 +78,26 @@
   Vivus.prototype.setElement = function (element) {
     // Basic check
     if (typeof element === 'undefined') {
-      throw new Error('Vivus [contructor]: "element" parameter is required');
+      throw new Error('Vivus [constructor]: "element" parameter is required');
     }
 
     // Set the element
     if (element.constructor === String) {
       element = document.getElementById(element);
       if (!element) {
-        throw new Error('Vivus [contructor]: "element" parameter is not related to an existing ID');
+        throw new Error('Vivus [constructor]: "element" parameter is not related to an existing ID');
       }
     }
     if (element.constructor === SVGSVGElement) {
       this.el = element;
     } else {
-      throw new Error('Vivus [contructor]: "element" parameter must be a string or a SVGelement');
+      throw new Error('Vivus [constructor]: "element" parameter must be a string or a SVGelement');
     }
   };
 
   /**
    * Set up user option to the instance
-   * The method will not return enything, but will throw an
+   * The method will not return anything, but will throw an
    * error if the parameter is invalid
    *
    * @param  {object} options Object from the constructor
@@ -108,7 +108,7 @@
 
     // Basic check
     if (options !== undefined && options.constructor !== Object) {
-      throw new Error('Vivus [contructor]: "options" parameter must be an object');
+      throw new Error('Vivus [constructor]: "options" parameter must be an object');
     }
     else {
       options = options || {};
@@ -116,7 +116,7 @@
 
     // Set the animation type
     if (options.type && allowedTypes.indexOf(options.type) === -1) {
-      throw new Error('Vivus [contructor]: ' + options.type + ' is not an existing animation `type`');
+      throw new Error('Vivus [constructor]: ' + options.type + ' is not an existing animation `type`');
     }
     else {
       this.type = options.type || allowedTypes[0];
@@ -124,7 +124,7 @@
 
     // Set the start type
     if (options.start && allowedStarts.indexOf(options.start) === -1) {
-      throw new Error('Vivus [contructor]: ' + options.start + ' is not an existing `start` option');
+      throw new Error('Vivus [constructor]: ' + options.start + ' is not an existing `start` option');
     }
     else {
       this.start = options.start || allowedStarts[0];
@@ -135,7 +135,7 @@
     this.selfDestroy = !!options.selfDestroy;
 
     if (this.delay >= this.duration) {
-      throw new Error('Vivus [contructor]: delai must be shorter than duration');
+      throw new Error('Vivus [constructor]: delay must be shorter than duration');
     }
   };
 
@@ -149,7 +149,7 @@
   Vivus.prototype.setCallback = function (callback) {
     // Basic check
     if (!!callback && callback.constructor !== Function) {
-      throw new Error('Vivus [contructor]: "callback" parameter must be a function');
+      throw new Error('Vivus [constructor]: "callback" parameter must be a function');
     }
     this.callback = callback || function () {};
   };
@@ -295,8 +295,8 @@
    * is added in each item of `map`. This one contain the current
    * progress of the path element. Only if the new value is different
    * the new value will be applied to the DOM element. This
-   * method save a lot of ressources to re-render the SVG. And could
-   * be improuved if the animation couldn't be played forward.
+   * method save a lot of resources to re-render the SVG. And could
+   * be improved if the animation couldn't be played forward.
    *
    */
   Vivus.prototype.trace = function () {
@@ -354,7 +354,7 @@
    */
 
   /**
-   * Reset the instance to the inital state : undraw
+   * Reset the instance to the initial state : undraw
    * Be careful, it just reset the animation, if you're
    * playing the animation, this won't stop it. But just
    * make it start from start.
@@ -423,7 +423,7 @@
 
   /**
    * Parse attributes of a DOM element to
-   * get an object of {attributeName => attribueValue}
+   * get an object of {attributeName => attributeValue}
    *
    * @param  {object} element DOM element to parse
    * @return {object}         Object of attributes

@@ -4,7 +4,7 @@
    * Pathformer
    * Beta version
    *
-   * Take any SVG version 1.1 and tranform
+   * Take any SVG version 1.1 and transform
    * child elements to 'path' elements
    *
    * This code is purely forked from
@@ -19,20 +19,20 @@
   function Pathformer(element) {
     // Test params
     if (typeof element === 'undefined') {
-      throw new Error('Pathformer [contructor]: "element" parameter is required');
+      throw new Error('Pathformer [constructor]: "element" parameter is required');
     }
 
     // Set the element
     if (element.constructor === String) {
       element = document.getElementById(element);
       if (!element) {
-        throw new Error('Pathformer [contructor]: "element" parameter is not related to an existing ID');
+        throw new Error('Pathformer [constructor]: "element" parameter is not related to an existing ID');
       }
     }
     if (element.constructor === SVGSVGElement) {
       this.el = element;
     } else {
-      throw new Error('Pathformer [contructor]: "element" parameter must be a string or a SVGelement');
+      throw new Error('Pathformer [constructor]: "element" parameter must be a string or a SVGelement');
     }
 
 
