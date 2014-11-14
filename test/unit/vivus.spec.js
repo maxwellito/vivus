@@ -42,7 +42,7 @@ describe('Vivus', function () {
     it('should throw an error if the SVG is given in parameter', function () {
       expect(function () {
         new Vivus();
-      }).toThrow(new Error('Vivus [contructor]: "element" parameter is required'));
+      }).toThrow(new Error('Vivus [constructor]: "element" parameter is required'));
     });
 
     it('should work with only the SVG id', function () {
@@ -60,7 +60,7 @@ describe('Vivus', function () {
     it('should throw an error if the SVG ID given is invalid', function () {
       expect(function () {
         new Vivus('my-unexisting-svg');
-      }).toThrow(new Error('Vivus [contructor]: "element" parameter is not related to an existing ID'));
+      }).toThrow(new Error('Vivus [constructor]: "element" parameter is not related to an existing ID'));
     });
 
     it('should throw an error if the ID given is not related to a SVG element', function () {
@@ -69,16 +69,16 @@ describe('Vivus', function () {
       document.body.appendChild(divTag);
       expect(function () {
         new Vivus('my-div');
-      }).toThrow(new Error('Vivus [contructor]: "element" parameter must be a string or a SVGelement'));
+      }).toThrow(new Error('Vivus [constructor]: "element" parameter must be a string or a SVGelement'));
     });
 
     it('should throw an error if the element is not a correct type (DOM object or string)', function () {
-      expect(function () { new Vivus({}); }).toThrow(new Error('Vivus [contructor]: "element" parameter must be a string or a SVGelement'));
-      expect(function () { new Vivus(42); }).toThrow(new Error('Vivus [contructor]: "element" parameter must be a string or a SVGelement'));
-      expect(function () { new Vivus(false); }).toThrow(new Error('Vivus [contructor]: "element" parameter must be a string or a SVGelement'));
-      expect(function () { new Vivus(new Date()); }).toThrow(new Error('Vivus [contructor]: "element" parameter must be a string or a SVGelement'));
-      expect(function () { new Vivus(function () {}); }).toThrow(new Error('Vivus [contructor]: "element" parameter must be a string or a SVGelement'));
-      expect(function () { new Vivus(document.createElementNS('http://www.w3.org/2000/svg','div')); }).toThrow(new Error('Vivus [contructor]: "element" parameter must be a string or a SVGelement'));
+      expect(function () { new Vivus({}); }).toThrow(new Error('Vivus [constructor]: "element" parameter must be a string or a SVGelement'));
+      expect(function () { new Vivus(42); }).toThrow(new Error('Vivus [constructor]: "element" parameter must be a string or a SVGelement'));
+      expect(function () { new Vivus(false); }).toThrow(new Error('Vivus [constructor]: "element" parameter must be a string or a SVGelement'));
+      expect(function () { new Vivus(new Date()); }).toThrow(new Error('Vivus [constructor]: "element" parameter must be a string or a SVGelement'));
+      expect(function () { new Vivus(function () {}); }).toThrow(new Error('Vivus [constructor]: "element" parameter must be a string or a SVGelement'));
+      expect(function () { new Vivus(document.createElementNS('http://www.w3.org/2000/svg','div')); }).toThrow(new Error('Vivus [constructor]: "element" parameter must be a string or a SVGelement'));
     });
 
     // Options
@@ -89,12 +89,12 @@ describe('Vivus', function () {
     });
 
     it('should throw an error if options is not an object', function () {
-      expect(function () { new Vivus(svgTag, []); }).toThrow(new Error('Vivus [contructor]: "options" parameter must be an object'));
-      expect(function () { new Vivus(svgTag, 42); }).toThrow(new Error('Vivus [contructor]: "options" parameter must be an object'));
-      expect(function () { new Vivus(svgTag, false); }).toThrow(new Error('Vivus [contructor]: "options" parameter must be an object'));
-      expect(function () { new Vivus(svgTag, new Date()); }).toThrow(new Error('Vivus [contructor]: "options" parameter must be an object'));
-      expect(function () { new Vivus(svgTag, 'manual'); }).toThrow(new Error('Vivus [contructor]: "options" parameter must be an object'));
-      expect(function () { new Vivus(svgTag, function () {}); }).toThrow(new Error('Vivus [contructor]: "options" parameter must be an object'));
+      expect(function () { new Vivus(svgTag, []); }).toThrow(new Error('Vivus [constructor]: "options" parameter must be an object'));
+      expect(function () { new Vivus(svgTag, 42); }).toThrow(new Error('Vivus [constructor]: "options" parameter must be an object'));
+      expect(function () { new Vivus(svgTag, false); }).toThrow(new Error('Vivus [constructor]: "options" parameter must be an object'));
+      expect(function () { new Vivus(svgTag, new Date()); }).toThrow(new Error('Vivus [constructor]: "options" parameter must be an object'));
+      expect(function () { new Vivus(svgTag, 'manual'); }).toThrow(new Error('Vivus [constructor]: "options" parameter must be an object'));
+      expect(function () { new Vivus(svgTag, function () {}); }).toThrow(new Error('Vivus [constructor]: "options" parameter must be an object'));
     });
 
     // Options
@@ -107,13 +107,13 @@ describe('Vivus', function () {
     it('should throw an error if the `type` value given in options does not exists', function () {
       expect(function () {
         new Vivus(svgTag, {type: 'by-unicorn'});
-      }).toThrow(new Error('Vivus [contructor]: by-unicorn is not an existing animation `type`'));
+      }).toThrow(new Error('Vivus [constructor]: by-unicorn is not an existing animation `type`'));
     });
 
     it('should throw an error if the `start` value given in options is not a string', function () {
       expect(function () {
         new Vivus(svgTag, {start: 'when-unicorn-ready'});
-      }).toThrow(new Error('Vivus [contructor]: when-unicorn-ready is not an existing `start` option'));
+      }).toThrow(new Error('Vivus [constructor]: when-unicorn-ready is not an existing `start` option'));
     });
 
     it('should throw an error if the `delay` value is bigger (or equal) than `duration`', function () {
@@ -122,10 +122,10 @@ describe('Vivus', function () {
       }).not.toThrow();
       expect(function () {
         new Vivus(svgTag, {duration: 200, delay: 200});
-      }).toThrow(new Error('Vivus [contructor]: delai must be shorter than duration'));
+      }).toThrow(new Error('Vivus [constructor]: delay must be shorter than duration'));
       expect(function () {
         new Vivus(svgTag, {duration: 200, delay: 201});
-      }).toThrow(new Error('Vivus [contructor]: delai must be shorter than duration'));
+      }).toThrow(new Error('Vivus [constructor]: delay must be shorter than duration'));
     });
 
     it('should override `duration` if invalid', function () {
@@ -149,7 +149,7 @@ describe('Vivus', function () {
     it('should throw an error if callback is non a function', function () {
       expect(function () {
         new Vivus(svgTag, {}, 42);
-      }).toThrow(new Error('Vivus [contructor]: "callback" parameter must be a function'));
+      }).toThrow(new Error('Vivus [constructor]: "callback" parameter must be a function'));
     });
   });
 
