@@ -202,5 +202,25 @@ describe('Pathformer', function () {
         }).not.toThrow();
       });
     });
+
+    describe('validity', function () {
+      it('should throw error if the SVG contain shape with percentage value', function () {
+        // Create the SVG
+        var svgTagPrc = document.createElementNS('http://www.w3.org/2000/svg','svg');
+        svgTagPrc.innerHTML = '<circle cx="100%" cy="100" r="10"/>';
+        expect(function () {
+          new Pathformer(svgTagPrc);
+        }).toThrow(new Error('Pathformer [parseAttr]: a SVG shape got values in percentage. This cannot be transformed into \'path\' tags. Please use \'viewBox\'.'));
+      });
+
+      it('shouldn\'t throw error if the SVG contain shape with percentage value on a non-data attribute', function () {
+        // Create the SVG
+        var svgTagPrc = document.createElementNS('http://www.w3.org/2000/svg','svg');
+        svgTagPrc.innerHTML = '<circle width="100%" cx="100" cy="100" r="10"/>';
+        expect(function () {
+          new Pathformer(svgTagPrc);
+        }).not.toThrow();
+      });
+    });
   });
 });

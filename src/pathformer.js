@@ -50,6 +50,15 @@
   Pathformer.prototype.TYPES = ['line', 'elipse', 'circle', 'polygon', 'polyline', 'rect'];
 
   /**
+   * List of attribute names which contain
+   * data. This array list them to check if
+   * they contain bad values, like percentage. 
+   *
+   * @type {Array}
+   */
+  Pathformer.prototype.ATTR_WATCH = ['cx', 'cy', 'points', 'r', 'rx', 'ry', 'x', 'x1', 'x2', 'y', 'y1', 'y2'];
+
+  /**
    * Finds the elements compatible for transform
    * and apply the liked method
    *
@@ -209,6 +218,10 @@
     var attr, output = {};
     for (var i = 0; i < element.length; i++) {
       attr = element[i];
+      // Check if no data attribute contains '%', or the transformation is impossible
+      if (this.ATTR_WATCH.indexOf(attr.name) !== -1 && attr.value.indexOf('%') !== -1) {
+        throw new Error('Pathformer [parseAttr]: a SVG shape got values in percentage. This cannot be transformed into \'path\' tags. Please use \'viewBox\'.');
+      }
       output[attr.name] = attr.value;
     }
     return output;
