@@ -4,6 +4,8 @@ Demo available on http://maxwellito.github.io/vivus
 
 Vivus is a little JavaScript class (little, because it's being lightweight and having no dependency) to make drawing animation with SVGs in a webpage. Different animations are available, even scripting the entire SVG to do whatever you want.
 
+Available via Bower: `bower install vivus`
+
 ## Animations
 
 On the following images, the pink color represents the `duration` value, and the blue one is for `delay` value.
