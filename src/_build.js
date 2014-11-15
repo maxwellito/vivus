@@ -1,11 +1,5 @@
 /* global: Vivus */
 
-/**
- * Final build of the script
- *
- *
- */
-
 (function () {
 
   //import("pathformer.js");

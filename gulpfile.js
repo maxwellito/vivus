@@ -1,10 +1,20 @@
 var gulp      = require('gulp'),
   gulpImports = require('gulp-imports'),
   gutil       = require('gulp-util'),
+  header      = require('gulp-header'),
   uglify      = require('gulp-uglify'),
   concat      = require('gulp-concat'),
   jshint      = require('gulp-jshint'),
-  karma       = require('gulp-karma');
+  karma       = require('gulp-karma'),
+  pkg         = require('./package.json'),
+  banner      = ['/**',
+  ' * <%= pkg.name %> - <%= pkg.description %>',
+  ' * @version v<%= pkg.version %>',
+  ' * @link <%= pkg.homepage %>',
+  ' * @license <%= pkg.license %>',
+  ' */',
+  '',
+  ''].join('\n');
 
 /**
  * distrib
@@ -13,6 +23,7 @@ var gulp      = require('gulp'),
  */
 gulp.task('distrib', function () {
   gulp.src('./src/_build.js')
+    .pipe(header(banner, { pkg : pkg } ))
     .pipe(gulpImports())
 
     .pipe(concat('vivus.js'))
