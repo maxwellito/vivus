@@ -218,7 +218,7 @@
 		<!-- Intro -->
 		<div class="content">
 			<h1>vivus<small>, bringing your SVGs to life</small></h1>
-			<p>Vivus is a little JavaScript class (little because it's lightweight and has no dependencies) to make animating SVGs easy. Different animations are available, and you can even script the entire SVG to do whatever you want.</p>
+			<p>Vivus is a little JavaScript class (little because it's lightweight and has no dependencies) to make it easy to animate SVGs. Different animation styles are available, and you can even script the entire SVG to do whatever you want.</p>
 			<p class="intro-links">
 				<a href="//github.com/maxwellito/vivus" class="button bigger">View on GitHub</a>
 			</p>
@@ -249,7 +249,7 @@
 						</svg>
 						<div class="col-container">
 							<h3>Delayed</h3>
-							<p>Every path element is drawn at the same time with a little delay at the start. This is default animation.</p>
+							<p>Every path element is drawn at the same time with a brief delay at the start. This is the default animation.</p>
 							<button onclick="obt1.reset(); obt1.play();">replay</button>
 						</div>
 					</div>
@@ -272,7 +272,7 @@
 						</svg>
 						<div class="col-container">
 							<h3>Async</h3>
-							<p>Each line is drawn asynchronously. They all start and finishe at the same time, hence `async`.</p>
+							<p>Each line is drawn asynchronously. They all start and finish at the same time, hence “async.”</p>
 							<button onclick="obt2.reset(); obt2.play();">replay</button>
 						</div>
 					</div>
@@ -295,7 +295,7 @@
 						</svg>
 						<div class="col-container">
 							<h3>OneByOne</h3>
-							<p>Each path element is drawn one after each other. This animation gives the impression of live drawing.</p>
+							<p>Each path element is drawn sequentially. This animation gives the impression of live drawing.</p>
 							<button onclick="obt3.reset(); obt3.play();">replay</button>
 						</div>
 					</div>
@@ -307,9 +307,11 @@
 		<!-- How it works? -->
 		<div class="content">
 			<h2>How it works</h2>
-			<p>To make this effect, the script use the CSS property <i>strokeDashoffset</i>. This property manages the stroke offset on every line of the SVG. Add some JavaScript to update this value progressively, and the magic begins.<br>Unfortunately, there's a problem, this property is only available on <i>path</i> elements. So if you use <i>circle</i>, <i>rect</i>, <i>line</i>, or <i>polyline</i>, they will break the animation. Because of this, another class is available in the repo, called <i>pathformer</i>. It's made to transform all the objects in your SVG into path elements, so you can use this property and then animate your SVG.<br>The animation always draws elements in the same order as they are set in the SVG tag.</p>
+			<p>The script employs the <em>strokeDashoffset</em> CSS attribute. This attribute manages the stroke offset on every line of the SVG. Add some JavaScript to update this value progressively, and the magic begins.<br>
+			Unfortunately, there's a problem, this property is only available on <i>path</i> elements. So if you use <i>circle</i>, <i>rect</i>, <i>line</i>, or <i>polyline</i>, they will break the animation. Because of this, another class is available in the repo, called <i>pathformer</i>. It's made to transform all the objects in your SVG into path elements, so you can use this property and then animate your SVG.<br>
+			The animation always draws elements in the same order as they are set in the SVG tag.</p>
 
-			<p>The code is inspired from other repo. The drawer is inspired from the excellent <a href="http://tympanus.net/codrops/">Codrops</a> post about <a href="http://tympanus.net/codrops/2013/12/30/svg-drawing-animation/">SVG Drawing Animation</a> (if you didn't know about this website, get ready for mind-blowing). The <i>pathformer</i> is inspired quite a bit from <a href="https://github.com/Waest/SVGPathConverter">SVGPathConverter</a> by <a href="https://github.com/Waest">Waest</a>.</p>
+			<p>This was inspired by the excellent <a href="http://tympanus.net/codrops/">Codrops</a> post about <a href="http://tympanus.net/codrops/2013/12/30/svg-drawing-animation/">SVG Drawing Animation</a>. (If you didn't know about this website, get ready to have your mind blown). The <i>pathformer</i> is inspired substantially by <a href="https://github.com/Waest">Waest</a>’s <a href="https://github.com/Waest/SVGPathConverter">SVGPathConverter</a>.</p>
 		</div>
 
 		<!-- How to use it? -->
@@ -317,19 +319,19 @@
 			<div class="content">
 
 				<h2>How to use it</h2>
-				<p>As I said, no dependencies here. You just need to include the scripts.</p>
+				<p>It has no dependence. You just need to include the script.</p>
 
 				<p class="code">
 					new Vivus('my-svg-id', {type: 'delayed', duration: 200}, myCallback);
 				</p>
-				<p>The Vivus constructor asks for 3 parameters :</p>
+				<p>The Vivus constructor asks for 3 parameters:</p>
 				<ul>
 					<li>ID of the SVG to animate (or the DOM element)</li>
 					<li>Options object (described in the following)</li>
 					<li>Callback to call at the end of the animation (optional)</li>
 				</ul>
 
-				<p>The options object must respect this structure :</p>
+				<p>The options object must adhere to this structure:</p>
 				<dl>
 					<dt>type <small>string</small></dt>
 					<dd>define what kind of animation will be used: <i>delayed</i>, <i>async</i>, <i>oneByOne</i>, <i>scenario</i> or <i>scenario-sync</i></dd>
@@ -341,8 +343,8 @@
 					<dd>define how to trigger the animation
 						<p class="smaller">
 							<strong>inViewport</strong> once the SVG is in the viewport<br>
-							<strong>manual</strong> give you the freedom to call <i>play</i> method to start<br>
-							<strong>autostart</strong> make it start right now<br>
+							<strong>manual</strong> gives you the freedom to call <i>play</i> method to start<br>
+							<strong>autostart</strong> start immediately<br>
 						</p>
 					</dd>
 
@@ -353,7 +355,7 @@
 					<dd>remove all extra styling on the SVG, and leave it as original</dd>
 				</dl>
 
-				<p>To control the animation, three methods are available : play, stop and reset. The method play takes one parameter which is the speed. This value can be positive, negative (to go backwards), or under 1 to play slowly. By default the value is 1.</p>
+				<p>To control the animation, three methods are available: play, stop and reset. The method play takes one parameter which is the speed. This value can be positive, negative (to go backwards), or under 1 to play slowly. By default the value is 1.</p>
 
 			</div>
 		</div>
@@ -367,7 +369,7 @@
 
 			<h3>{type: '<i>scenario</i>'}</h3>
 			<p>This type is easier to understand, but takes longer to implement. You just have to define the start and duration of each element with <i>data-start</i> and <i>data-duration</i> attributes. If missing, it will use the default value given to the constructor.</p>
-			<p>The good point about this type is the flexibility. You don't have to respect the order/stack of the SVG. You can start with the last element, then continue with the first, to finish with all the rest at the same time.</p>
+			<p>The highlight of this type is its flexibility. You don't have to respect the order/stack of the SVG. You can start with the last element, then continue with the first, to finish with all the rest at the same time.</p>
 
 			<p>Then define custom rules for each element in your SVG via extra attributes in your SVG DOM :</p>
 
@@ -390,7 +392,7 @@
 			<hr>
 
 			<h3>{type: '<i>scenario-sync</i>'}</h3>
-			<p>It's not the sexiest code ever, but quite flexible. The behaviour is quite different, let's see.</p>
+			<p>It's not the best code ever, but it's quite flexible. The behavior is quite different.</p>
 			<p>By using this animation type, the default behaviour is the same as `oneByOne`. But here, you can define some properties on a specific path item. Like the duration, the delay to start (from the end of the previous path) and if it should be played asyncronously.</p>
 
 			<dl>
@@ -404,8 +406,8 @@
 				<dd>make the drawing of this path asynchronous. It means the next path will start at the same time.</dd>
 			</dl>
 
-			<p>If a path does not have an attribute for duration or delay. The default one, set in options, will be used.</p>
-			<p>For an easier debug, have a look to the attribute <i>map</i> of your Vivus object. This one contain the mapping of your animation. If you're using Google Chrome, I recommand you to use `console.table` to get a nice output of the array, which will make your debug easier.</p>
+			<p>If a path does not have an attribute for duration or delay, the default one, set in options, will be used.</p>
+			<p>For an easier debug, look at the attribute <i>map</i> of your Vivus object. This one contain the mapping of your animation. If you're using Google Chrome, I recommand you use <em>console.table</em> to get a nice output of the array, which will make debugging easier.</p>
 
 		</div>
 
@@ -475,8 +477,9 @@
 
 					</svg>
 					<div class="example-description">
-						<p>Here is an example using <i>scenario-sync</i>.<br>I recommend you to look at the source code, it's well commented.</p>
-						<p>The idea is to first, draw the case asynchronously, then after a little pause start to draw the lens, following by the flash and the picture output. To finish with the stripes on the front.</p>
+						<p>Here is an example using <i>scenario-sync</i>.<br>
+						I recommend looking at the source code—it's well commented.</p>
+						<p>The idea is to draw the case asynchronously first, then after a pause start to draw the lens, followed by the flash and the picture output. Then finish with the stripes on the front.</p>
 						<button onclick="pola.reset(); pola.play();">replay</button>
 						<button onclick="pola.play(-3);">rewind</button>
 					</div>
@@ -488,7 +491,7 @@
 
 		<!-- Goodbye -->
 		<div class="content">
-			<p class="goodbye-head">Thanks for watching.</p>
+			<p class="goodbye-head">Thanks for reading.</p>
 			<p class="goodbye-sub">Made with <span class="striked">love</span> <span class="italic">a keyboard</span></p>
 		</div>
 
