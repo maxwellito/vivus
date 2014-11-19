@@ -8,6 +8,7 @@
     "src/",
     "test/",
     ".gitignore",
+    ".jshintrc",
     "gulpfile.js",
     "index.html",
     "package.json"

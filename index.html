@@ -87,7 +87,7 @@
 				font-size: 0.75em;
 			}
 			.code {
-				overflow: scroll;
+				overflow: hidden;
 				margin: 0; padding: 10px;
 				border: none;
 				background-color: rgba(0,0,0,0.1);
@@ -111,7 +111,7 @@
 			.bloc-example { background: #4fe084; }
 
 			/* Custom */
-			#tape {
+			#hi-there {
 				width: 100%;
 			}
 			.intro-links {
@@ -143,6 +143,7 @@
 			}
 
 			@media (max-width: 767px) {
+				.code { overflow: scroll; }
 				#polaroid { width: 100%; max-height: 300px; }
 				.example-description { margin-left: 0; }
 
@@ -185,7 +186,7 @@
 		<!-- Head: HI THERE -->
 		<div class="bloc bloc-head">
 			<svg height="300" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-				 viewBox="0 0 404.7 354" enable-background="new 0 0 404.7 354" id="tape" onclick="hi.reset(); hi.play();">
+				 viewBox="0 0 404.7 354" enable-background="new 0 0 404.7 354" id="hi-there" onclick="hi.reset().play();">
 
 				<!-- HI -->
 				<path fill="none" data-duration="10" stroke="#FFFFFF" stroke-width="4" d="M324.6,61.2c16.6,0,29.5-12.9,29.5-29.5c0-16.6-12.9-29.5-29.5-29.5c-16.6,0-29.5,12.9-29.5,29.5C295.1,48.4,308,61.2,324.6,61.2z"/>
@@ -232,8 +233,8 @@
 				<h2>How it looks</h2>
 				<div>
 					<div class="col3">
-						<svg id="opturateur1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-				 width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" onclick="obt1.reset(); obt1.play();">
+						<svg id="obturateur1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+				 width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" onclick="obt1.reset().play();">
 							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="90"/>
 							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="85.74"/>
 							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="72.947"/>
@@ -250,13 +251,13 @@
 						<div class="col-container">
 							<h3>Delayed</h3>
 							<p>Every path element is drawn at the same time with a little delay at the start. This is default animation.</p>
-							<button onclick="obt1.reset(); obt1.play();">replay</button>
+							<button onclick="obt1.reset().play();">replay</button>
 						</div>
 					</div>
 
 					<div class="col3">
-						<svg id="opturateur2" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-				 width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" onclick="obt2.reset(); obt2.play();">
+						<svg id="obturateur2" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+				 width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" onclick="obt2.reset().play();">
 							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="90"/>
 							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="85.74"/>
 							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="72.947"/>
@@ -273,13 +274,13 @@
 						<div class="col-container">
 							<h3>Async</h3>
 							<p>Each line is drawn asynchronously. They all start and finishe at the same time, hence `async`.</p>
-							<button onclick="obt2.reset(); obt2.play();">replay</button>
+							<button onclick="obt2.reset().play();">replay</button>
 						</div>
 					</div>
 
 					<div class="col3">
-						<svg id="opturateur3" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-				 width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" onclick="obt3.reset(); obt3.play();">
+						<svg id="obturateur3" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+				 width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" onclick="obt3.reset().play();">
 							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="90"/>
 							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="85.74"/>
 							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="72.947"/>
@@ -296,7 +297,7 @@
 						<div class="col-container">
 							<h3>OneByOne</h3>
 							<p>Each path element is drawn one after each other. This animation gives the impression of live drawing.</p>
-							<button onclick="obt3.reset(); obt3.play();">replay</button>
+							<button onclick="obt3.reset().play();">replay</button>
 						</div>
 					</div>
 				</div>
@@ -416,7 +417,7 @@
 
 				<div class="script-example">
 					<svg id="polaroid" class="example-svg" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-				 viewBox="0 0 200 160" enable-background="new 0 0 200 160" onclick="pola.reset(); pola.play();">
+				 viewBox="0 0 200 160" enable-background="new 0 0 200 160" onclick="pola.reset().play();">
 
 				 		<!-- Case -->
 				 		<!-- The case items will be drawn at the same time (attribute `data-async` on each tag) with a custom duration of 40 frames (attribute `data-duration`). WARNING: When you want to draw a bloc asynchronously (like here), the last item need to be `data-async` free. Otherwise the following tags will also start at the same time. I know it's a bit confusing, play a bit with it and you'll see. -->
@@ -478,7 +479,7 @@
 					<div class="example-description">
 						<p>Here is an example using <i>scenario-sync</i>.<br>I recommend you to look at the source code, it's well commented.</p>
 						<p>The idea is to first, draw the case asynchronously, then after a little pause start to draw the lens, following by the flash and the picture output. To finish with the stripes on the front.</p>
-						<button onclick="pola.reset(); pola.play();">replay</button>
+						<button onclick="pola.reset().play();">replay</button>
 						<button onclick="pola.play(-3);">rewind</button>
 					</div>
 					<div class="clearer"></div>
@@ -497,14 +498,14 @@
 		<script src="dist/vivus.js"></script>
 		<script>
 
-			var hi = new Vivus('tape', {type: 'scenario-sync', duration: 20, start: 'autostart'}, function () {
+			var hi = new Vivus('hi-there', {type: 'scenario-sync', duration: 20, start: 'autostart'}, function () {
 					if (console) {
 						console.log('Animation finished. [log triggered from callback]');
 					}
 				}),
-				obt1 = new Vivus('opturateur1', {type: 'delayed', duration: 150}),
-				obt2 = new Vivus('opturateur2', {type: 'async', duration: 150}),
-				obt3 = new Vivus('opturateur3', {type: 'oneByOne', duration: 150}),
+				obt1 = new Vivus('obturateur1', {type: 'delayed', duration: 150}),
+				obt2 = new Vivus('obturateur2', {type: 'async', duration: 150}),
+				obt3 = new Vivus('obturateur3', {type: 'oneByOne', duration: 150}),
 				pola = new Vivus('polaroid', {type: 'scenario-sync', duration: 20});
 		</script>
 	</body>
