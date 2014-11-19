@@ -131,8 +131,11 @@ Vivus.prototype.setOptions = function (options) {
     this.start = options.start || allowedStarts[0];
   }
 
-  this.duration = parsePositiveInt(options.duration, 120);
-  this.delay = parsePositiveInt(options.delay, null);
+  this.isIE        = (navigator.userAgent.indexOf('MSIE') !== -1);
+  this.duration    = parsePositiveInt(options.duration, 120);
+  this.delay       = parsePositiveInt(options.delay, null);
+  this.dashGap     = parsePositiveInt(options.dashGap, 2);
+  this.forceRender = options.hasOwnProperty('forceRender') ? !!options.forceRender : this.isIE;
   this.selfDestroy = !!options.selfDestroy;
 
   if (this.delay >= this.duration) {
@@ -194,15 +197,21 @@ Vivus.prototype.mapping = function () {
     };
     // Test if the path length is correct
     if (isNaN(pathObj.length)) {
-      if (console && console.warn) {
+      if (window.console && console.warn) {
         console.warn('Vivus [mapping]: cannot retrieve a path element length', path);
       }
       continue;
     }
     totalLength += pathObj.length;
     this.map.push(pathObj);
-    path.style.strokeDasharray = pathObj.length + ' ' + (pathObj.length + 10);
+    path.style.strokeDasharray  = pathObj.length + ' ' + (pathObj.length + this.dashGap);
     path.style.strokeDashoffset = pathObj.length;
+
+    // Fix IE glitch
+    if (this.isIE) {
+      pathObj.length += this.dashGap;
+    }
+    this.renderPath(i);
   }
 
   totalLength = totalLength === 0 ? 1 : totalLength;
@@ -309,7 +318,29 @@ Vivus.prototype.trace = function () {
     if (path.progress !== progress) {
       path.progress = progress;
       path.el.style.strokeDashoffset = Math.floor(path.length * (1 - progress));
+      this.renderPath(i);
     }
+  }
+};
+
+/**
+ * Method forcing the browser to re-render a path element
+ * from it's index in the map. Depending on the `forceRender`
+ * value.
+ * The trick is to replace the path element by it's clone.
+ * This practice is not recommended because it's asking more
+ * ressources, too much DOM manupulation..
+ * but it's the only way to let the magic happen on IE.
+ * By default, this fallback is only applied on IE.
+ * 
+ * @param  {Number} index Path index
+ */
+Vivus.prototype.renderPath = function (index) {
+  if (this.forceRender && this.map && this.map[index]) {
+    var pathObj = this.map[index],
+        newPath = pathObj.el.cloneNode(true);
+    pathObj.el.parentNode.replaceChild(newPath, pathObj.el);
+    pathObj.el = newPath;
   }
 };
 
@@ -342,9 +373,6 @@ Vivus.prototype.starter = function () {
     window.addEventListener('scroll', listener);
     listener();
     break;
-
-  default:
-    throw new Error('Vivus [start]: unexisting `start` option');
   }
 };
 
@@ -415,6 +443,7 @@ Vivus.prototype.destroy = function () {
     path = this.map[i];
     path.el.style.strokeDashoffset = null;
     path.el.style.strokeDasharray = null;
+    this.renderPath(i);
   }
 };
 

@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Unit tests for Vivus
  *
@@ -278,6 +280,32 @@ describe('Vivus', function () {
           callCount++;
         });
         myVivus.play(0.5);
+      });
+    });
+
+    describe('Force Render:', function () {
+
+      it('should use renderPath if forceRender option is set to true', function () {
+        myVivus = new Vivus(svgTag, { duration: 2, start: 'manual', forceRender: true });
+        
+        var originalFirstPath = myVivus.map[0].el;
+        myVivus.renderPath(0);
+        expect(myVivus.map[0].el).not.toBe(originalFirstPath);
+      });
+
+      it('should not use renderPath if forceRender option is set to false', function () {
+        myVivus = new Vivus(svgTag, { duration: 2, start: 'manual', forceRender: false });
+        
+        var originalFirstPath = myVivus.map[0].el;
+        myVivus.renderPath(0);
+        expect(myVivus.map[0].el).toBe(originalFirstPath);
+      });
+
+      it('renderPath should not throw an error if the index doesn\'t exists', function () {
+        myVivus = new Vivus(svgTag, { duration: 2, start: 'manual', forceRender: true });
+        expect(function () {
+          myVivus.renderPath(42);
+        }).not.toThrow();
       });
     });
 

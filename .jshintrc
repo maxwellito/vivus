@@ -20,6 +20,14 @@
 	"trailing": true,
 	"smarttabs": true,
 	"globals": {
-		"Pathformer": false
+		"Pathformer": false,
+		"Vivus": false,
+		"jasmine": false,
+		"it": false,
+		"expect": false,
+		"describe": false,
+		"beforeEach": false,
+		"afterEach": false,
+		"spyOn": false
 	}
 }

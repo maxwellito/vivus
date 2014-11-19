@@ -19,7 +19,7 @@
 				background-color: #F9F9F9;
 			}
 			a, a:visited, a:hover, a:link {
-				color: #666666;
+				color: inherit;
 				outline: 0;
 			}
 			small {
@@ -351,6 +351,12 @@
 					<dt>delay <small>integer</small></dt>
 					<dd>time between the drawing of first and last path, in frames (only for <i>delayed</i> animations)</dd>
 
+					<dt>dashGap <small>integer</small></dt>
+					<dd>whitespace extra margin between dashes. The default value is 2. Increase it in case of glitches at the initial state of the animation</dd>
+
+					<dt>forceRender <small>boolean</small></dt>
+					<dd>force the browser to re-render all updated path items. By default, the value is true on IE only. (<a href="https://github.com/maxwellito/vivus#troubleshoot">more details</a>)</dd>
+
 					<dt>selfDestroy <small>boolean</small></dt>
 					<dd>remove all extra styling on the SVG, and leave it as original</dd>
 				</dl>
@@ -497,16 +503,15 @@
 		<!-- Le scripts -->
 		<script src="dist/vivus.js"></script>
 		<script>
-
-			var hi = new Vivus('hi-there', {type: 'scenario-sync', duration: 20, start: 'autostart'}, function () {
-					if (console) {
+			var hi = new Vivus('hi-there', {type: 'scenario-sync', duration: 20, start: 'autostart', forceRender: false, dashGap: 20}, function () {
+					if (window.console) {
 						console.log('Animation finished. [log triggered from callback]');
 					}
 				}),
 				obt1 = new Vivus('obturateur1', {type: 'delayed', duration: 150}),
 				obt2 = new Vivus('obturateur2', {type: 'async', duration: 150}),
 				obt3 = new Vivus('obturateur3', {type: 'oneByOne', duration: 150}),
-				pola = new Vivus('polaroid', {type: 'scenario-sync', duration: 20});
+				pola = new Vivus('polaroid', {type: 'scenario-sync', duration: 20, forceRender: false});
 		</script>
 	</body>
 </html>
