@@ -178,7 +178,7 @@ Then you can run Gulp with one of the following tasks:
 
 Some SVG werent't working at all. The only solution found was to clone and replace each updated path element. Of course this solution requires more resources and a lot of DOM manipulation, but it will give a smooth animation like other browsers. This fallback is only applied on Internet Explorer (all versions), and can be disabled via the option `forceRender`.
 
-Replacing each updated path by a clone was the only way to force IE to re-render the SVG. On some SVGs this trick is not necessary, but IE can be a bit tricky with this. If you're worried about performances, I would recommand you to check if your SVG works correctly by disabling the `forceRender` option. If it works correctly on IE, then keep it like this.
+Replacing each updated path by a clone was the only way to force IE to re-render the SVG. On some SVGs this trick is not necessary, but IE can be a bit tricky with this. If you're worried about performances, I would recommend you to check if your SVG works correctly by disabling the `forceRender` option. If it works correctly on IE, then keep it like this.
 
 By default, `forceRender` is `true` on Internet Explorer only.
 
