@@ -1,11 +1,12 @@
+'use strict';
+
 /**
  * Unit tests for Pathformer
  *
  */
 describe('Pathformer', function () {
 
-  var myVivus,
-    svgTag,
+  var svgTag,
     svgTagId = 'my-svg';
 
   beforeEach(function () {
@@ -106,7 +107,7 @@ describe('Pathformer', function () {
     // Polyline object
     describe('polyline', function () {
       var polyline = {
-          points: '2,3 4,5 6,7'
+        points: '2,3 4,5 6,7'
       };
 
       it('should return an object with a `d` attribute', function () {
@@ -131,7 +132,7 @@ describe('Pathformer', function () {
     describe('polygon', function () {
       var polygon = {
           points: '2,3 4,5 6,7'
-      };
+        };
 
       it('should return an object with a `d` attribute', function () {
         var output = Pathformer.prototype.polygonToPath(polygon);
@@ -147,9 +148,9 @@ describe('Pathformer', function () {
     // Elipse object
     describe('elipse', function () {
       var elipse = {
-          cx: 2,
-          cy: 3,
-          rx: 3
+        cx: 2,
+        cy: 3,
+        rx: 3
       };
 
       it('should return an object with a `d` attribute', function () {
@@ -166,10 +167,10 @@ describe('Pathformer', function () {
     // Circle object
     describe('circle', function () {
       var circle = {
-          cx: 2,
-          cy: 3,
-          rx: 3,
-          r: 1
+        cx: 2,
+        cy: 3,
+        rx: 3,
+        r: 1
       };
 
       it('should return an object with a `d` attribute', function () {
