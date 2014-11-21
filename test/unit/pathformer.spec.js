@@ -201,6 +201,11 @@ describe('Pathformer', function () {
           new Pathformer(svgTagId);
         }).not.toThrow();
       });
+
+      it('should remove useless attributes during transformation', function () {
+        new Pathformer(svgTagId);
+        expect(svgTag.childNodes[0].getAttribute('cx')).toBe(null);
+      });
     });
 
     describe('validity', function () {

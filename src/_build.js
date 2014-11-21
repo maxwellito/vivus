@@ -1,4 +1,4 @@
-/* global: Vivus */
+'use strict';
 
 (function () {
 

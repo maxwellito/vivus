@@ -197,7 +197,9 @@ Pathformer.prototype.pathMaker = function (element, pathData) {
   var i, attr, pathTag = document.createElementNS('http://www.w3.org/2000/svg','path');
   for(i = 0; i < element.attributes.length; i++) {
     attr = element.attributes[i];
-    pathTag.setAttribute(attr.name, attr.value);
+    if (this.ATTR_WATCH.indexOf(attr.name) === -1) {
+      pathTag.setAttribute(attr.name, attr.value);
+    }
   }
   for(i in pathData) {
     pathTag.setAttribute(i, pathData[i]);
