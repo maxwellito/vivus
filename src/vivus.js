@@ -63,6 +63,19 @@ function Vivus (element, options, callback) {
   this.starter();
 }
 
+/**
+ * Timing functions
+ ************************************** 
+ * 
+ * Default functions to help developers.
+ * It always take a number as parameter (between 0 to 1) then
+ * return a number (between 0 and 1)
+ */
+
+Vivus.TIMING_NEUTRAL  = function (x) {return x;};
+Vivus.TIMING_EASE_OUT = function (x) {return 1 - Math.pow(1-x, 3);};
+Vivus.TIMING_EASE_IN  = function (x) {return Math.pow(x, 3);};
+
 
 /**
  * Setters
@@ -137,6 +150,9 @@ Vivus.prototype.setOptions = function (options) {
   this.dashGap     = parsePositiveInt(options.dashGap, 2);
   this.forceRender = options.hasOwnProperty('forceRender') ? !!options.forceRender : this.isIE;
   this.selfDestroy = !!options.selfDestroy;
+
+  this.animTimingFunction = options.animTimingFunction || Vivus.TIMING_NEUTRAL;
+  this.pathTimingFunction = options.pathTimingFunction || Vivus.TIMING_NEUTRAL;
 
   if (this.delay >= this.duration) {
     throw new Error('Vivus [constructor]: delay must be shorter than duration');
@@ -310,11 +326,12 @@ Vivus.prototype.drawer = function () {
  *
  */
 Vivus.prototype.trace = function () {
-  var i, progress, path;
+  var i, progress, path, currentFrame;
+  currentFrame = this.animTimingFunction(this.currentFrame / this.frameLength) * this.frameLength;
   for (i = 0; i < this.map.length; i++) {
     path = this.map[i];
-    progress = (this.currentFrame - path.startAt) / path.duration;
-    progress = Math.max(0, Math.min(1, progress));
+    progress = (currentFrame - path.startAt) / path.duration;
+    progress = this.pathTimingFunction(Math.max(0, Math.min(1, progress)));
     if (path.progress !== progress) {
       path.progress = progress;
       path.el.style.strokeDashoffset = Math.floor(path.length * (1 - progress));

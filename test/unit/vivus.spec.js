@@ -36,6 +36,21 @@ describe('Vivus', function () {
     it('should the class be defined under Vivus name', function () {
       expect(Vivus).toBeDefined();
     });
+
+    it('should have timing functions set', function () {
+      expect(Vivus.TIMING_NEUTRAL).toBeDefined();
+      expect(Vivus.TIMING_EASE_IN).toBeDefined();
+      expect(Vivus.TIMING_EASE_OUT).toBeDefined();
+    });
+
+    it('should have timing functions returning correct value on limits', function () {
+      expect(Vivus.TIMING_NEUTRAL(0)).toEqual(0);
+      expect(Vivus.TIMING_NEUTRAL(1)).toEqual(1);
+      expect(Vivus.TIMING_EASE_IN(0)).toEqual(0);
+      expect(Vivus.TIMING_EASE_IN(1)).toEqual(1);
+      expect(Vivus.TIMING_EASE_OUT(0)).toEqual(0);
+      expect(Vivus.TIMING_EASE_OUT(1)).toEqual(1);
+    });
   });
 
   describe('[param tests]', function () {
