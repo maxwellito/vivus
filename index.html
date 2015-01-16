@@ -10,11 +10,13 @@
 		<style type="text/css">
 
 			/* Base style */
+			html {
+				font-size: 24px;
+			}
 			body {
 				margin: 0 0 40px;
 				font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
 				font-weight: 100;
-				font-size: 24px;
 				color: #666666;
 				background-color: #F9F9F9;
 				word-break: break-word;
@@ -27,7 +29,8 @@
 				font-weight: 100;
 			}
 			p {
-				font-size: 1em;
+				font-size: 1rem;
+				line-height: 1.4rem;
 			}
 			dl dt {
 				font-weight: bold;
@@ -41,7 +44,7 @@
 				border: 1px solid #666666;
 				color: #666666;
 				background-color: rgba(0,0,0,0);
-				font-size: 16px;
+				font-size: 0.6rem;
 				font-weight: 100;
 				text-decoration: none;
 				cursor: pointer;
@@ -60,10 +63,12 @@
 			}
 			.smaller {
 				margin: 4px 0;
-				font-size: 0.75em;
+				font-size: 0.75rem;
+				line-height: 1.05rem;
 			}
 			.bigger {
-				font-size: 1em;
+				font-size: 1rem;
+				line-height: 1.4rem;
 			}
 			.clearer {
 				clear: both;
@@ -85,14 +90,16 @@
 				padding: 0 12px;
 			}
 			.col3 p {
-				font-size: 0.75em;
+				font-size: 0.75rem;
+				line-height: 1.05rem;
 			}
 			.code {
 				overflow: hidden;
 				margin: 0; padding: 10px;
 				border: none;
 				background-color: rgba(0,0,0,0.1);
-				font-size: 0.6125em;
+				font-size: 0.6125rem;
+				line-height: 0.8575rem;
 				font-family: monospace;
 			}
 			.bloc {
@@ -128,12 +135,12 @@
 				width: 400px; height: 320px;
 			}
 			.goodbye-head {
-				font-size: 1.5em;
+				font-size: 1.5rem;
 				text-align: center;
 				margin-bottom: 0;
 			}
 			.goodbye-sub {
-				font-size: 0.875em;
+				font-size: 0.875rem;
 				text-align: center;
 				margin: 0 0 20px;
 			}
@@ -311,7 +318,7 @@
 			<h2>How it works</h2>
 			<p>To get this effect, the script uses the CSS property <i>strokeDashoffset</i>. This property manages the stroke offset on every line of the SVG. Now, all we have to do is add some JavaScript to update this value progressively and the magic begins.
 			<br>
-			However, there's a problem with this. The <i>strokeDashoffset</i> property is only available on the path elements. This is an issue because in an SVG there are a lot of elements such as <i>circle</i>, <i>rect</i>, <i>line</i> and <i>polyline</i> which will break the animation. So to fix this, there is another class available in the repo called <i>pathformer</i>. It's made for transforming all objects of your SVG into <i>path</i> elements to be able to use <i>strokeDashoffset</i> and animate your SVGs.</p>
+			However, there's a problem with this. The <i>strokeDashoffset</i> property is only available on the path elements. This is an issue because in an SVG there are a lot of elements such as <i>circle</i>, <i>rect</i>, <i>line</i> and <i>polyline</i> which will break the animation. So to fix this, there is another class available in the repo called <i>pathformer</i>. It's made for transforming most objects of your SVG into <i>path</i> elements to be able to use <i>strokeDashoffset</i> and animate your SVGs.</p>
 
 			<p>The code is inspired from other repositories. The drawer is inspired from the excellent <a href="http://tympanus.net/codrops/">Codrops</a> post about <a href="http://tympanus.net/codrops/2013/12/30/svg-drawing-animation/">SVG Drawing Animation</a> (if you didn't know about this website, get ready to have your mind blown). The <i>pathformer</i> is inspired from <a href="https://github.com/Waest/SVGPathConverter">SVGPathConverter</a> by <a href="https://github.com/Waest">Waest</a>.</p>
 		</div>
