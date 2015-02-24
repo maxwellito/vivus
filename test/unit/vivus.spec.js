@@ -38,18 +38,21 @@ describe('Vivus', function () {
     });
 
     it('should have timing functions set', function () {
-      expect(Vivus.TIMING_NEUTRAL).toBeDefined();
-      expect(Vivus.TIMING_EASE_IN).toBeDefined();
-      expect(Vivus.TIMING_EASE_OUT).toBeDefined();
+      expect(Vivus.LINEAR).toBeDefined();
+      expect(Vivus.EASE).toBeDefined();
+      expect(Vivus.EASE_IN).toBeDefined();
+      expect(Vivus.EASE_OUT).toBeDefined();
     });
 
     it('should have timing functions returning correct value on limits', function () {
-      expect(Vivus.TIMING_NEUTRAL(0)).toEqual(0);
-      expect(Vivus.TIMING_NEUTRAL(1)).toEqual(1);
-      expect(Vivus.TIMING_EASE_IN(0)).toEqual(0);
-      expect(Vivus.TIMING_EASE_IN(1)).toEqual(1);
-      expect(Vivus.TIMING_EASE_OUT(0)).toEqual(0);
-      expect(Vivus.TIMING_EASE_OUT(1)).toEqual(1);
+      expect(Vivus.LINEAR(0)).toEqual(0);
+      expect(Vivus.LINEAR(1)).toEqual(1);
+      expect(Vivus.EASE(0)).toEqual(0);
+      expect(Vivus.EASE(1)).toEqual(1);
+      expect(Vivus.EASE_IN(0)).toEqual(0);
+      expect(Vivus.EASE_IN(1)).toEqual(1);
+      expect(Vivus.EASE_OUT(0)).toEqual(0);
+      expect(Vivus.EASE_OUT(1)).toEqual(1);
     });
   });
 
@@ -81,7 +84,7 @@ describe('Vivus', function () {
     });
 
     it('should throw an error if the ID given is not related to a SVG element', function () {
-      var divTag = document.createElementNS('http://www.w3.org/2000/div','div');
+      var divTag = document.createElement('div');
       divTag.id = 'my-div';
       document.body.appendChild(divTag);
       expect(function () {
@@ -95,7 +98,7 @@ describe('Vivus', function () {
       expect(function () { new Vivus(false); }).toThrow(new Error('Vivus [constructor]: "element" parameter must be a string or a SVGelement'));
       expect(function () { new Vivus(new Date()); }).toThrow(new Error('Vivus [constructor]: "element" parameter must be a string or a SVGelement'));
       expect(function () { new Vivus(function () {}); }).toThrow(new Error('Vivus [constructor]: "element" parameter must be a string or a SVGelement'));
-      expect(function () { new Vivus(document.createElementNS('http://www.w3.org/2000/svg','div')); }).toThrow(new Error('Vivus [constructor]: "element" parameter must be a string or a SVGelement'));
+      expect(function () { new Vivus(document.createElement('div')); }).toThrow(new Error('Vivus [constructor]: "element" parameter must be a string or a SVGelement'));
     });
 
     // Options
@@ -238,6 +241,18 @@ describe('Vivus', function () {
         });
       });
 
+      it('should call the callback once the reverse animation is finished', function (done) {
+        myVivus = new Vivus(svgTag, {
+          type: 'oneByOne',
+          duration: 2
+        }, function () {
+          expect(true).toBe(true);
+          done();
+        });
+
+        myVivus.finish().play(-1);
+      });
+
       it('should call destroy method once the animation is finished', function (done) {
         var destroySpy = jasmine.createSpy('spy');
         myVivus = new Vivus(svgTag, {
@@ -341,6 +356,16 @@ describe('Vivus', function () {
       expect(function () {myVivus.play({});}).toThrow(new Error('Vivus [play]: invalid speed'));
       expect(function () {myVivus.play([]);}).toThrow(new Error('Vivus [play]: invalid speed'));
       expect(function () {myVivus.play('1');}).toThrow(new Error('Vivus [play]: invalid speed'));
+    });
+
+    it('should return the correct status', function () {
+      expect(myVivus.getStatus()).toEqual('start');
+      myVivus.setFrameProgress(0.5);
+      expect(myVivus.getStatus()).toEqual('progress');
+      myVivus.finish();
+      expect(myVivus.getStatus()).toEqual('end');
+      myVivus.reset();
+      expect(myVivus.getStatus()).toEqual('start');
     });
 
     it('should play with the normal speed by default', function () {

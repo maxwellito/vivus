@@ -1,6 +1,6 @@
 /**
  * vivus - JavaScript library to make drawing animation on SVG
- * @version v0.1.2
+ * @version v0.2.0
  * @link https://github.com/maxwellito/vivus
  * @license MIT
  */
@@ -40,7 +40,7 @@ function Pathformer(element) {
       throw new Error('Pathformer [constructor]: "element" parameter is not related to an existing ID');
     }
   }
-  if (element.constructor === SVGSVGElement) {
+  if (element.constructor === SVGSVGElement || element.constructor === SVGElement) {
     this.el = element;
   } else {
     throw new Error('Pathformer [constructor]: "element" parameter must be a string or a SVGelement');
@@ -260,6 +260,11 @@ var requestAnimFrame, cancelAnimFrame, parsePositiveInt;
  *   duration: <int> (in frames)
  *   start: 'inViewport'|'manual'|'autostart' (start automatically the animation, default: inViewport)
  *   delay: <int> (delay between the drawing of first and last path)
+ *   dashGap <integer> whitespace extra margin between dashes
+ *   pathTimingFunction <function> timing animation function for each path element of the SVG
+ *   animTimingFunction <function> timing animation function for the complete SVG
+ *   forceRender <boolean> force the browser to re-render all updated path items
+ *   selfDestroy <boolean> removes all extra styling on the SVG, and leaves it as original
  *
  * The attribute 'type' is by default on 'delayed'.
  *  - 'delayed'
@@ -305,11 +310,18 @@ function Vivus (element, options, callback) {
 
 /**
  * Timing functions
+ ************************************** 
  * 
+ * Default functions to help developers.
+ * It always take a number as parameter (between 0 to 1) then
+ * return a number (between 0 and 1)
  */
-Vivus.TIMING_NEUTRAL  = function (x) {return x;};
-Vivus.TIMING_EASE_OUT = function (x) {return 1 - Math.pow(1-x, 3);};
-Vivus.TIMING_EASE_IN  = function (x) {return Math.pow(x, 3);};
+
+Vivus.LINEAR   = function (x) {return x;};
+Vivus.EASE     = function (x) {return -Math.cos(x * Math.PI) / 2 + 0.5;};
+Vivus.EASE_OUT = function (x) {return 1 - Math.pow(1-x, 3);};
+Vivus.EASE_IN  = function (x) {return Math.pow(x, 3);};
+
 
 /**
  * Setters
@@ -336,7 +348,7 @@ Vivus.prototype.setElement = function (element) {
       throw new Error('Vivus [constructor]: "element" parameter is not related to an existing ID');
     }
   }
-  if (element.constructor === SVGSVGElement) {
+  if (element.constructor === SVGSVGElement || element.constructor === SVGElement) {
     this.el = element;
   } else {
     throw new Error('Vivus [constructor]: "element" parameter must be a string or a SVGelement');
@@ -385,8 +397,8 @@ Vivus.prototype.setOptions = function (options) {
   this.forceRender = options.hasOwnProperty('forceRender') ? !!options.forceRender : this.isIE;
   this.selfDestroy = !!options.selfDestroy;
 
-  this.animTimingFunction = options.animTimingFunction || Vivus.TIMING_NEUTRAL;
-  this.pathTimingFunction = options.pathTimingFunction || Vivus.TIMING_NEUTRAL;
+  this.animTimingFunction = options.animTimingFunction || Vivus.LINEAR;
+  this.pathTimingFunction = options.pathTimingFunction || Vivus.LINEAR;
 
   if (this.delay >= this.duration) {
     throw new Error('Vivus [constructor]: delay must be shorter than duration');
@@ -530,6 +542,7 @@ Vivus.prototype.drawer = function () {
   if (this.currentFrame <= 0) {
     this.stop();
     this.reset();
+    this.callback(this);
   } else if (this.currentFrame >= this.frameLength) {
     this.stop();
     this.currentFrame = this.frameLength;
@@ -634,6 +647,21 @@ Vivus.prototype.starter = function () {
  */
 
 /**
+ * Get the current status of the animation between
+ * three different states: 'start', 'progress', 'end'.
+ * @return {string} Instance status
+ */
+Vivus.prototype.getStatus = function () {
+  return this.currentFrame === 0 ? 'start' : this.currentFrame === this.frameLength ? 'end' : 'progress';
+};
+
+
+/**
+ * Controls
+ **************************************
+ */
+
+/**
  * Reset the instance to the initial state : undraw
  * Be careful, it just reset the animation, if you're
  * playing the animation, this won't stop it. But just
@@ -641,7 +669,28 @@ Vivus.prototype.starter = function () {
  *
  */
 Vivus.prototype.reset = function () {
-  this.currentFrame = 0;
+  return this.setFrameProgress(0);
+};
+
+/**
+ * Set the instance to the final state : drawn
+ * Be careful, it just set the animation, if you're
+ * playing the animation on rewind, this won't stop it.
+ * But just make it start from the end.
+ *
+ */
+Vivus.prototype.finish = function () {
+  return this.setFrameProgress(1);
+};
+
+/**
+ * Set the level of progress of the drawing.
+ * 
+ * @param {number} progress Level of progress to set
+ */
+Vivus.prototype.setFrameProgress = function (progress) {
+  progress = Math.min(1, Math.max(0, progress));
+  this.currentFrame = Math.round(this.frameLength * progress);
   this.trace();
   return this;
 };

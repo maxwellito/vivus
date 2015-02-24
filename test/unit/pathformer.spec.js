@@ -58,7 +58,7 @@ describe('Pathformer', function () {
     });
 
     it('should throw an error if the ID given is not related to a SVG element', function () {
-      var divTag = document.createElementNS('http://www.w3.org/2000/div','div');
+      var divTag = document.createElement('div');
       divTag.id = 'my-div';
       document.body.appendChild(divTag);
       expect(function () {
@@ -72,7 +72,7 @@ describe('Pathformer', function () {
       expect(function () { new Pathformer(false); }).toThrow(new Error('Pathformer [constructor]: "element" parameter must be a string or a SVGelement'));
       expect(function () { new Pathformer(new Date()); }).toThrow(new Error('Pathformer [constructor]: "element" parameter must be a string or a SVGelement'));
       expect(function () { new Pathformer(function () {}); }).toThrow(new Error('Pathformer [constructor]: "element" parameter must be a string or a SVGelement'));
-      expect(function () { new Pathformer(document.createElementNS('http://www.w3.org/2000/svg','div')); }).toThrow(new Error('Pathformer [constructor]: "element" parameter must be a string or a SVGelement'));
+      expect(function () { new Pathformer(document.createElement('div')); }).toThrow(new Error('Pathformer [constructor]: "element" parameter must be a string or a SVGelement'));
     });
   });
 

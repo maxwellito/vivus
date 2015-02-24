@@ -46,6 +46,10 @@
 				cursor: pointer;
 				outline: 0;
 			}
+			button.active, .button.active {
+				color: #F9F9F9;
+				background-color: #666666;
+			}
 			i {
 				background-color: rgba(0,0,0,0.1);
 				border-radius: 4px;
@@ -98,6 +102,7 @@
 				color: #f9f9f9;
 				padding: 1px 0 30px;
 				border-color: #f9f9f9;
+				clear: both;
 			}
 			.bloc button {
 				border: 1px solid #f9f9f9;
@@ -120,11 +125,17 @@
 			.example-description {
 				margin-left: 440px;
 			}
-			.example-svg {
-				float: left;
+			.timing-description {
+				min-height: 200px;
+				margin-right: 240px;
 			}
 			#polaroid {
+				float: left;
 				width: 400px; height: 320px;
+			}
+			#timing-example {
+				float: right;
+				width: 175px; height: 175px;
 			}
 			.goodbye-head {
 				font-size: 1.5em;
@@ -138,6 +149,10 @@
 			}
 
 			/* Media queries */
+			@media (max-width: 960px) {
+				.button-group { display: block; line-height: 1.8em; }
+			}
+
 			@media (min-width: 768px) {
 				.col3 { border-bottom: none; }
 			}
@@ -146,6 +161,8 @@
 				.code { overflow: scroll; }
 				#polaroid { width: 100%; max-height: 300px; }
 				.example-description { margin-left: 0; }
+				.timing-description { margin-right: 0; }
+				#timing-example { float: none; width: 100%; }
 
 				.col3 { width: 100%; float: none; margin-bottom: 25px; padding-bottom: 25px; border-bottom-width: 1px; min-height: 200px; }
 				.col3:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom-width: 0px; }
@@ -154,6 +171,7 @@
 			@media (min-width: 481px) and (max-width: 767px) {
 				#polaroid { width: 100%; max-height: 300px; }
 				.example-description { margin-left: 0; }
+				.timing-description { margin-right: 0; }
 
 				.col3:nth-child(2n) svg {
 					width: 200px;
@@ -356,6 +374,12 @@
 					<dt>dashGap <small>integer</small></dt>
 					<dd>whitespace extra margin between dashes. The default value is 2. Increase it in case of glitches at the initial state of the animation</dd>
 
+					<dt>pathTimingFunction <small>function</small></dt>
+					<dd>timing animation function for each path element of the SVG. The function must accept a value between 0 and 1, then return a number between 0 and 1.</dd>
+
+					<dt>animTimingFunction <small>function</small></dt>
+					<dd>timing animation function for the complete SVG. The function must accept a value between 0 and 1, then return a number between 0 and 1.</dd>
+
 					<dt>forceRender <small>boolean</small></dt>
 					<dd>force the browser to re-render all updated path items. By default, the value is true on IE only. (<a href="https://github.com/maxwellito/vivus#troubleshoot">more details</a>)</dd>
 
@@ -370,53 +394,50 @@
 
 		<!-- Scripting -->
 		<div class="content">
-			<h2>Scenarize</h2>
-			<p>This feature allows you to script the animation of your SVG. To do this, the custom values will be set directly in the DOM of the SVG.</p>
 
-			<hr>
+			<h2>Timing function</h2>
+			<p>To give more freedom, it's possible to override the animation of each path and/or the entire SVG. It works a bit like the CSS animation timing function. But instead of using a cubic-bezier function, it use a simple JavaScript function. It must accept a number as parameter (between 0 to 1), then return a number (also between 0 and 1). It's a hook.</p>
+			<p>Here an example test to play around with the different properties available.</p>
 
-			<h3>{type: '<i>scenario</i>'}</h3>
-			<p>This type is easier to understand, but takes longer to implement. All you have to do is define the start and duration of each element with <i>data-start</i> and <i>data-duration</i> attributes. If this is missing, it will use the default values given to the constructor.</p>
-			<p>The best part of this type is the flexibility it provides. You don't have to respect the order/stack of the SVG and you can start with the last element, then continue with the first to finish with all the rest at the same time.</p>
-
-			<p>You will then have to define custom rules for each element in your SVG via extra attributes in your SVG DOM :</p>
-
-			<dl>
-				<dt>data-start <small>integer</small></dt>
-				<dd>time when the animation must start, in frames</dd>
-
-				<dt>data-duration <small>integer</small></dt>
-				<dd>animation duration of this path, in frames</dd>
-			</dl>
-
-			<pre class="code">
-&lt;svg&gt;
-  &lt;circle <i>data-start=&quot;0&quot;</i> <i>data-duration=&quot;10&quot;</i> ... /&gt;
-  &lt;circle <i>data-start=&quot;20&quot;</i> <i>data-duration=&quot;10&quot;</i> ... /&gt;
-  &lt;circle <i>data-start=&quot;20&quot;</i> <i>data-duration=&quot;20&quot;</i> ... /&gt;
-  &lt;circle <i>data-start=&quot;0&quot;</i> <i>data-duration=&quot;30&quot;</i> ... /&gt;
-&lt;/svg&gt;</pre>
-
-			<hr>
-
-			<h3>{type: '<i>scenario-sync</i>'}</h3>
-			<p>It's not the sexiest code ever, but it's quite flexible. In addition to this, the behaviour is fairly different.</p>
-			<p>By using this animation type, the default behaviour is the same as `oneByOne`. However, you can define some properties on a specific path item such as the duration, the delay to start (from the end of the previous path) and if it should be played asynchronously..</p>
-
-			<dl>
-				<dt>data-delay <small>integer</small></dt>
-				<dd>time between the end of the animation of the previous path and the start of the current path, in frames</dd>
-
-				<dt>data-duration <small>integer</small></dt>
-				<dd>animation duration of this path, in frames</dd>
-
-				<dt>data-async <small>(no value required)</small></dt>
-				<dd>make the drawing of this path asynchronous. It means the next path will start at the same time.</dd>
-			</dl>
-
-			<p>If a path does not have an attribute for duration or delay then the default values, set in the options, will be used.</p>
-			<p>For an easier debug have a look to the attribute <i>map</i> of your Vivus object. This contains the mapping of your animation. If you're using Google Chrome, I recommend you use `console.table` to get a nice output of the array which will make your debug easier.</p>
-
+			<div>
+				<svg id="timing-example" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve" onclick="timing&&timing.reset().play();">
+					<g fill="none" stroke="#666666" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10">
+						<line x1="68.18066" y1="68.18066" x2="131.81934" y2="131.81934"/>
+						<line x1="68.18066" y1="131.82031" x2="131.81934" y2="68.17969"/>
+						<circle cx="100" cy="100" r="65"/>
+						<circle cx="100" cy="100" r="75"/>
+						<circle cx="100" cy="100" r="85"/>
+						<circle cx="100" cy="100" r="95"/>
+					</g>
+				</svg>
+				<div class="timing-description">
+					<p>Type
+						<span class="button-group">
+							<button onclick="timingTest(this,'type','delayed');" class="active">delayed</button>
+							<button onclick="timingTest(this,'type','async');">async</button>
+							<button onclick="timingTest(this,'type','oneByOne');">oneByOne</button>
+						</span>
+					</p>
+					<p>Path timing function
+						<span class="button-group">
+							<button onclick="timingTest(this,'path','linear');" class="active">linear</button>
+							<button onclick="timingTest(this,'path','ease');">ease</button>
+							<button onclick="timingTest(this,'path','easeIn');">ease-in</button>
+							<button onclick="timingTest(this,'path','easeOut');">ease-out</button>
+							<button onclick="timingTest(this,'path','easeOutBounce');">ease-out bounce</button>
+						</span>
+					</p>
+					<p>Anim timing function
+						<span class="button-group">
+							<button onclick="timingTest(this,'anim','linear');" class="active">linear</button>
+							<button onclick="timingTest(this,'anim','ease');">ease</button>
+							<button onclick="timingTest(this,'anim','easeIn');">ease-in</button>
+							<button onclick="timingTest(this,'anim','easeOut');">ease-out</button>
+							<button onclick="timingTest(this,'anim','easeOutBounce');">ease-out bounce</button>
+						</span>
+					</p>
+				</div>
+			</div>
 		</div>
 
 		<!-- Scripting example -->
@@ -424,7 +445,7 @@
 			<div class="content">
 
 				<div class="script-example">
-					<svg id="polaroid" class="example-svg" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+					<svg id="polaroid" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
 				 viewBox="0 0 200 160" enable-background="new 0 0 200 160" onclick="pola.reset().play();">
 
 				 		<!-- Case -->
@@ -485,8 +506,9 @@
 
 					</svg>
 					<div class="example-description">
-						<p>Here is an example using <i>scenario-sync</i>.<br>I would recommend you look at the source code, it's well commented.</p>
-						<p>Firstly, the case is drawn asynchronously. Then, after a small pause it starts to draw the lens, followed by the flash and then the picture output. Finally, it finishes with the stripes on the front.</p>
+						<h2>Scenarize</h2>
+						<p>This feature allows you to script the animation of your SVG. To do this, the custom values will be set directly in the DOM of the SVG.</p>
+						<p>Here is an example using <i>scenario-sync</i>.<br>I would recommend you look at the source code and the readme file for more information.</p>
 						<button onclick="pola.reset().play();">replay</button>
 						<button onclick="pola.play(-3);">rewind</button>
 					</div>
@@ -505,7 +527,45 @@
 		<!-- Le scripts -->
 		<script src="dist/vivus.js"></script>
 		<script>
-			var hi = new Vivus('hi-there', {type: 'scenario-sync', duration: 20, start: 'autostart', forceRender: false, dashGap: 20}, function () {
+			function easeOutBounce (x) {
+				var base = -Math.cos(x * (0.5 * Math.PI)) + 1;
+				var rate = Math.pow(base,1.5);
+				var rateR = Math.pow(1 - x, 2);
+				var progress = -Math.abs(Math.cos(rate * (2.5 * Math.PI) )) + 1;
+				return (1- rateR) + (progress * rateR);
+			}
+			
+			var timing,
+				timingProps = {
+					type: 'delayed',
+					duration: 150,
+					start: 'autostart',
+					pathTimingFunction: Vivus.LINEAR,
+					animTimingFunction: Vivus.LINEAR
+				},
+				animFunctions = {
+					linear: Vivus.LINEAR,
+					ease: Vivus.EASE,
+					easeIn: Vivus.EASE_IN,
+					easeOut: Vivus.EASE_OUT,
+					easeOutBounce: easeOutBounce
+				};
+
+			function timingTest (buttonEl, property, type) {
+				var activeSibling = buttonEl.parentNode.querySelector('button.active');
+				activeSibling.classList.remove('active');
+				buttonEl.classList.add('active');
+
+				timingProps.type = (property === 'type') ? type : timingProps.type;
+				timingProps.pathTimingFunction = (property === 'path') ? animFunctions[type] : timingProps.pathTimingFunction;
+				timingProps.animTimingFunction = (property === 'anim') ? animFunctions[type] : timingProps.animTimingFunction;
+
+				timing && timing.stop().destroy();
+				timing = new Vivus('timing-example', timingProps);
+			}
+
+			var hi = new Vivus('hi-there', {type: 'scenario-sync', duration: 20, start: 'autostart', dashGap: 20, forceRender: false},
+				function () {
 					if (window.console) {
 						console.log('Animation finished. [log triggered from callback]');
 					}

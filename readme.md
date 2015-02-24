@@ -72,6 +72,10 @@ defines how to trigger the animation
 time between the drawing of first and last path, in frames (only for delayed animations)
 - `dashGap` (integer)
 whitespace extra margin between dashes. The default value is `2`. Increase it in case of glitches at the initial state of the animation
+- `pathTimingFunction` (function)
+timing animation function for each path element of the SVG. The function must accept a value between 0 and 1, then return a number between 0 and 1.
+- `animTimingFunction` (function)
+timing animation function for the complete SVG. The function must accept a value between 0 and 1, then return a number between 0 and 1.
 - `forceRender` (boolean)
 force the browser to re-render all updated path items. By default, the value is `true` on IE only. (check the 'troubleshoot' section for more details)
 - `selfDestroy` (boolean) removes all extra styling on the SVG, and leaves it as original
@@ -91,6 +95,23 @@ myVivus
   .reset()
   .play(2)
 ```
+
+## Timing function
+
+To give more freedom, it's possible to override the animation of each path and/or the entire SVG. It works a bit like the CSS animation timing function. But instead of using a cubic-bezier function, it use a simple JavaScript function. It must accept a number as parameter (between 0 to 1), then return a number (also between 0 and 1). It's a hook.
+
+If you don't want to create your own, timing methods are available via the constructor object: `EASE`, `EASE-IN` and `EASE-OUT`. Then set it in the option object to enjoy them.
+
+```js
+// Here, the ease animation will be use for the global drawing.
+new Vivus('my-svg-id', {
+    type: 'delayed',
+    duration: 200,
+    animTimingFunction: Vivus.EASE
+}, myCallback);
+```
+
+**WARNING**: `animTimingFunction` is called at every frame of the animation, and `pathTimingFunction` is also called at every frame for each path of your SVG. So be careful about them. Keep it simple, or it can affect the performances.
 
 ## Scenarize
 
