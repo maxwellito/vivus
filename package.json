@@ -2,7 +2,7 @@
   "name": "vivus",
   "version": "0.2.0",
   "description": "JavaScript library to make drawing animation on SVG",
-  "main": "index.js",
+  "main": "dist/vivus.js",
   "scripts": {
     "test": "karma"
   },
@@ -32,5 +32,8 @@
     "karma-chrome-launcher": "^0.1.4",
     "karma-coverage": "^0.2.6",
     "karma-jasmine": "~0.2.0"
+  },
+  "spm": {
+    "main": "dist/vivus.js"
   }
 }
