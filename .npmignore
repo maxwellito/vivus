@@ -1,0 +1,6 @@
+test
+assets
+node_modules
+spm_modules
+coverage
+.DS_Store
