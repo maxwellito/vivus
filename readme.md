@@ -6,6 +6,8 @@ Vivus is a lightweight JavaScript class (with no dependencies) that allows you t
 
 Available via Bower: `bower install vivus`
 
+Join the conversation on [Gitter](https://gitter.im/maxwellito/vivus)
+
 ## Animations
 
 On the following images, the pink color represents the `duration` value, and the blue one is for `delay` value.

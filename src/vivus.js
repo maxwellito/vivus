@@ -53,19 +53,14 @@ var requestAnimFrame, cancelAnimFrame, parsePositiveInt;
 function Vivus (element, options, callback) {
 
   // Setup
+  this.isReady = false;
   this.setElement(element);
   this.setOptions(options);
   this.setCallback(callback);
 
-  // Set object variables
-  this.frameLength = 0;
-  this.currentFrame = 0;
-  this.map = [];
-
-  // Start
-  new Pathformer(element);
-  this.mapping();
-  this.starter();
+  if (this.isReady) {
+    this.init();
+  }
 }
 
 /**
@@ -108,9 +103,37 @@ Vivus.prototype.setElement = function (element) {
       throw new Error('Vivus [constructor]: "element" parameter is not related to an existing ID');
     }
   }
-  if (element.constructor === SVGSVGElement || element.constructor === SVGElement) {
+
+  switch (element.constructor) {
+  case SVGSVGElement:
+  case SVGElement:
     this.el = element;
-  } else {
+    this.isReady = true;
+    break;
+
+  case HTMLObjectElement:
+    // If the Object is already loaded
+    this.el = element.contentDocument.querySelector('svg');
+    if (this.el) {
+      this.isReady = true;
+      return;
+    }
+
+    // If we have to wait for it
+    var self = this;
+    element.addEventListener('load', function () {
+      self.el = element.contentDocument.querySelector('svg');
+      if (!self.el) {
+        throw new Error('Vivus [constructor]: object loaded does not contain any SVG');
+      }
+      else {
+        self.isReady = true;
+        self.init();
+      }
+    });
+    break;
+
+  default:
     throw new Error('Vivus [constructor]: "element" parameter must be a string or a SVGelement');
   }
 };
@@ -156,6 +179,7 @@ Vivus.prototype.setOptions = function (options) {
   this.dashGap     = parsePositiveInt(options.dashGap, 2);
   this.forceRender = options.hasOwnProperty('forceRender') ? !!options.forceRender : this.isIE;
   this.selfDestroy = !!options.selfDestroy;
+  this.onReady     = options.onReady;
 
   this.animTimingFunction = options.animTimingFunction || Vivus.LINEAR;
   this.pathTimingFunction = options.pathTimingFunction || Vivus.LINEAR;
@@ -365,6 +389,31 @@ Vivus.prototype.renderPath = function (index) {
         newPath = pathObj.el.cloneNode(true);
     pathObj.el.parentNode.replaceChild(newPath, pathObj.el);
     pathObj.el = newPath;
+  }
+};
+
+/**
+ * When the SVG object is loaded and ready,
+ * this method will continue the initialisation.
+ *
+ * This this mainly due to the case of passing an
+ * object tag in the constructor. It will wait
+ * the end of the loading to initialise.
+ * 
+ */
+Vivus.prototype.init = function () {
+  // Set object variables
+  this.frameLength = 0;
+  this.currentFrame = 0;
+  this.map = [];
+
+  // Start
+  new Pathformer(this.el);
+  this.mapping();
+  this.starter();
+
+  if (this.onReady) {
+    this.onReady(this);
   }
 };
 

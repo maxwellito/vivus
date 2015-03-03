@@ -29,7 +29,7 @@ function Pathformer(element) {
       throw new Error('Pathformer [constructor]: "element" parameter is not related to an existing ID');
     }
   }
-  if (element.constructor === SVGSVGElement || element.constructor === SVGElement) {
+  if (element.constructor instanceof SVGElement || /^svg$/i.test(element.nodeName)) {
     this.el = element;
   } else {
     throw new Error('Pathformer [constructor]: "element" parameter must be a string or a SVGelement');
