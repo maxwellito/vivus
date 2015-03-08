@@ -126,6 +126,12 @@ describe('Pathformer', function () {
         output = Pathformer.prototype.polylineToPath(polyline);
         expect(output.d.indexOf('43')).toEqual(-1);
       });
+
+      it('should accept points defined with and without commas', function () {
+        var outputWithPoint = Pathformer.prototype.polylineToPath(polyline);
+        var outputWithoutPoint = Pathformer.prototype.polylineToPath({points: '2 3 4 5 6 7'});
+        expect(outputWithPoint).toEqual(outputWithoutPoint);
+      });
     });
 
     // Polygon object
