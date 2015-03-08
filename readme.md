@@ -4,10 +4,12 @@ Demo available on http://maxwellito.github.io/vivus
 
 Vivus is a lightweight JavaScript class (with no dependencies) that allows you to animate SVGs, giving them the appearence of being drawn. There are a variety of different animations available, as well as the option to create a custom script to draw your SVG in whatever way you like.
 
-Available via Bower: `bower install vivus`
-or vis npm: `npm install vivus`
-or vis spm: `spm install vivus` [![](http://spmjs.io/badge/vivus)](http://spmjs.io/package/vivus)
-or via jsDelivr CDN: `//cdn.jsdelivr.net/vivus/0.1.2/vivus.min.js`
+Available via 
+
+ - Bower: `bower install vivus`
+ - NPM: `npm install vivus` ([link](https://www.npmjs.com/package/vivus))
+ - SPM: `spm install vivus` ([link](http://spmjs.io/package/vivus))
+ - jsDelivr CDN: `//cdn.jsdelivr.net/vivus/0.1.2/vivus.min.js`
 
 Join the conversation on [Gitter](https://gitter.im/maxwellito/vivus)
 
@@ -43,9 +45,13 @@ However, there's a problem with this. The `strokeDashoffset` property is only av
 
 There are few conditions that your SVG must meet:
 
+- The SVG must be inline in your HTML, otherwise JavaScript cannot manipulate it.
+
 - All elements must have a stroke property and cannot be filled. This is because the animation only looks to progressively draw strokes and will not check for filled colours. For example: fill: "none"; stroke: "#FFF";
 
 - You shoud avoid creating any hidden path elements in your SVG. Vivus considers them all eligible to be animated, so it is advised to remove them before playing with it. If they are not removed the animation might not achieve the desired effect, with blank areas and gaps appearing.
+
+- `text` elements aren't allowed, they cannot be transformed into `path` elements. See [#22](https://github.com/maxwellito/vivus/issues/22) for more details.
 
 The code is inspired from other repositories. The drawer is inspired from the excellent [Codrops](http://tympanus.net/codrops/) about the post [SVG Drawing Animation](http://tympanus.net/codrops/2013/12/30/svg-drawing-animation/) (if you don't know this website, get ready to have your mind blown). Then for the pathformer, there is a lot of work from [SVGPathConverter](https://github.com/Waest/SVGPathConverter) by [Waest](https://github.com/Waest).
 
@@ -205,7 +211,7 @@ Then you can run Gulp with one of the following tasks:
 
 ### Internet Explorer
 
-Some SVG werent't working at all. The only solution found was to clone and replace each updated path element. Of course this solution requires more resources and a lot of DOM manipulation, but it will give a smooth animation like other browsers. This fallback is only applied on Internet Explorer (all versions), and can be disabled via the option `forceRender`.
+Some SVG weren't working at all. The only solution found was to clone and replace each updated path element. Of course this solution requires more resources and a lot of DOM manipulation, but it will give a smooth animation like other browsers. This fallback is only applied on Internet Explorer (all versions), and can be disabled via the option `forceRender`.
 
 Replacing each updated path by a clone was the only way to force IE to re-render the SVG. On some SVGs this trick is not necessary, but IE can be a bit tricky with this. If you're worried about performances, I would recommend you to check if your SVG works correctly by disabling the `forceRender` option. If it works correctly on IE, then keep it like this.
 
@@ -213,7 +219,7 @@ By default, `forceRender` is `true` on Internet Explorer only.
 
 ### Firefox
 
-For Firefox users, you might encounter some glitches depending on your SVG and browser version. On versions before 36, there is a problem to retrieve path length via `getTotalLength` method. Returning 174321516544 instead of 209 (I'm not exaggerating, this comes from a real case), messing up the entire animation treatment. Unfortunately, there's nothing that this library can do, this is due to Firefox. I hope to find a workaround, but at the moment I can only recommend that you test your animation on previous versions of Firefox.
+For Firefox users, you might encounter some glitches depending on your SVG and browser version. On versions before 36, there is a problem retrieving path length via `getTotalLength` method. Returning 174321516544 instead of 209 (I'm not exaggerating, this comes from a real case), messing up the entire animation treatment. Unfortunately, there's nothing that this library can do, this is due to Firefox. I hope to find a workaround, but at the moment I can only recommend that you test your animation on previous versions of Firefox.
 
 ## Debug
 
