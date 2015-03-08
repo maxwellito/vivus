@@ -6,16 +6,30 @@
  */
 describe('Vivus', function () {
 
-  var myVivus,
+  var ObjectElementMock,
+    myVivus,
+    objTag,
+    wrapTag,
     svgTag,
     svgTagId = 'my-svg';
+
+  // Mock ObjectElement and it's constructor via createElement
+  ObjectElementMock = function () {
+    this.loadCb = [];
+    this.addEventListener = function (evtName, cb) {
+      if (evtName === 'load') this.loadCb.push(cb);
+    }
+    this.loaded = function () {
+      for (var i = 0; i < this.loadCb.length; i++) {
+        this.loadCb[i]();
+      }
+    }
+  };
+  window.HTMLObjectElement = ObjectElementMock;
 
   beforeEach(function () {
     // Remove tag if existing
     svgTag = document.getElementById(svgTagId);
-    if (svgTag) {
-      svgTag.remove();
-    }
 
     // Create the SVG
     svgTag = document.createElementNS('http://www.w3.org/2000/svg','svg');
@@ -29,6 +43,14 @@ describe('Vivus', function () {
 
     // Insert it to the body
     document.body.appendChild(svgTag);
+
+    wrapTag = document.createElement('div');
+    wrapTag.appendChild(svgTag);
+  });
+
+  afterEach(function () {
+    // Remove tag
+    svgTag.remove();
   });
 
   describe('[basic tests]', function () {
@@ -42,6 +64,7 @@ describe('Vivus', function () {
       expect(Vivus.EASE).toBeDefined();
       expect(Vivus.EASE_IN).toBeDefined();
       expect(Vivus.EASE_OUT).toBeDefined();
+      expect(Vivus.EASE_OUT_BOUNCE).toBeDefined();
     });
 
     it('should have timing functions returning correct value on limits', function () {
@@ -53,6 +76,8 @@ describe('Vivus', function () {
       expect(Vivus.EASE_IN(1)).toEqual(1);
       expect(Vivus.EASE_OUT(0)).toEqual(0);
       expect(Vivus.EASE_OUT(1)).toEqual(1);
+      expect(Vivus.EASE_OUT_BOUNCE(0)).toEqual(0);
+      expect(Vivus.EASE_OUT_BOUNCE(1)).toEqual(1);
     });
   });
 
@@ -89,16 +114,62 @@ describe('Vivus', function () {
       document.body.appendChild(divTag);
       expect(function () {
         new Vivus('my-div');
-      }).toThrow(new Error('Vivus [constructor]: "element" parameter must be a string or a SVGelement'));
+      }).toThrow(new Error('Vivus [constructor]: "element" parameter is not valid (or miss the "file" attribute)'));
+    });
+
+    it('should accept any DOM element if `file` option is set', function () {
+      var divTag = document.createElement('div');
+      try {
+        new Vivus(divTag, {file: 'opensource.svg'});
+      }
+      catch(err) {}
+
+      expect(!!divTag.querySelector('object')).toBe(true);
     });
 
     it('should throw an error if the element is not a correct type (DOM object or string)', function () {
-      expect(function () { new Vivus({}); }).toThrow(new Error('Vivus [constructor]: "element" parameter must be a string or a SVGelement'));
-      expect(function () { new Vivus(42); }).toThrow(new Error('Vivus [constructor]: "element" parameter must be a string or a SVGelement'));
-      expect(function () { new Vivus(false); }).toThrow(new Error('Vivus [constructor]: "element" parameter must be a string or a SVGelement'));
-      expect(function () { new Vivus(new Date()); }).toThrow(new Error('Vivus [constructor]: "element" parameter must be a string or a SVGelement'));
-      expect(function () { new Vivus(function () {}); }).toThrow(new Error('Vivus [constructor]: "element" parameter must be a string or a SVGelement'));
-      expect(function () { new Vivus(document.createElement('div')); }).toThrow(new Error('Vivus [constructor]: "element" parameter must be a string or a SVGelement'));
+      expect(function () { new Vivus({}); }).toThrow(new Error('Vivus [constructor]: "element" parameter is not valid (or miss the "file" attribute)'));
+      expect(function () { new Vivus(42); }).toThrow(new Error('Vivus [constructor]: "element" parameter is not valid (or miss the "file" attribute)'));
+      expect(function () { new Vivus(false); }).toThrow(new Error('Vivus [constructor]: "element" parameter is not valid (or miss the "file" attribute)'));
+      expect(function () { new Vivus(new Date()); }).toThrow(new Error('Vivus [constructor]: "element" parameter is not valid (or miss the "file" attribute)'));
+      expect(function () { new Vivus(function () {}); }).toThrow(new Error('Vivus [constructor]: "element" parameter is not valid (or miss the "file" attribute)'));
+      expect(function () { new Vivus(document.createElement('div')); }).toThrow(new Error('Vivus [constructor]: "element" parameter is not valid (or miss the "file" attribute)'));
+    });
+
+    it('should accept object element', function () {
+      // Create a mock Object getElementById
+      objTag = new ObjectElementMock();
+      objTag.contentDocument = wrapTag;
+
+      expect(function () {
+        new Vivus(objTag);
+      }).not.toThrow();
+    });
+
+    it('the vivus state should be ready if the SVG is already loaded', function () {
+      objTag = new ObjectElementMock();
+      objTag.contentDocument = wrapTag;
+      objTag.loaded();
+      var myVivus = new Vivus(objTag);
+      expect(myVivus.isReady).toEqual(true);
+    });
+
+    it('should call `onReady` callback once the SVG is loaded', function () {
+      objTag = new ObjectElementMock();
+      objTag.contentDocument = document.createElement('div');
+      var myVivus = new Vivus(objTag);
+      objTag.contentDocument = wrapTag;
+      objTag.loaded();
+      expect(myVivus.isReady).toEqual(true);
+    });
+
+    it('should throw an error if the SVG file does not exists', function () {
+      objTag = new ObjectElementMock();
+      objTag.contentDocument = document.createElement('div');
+      var myVivus = new Vivus(objTag);
+      expect(function () {
+        objTag.loaded();
+      }).toThrow();
     });
 
     // Options

@@ -420,20 +420,20 @@
 					</p>
 					<p>Path timing function
 						<span class="button-group">
-							<button onclick="timingTest(this,'path','linear');" class="active">linear</button>
-							<button onclick="timingTest(this,'path','ease');">ease</button>
-							<button onclick="timingTest(this,'path','easeIn');">ease-in</button>
-							<button onclick="timingTest(this,'path','easeOut');">ease-out</button>
-							<button onclick="timingTest(this,'path','easeOutBounce');">ease-out bounce</button>
+							<button onclick="timingTest(this,'path','LINEAR');" class="active">linear</button>
+							<button onclick="timingTest(this,'path','EASE');">ease</button>
+							<button onclick="timingTest(this,'path','EASE_IN');">ease-in</button>
+							<button onclick="timingTest(this,'path','EASE_OUT');">ease-out</button>
+							<button onclick="timingTest(this,'path','EASE_OUT_BOUNCE');">ease-out bounce</button>
 						</span>
 					</p>
 					<p>Anim timing function
 						<span class="button-group">
-							<button onclick="timingTest(this,'anim','linear');" class="active">linear</button>
-							<button onclick="timingTest(this,'anim','ease');">ease</button>
-							<button onclick="timingTest(this,'anim','easeIn');">ease-in</button>
-							<button onclick="timingTest(this,'anim','easeOut');">ease-out</button>
-							<button onclick="timingTest(this,'anim','easeOutBounce');">ease-out bounce</button>
+							<button onclick="timingTest(this,'anim','LINEAR');" class="active">linear</button>
+							<button onclick="timingTest(this,'anim','EASE');">ease</button>
+							<button onclick="timingTest(this,'anim','EASE_IN');">ease-in</button>
+							<button onclick="timingTest(this,'anim','EASE_OUT');">ease-out</button>
+							<button onclick="timingTest(this,'anim','EASE_OUT_BOUNCE');">ease-out bounce</button>
 						</span>
 					</p>
 				</div>
@@ -542,13 +542,6 @@
 					start: 'autostart',
 					pathTimingFunction: Vivus.LINEAR,
 					animTimingFunction: Vivus.LINEAR
-				},
-				animFunctions = {
-					linear: Vivus.LINEAR,
-					ease: Vivus.EASE,
-					easeIn: Vivus.EASE_IN,
-					easeOut: Vivus.EASE_OUT,
-					easeOutBounce: easeOutBounce
 				};
 
 			function timingTest (buttonEl, property, type) {
@@ -557,8 +550,8 @@
 				buttonEl.classList.add('active');
 
 				timingProps.type = (property === 'type') ? type : timingProps.type;
-				timingProps.pathTimingFunction = (property === 'path') ? animFunctions[type] : timingProps.pathTimingFunction;
-				timingProps.animTimingFunction = (property === 'anim') ? animFunctions[type] : timingProps.animTimingFunction;
+				timingProps.pathTimingFunction = (property === 'path') ? Vivus[type] : timingProps.pathTimingFunction;
+				timingProps.animTimingFunction = (property === 'anim') ? Vivus[type] : timingProps.animTimingFunction;
 
 				timing && timing.stop().destroy();
 				timing = new Vivus('timing-example', timingProps);

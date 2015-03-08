@@ -4,7 +4,7 @@
   "description": "JavaScript library to make drawing animation on SVG",
   "main": "index.js",
   "scripts": {
-    "test": "karma"
+    "test": "karma start test/karma.conf.js"
   },
   "repository": {
     "type": "git",

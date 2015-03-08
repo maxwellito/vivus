@@ -86,7 +86,10 @@ The Vivus object has 3 control methods:
 
 - `play(speed)` Plays the animation with the speed given in parameter. This value can be negative to go backward, between 0 and 1 to go slowly, or superior to 1 to go fast. By default the value is 1.
 - `stop()` Stops the animation.
-- `reset()` Reinitialises the SVG to the original state: undraw.
+- `reset()` Reinitialises the SVG to the original state: undrawn.
+- `finish()` Set the SVG to the final state: drawn.
+- `setFrameProgress(progress)` Set the progress of the animation. Progress must be a number between 0 et 1.
+- `destroy()` Reset the SVG but make the instance out of order.
 
 These control methods return the object so you can chain the actions.
 
@@ -102,7 +105,7 @@ myVivus
 
 To give more freedom, it's possible to override the animation of each path and/or the entire SVG. It works a bit like the CSS animation timing function. But instead of using a cubic-bezier function, it use a simple JavaScript function. It must accept a number as parameter (between 0 to 1), then return a number (also between 0 and 1). It's a hook.
 
-If you don't want to create your own, timing methods are available via the constructor object: `EASE`, `EASE-IN` and `EASE-OUT`. Then set it in the option object to enjoy them.
+If you don't want to create your own, timing methods are available via the constructor object: `EASE`, `EASE_IN`, `EASE_OUT` and `EASE_OUT_BOUNCE`. Then set it in the option object to enjoy them.
 
 ```js
 // Here, the ease animation will be use for the global drawing.

@@ -29,7 +29,7 @@ function Pathformer(element) {
       throw new Error('Pathformer [constructor]: "element" parameter is not related to an existing ID');
     }
   }
-  if (element.constructor instanceof SVGElement || /^svg$/i.test(element.nodeName)) {
+  if (element.constructor instanceof window.SVGElement || /^svg$/i.test(element.nodeName)) {
     this.el = element;
   } else {
     throw new Error('Pathformer [constructor]: "element" parameter must be a string or a SVGelement');
@@ -118,12 +118,24 @@ Pathformer.prototype.rectToPath = function (element) {
  * @return {object}             Data for a `path` element
  */
 Pathformer.prototype.polylineToPath = function (element) {
+  var i, path;
   var newElement = {};
   var points = element.points.split(' ');
-  var path = 'M' + points[0];
-  for(var i = 1; i < points.length; i++) {
+  
+  // Reformatting if points are defined without commas
+  if (element.points.indexOf(',') === -1) {
+    var formattedPoints = [];
+    for (i = 0; i < points.length; i+=2) {
+      formattedPoints.push(points[i] + ',' + points[i+1]);
+    }
+    points = formattedPoints;
+  }
+
+  // Generate the path.d value
+  path = 'M' + points[0];
+  for(i = 1; i < points.length; i++) {
     if (points[i].indexOf(',') !== -1) {
-      path += 'L'+points[i];
+      path += 'L' + points[i];
     }
   }
   newElement.d = path;
@@ -134,7 +146,7 @@ Pathformer.prototype.polylineToPath = function (element) {
  * Read `polygon` element to extract and transform
  * data, to make it ready for a `path` object.
  * This method rely on polylineToPath, because the
- * logic is similar. THe path created is just closed,
+ * logic is similar. The path created is just closed,
  * so it needs an 'Z' at the end.
  *
  * @param  {DOMelement} element Polygon element to transform

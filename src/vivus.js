@@ -54,7 +54,7 @@ function Vivus (element, options, callback) {
 
   // Setup
   this.isReady = false;
-  this.setElement(element);
+  this.setElement(element, options);
   this.setOptions(options);
   this.setCallback(callback);
 
@@ -71,11 +71,17 @@ function Vivus (element, options, callback) {
  * It always take a number as parameter (between 0 to 1) then
  * return a number (between 0 and 1)
  */
-
-Vivus.LINEAR   = function (x) {return x;};
-Vivus.EASE     = function (x) {return -Math.cos(x * Math.PI) / 2 + 0.5;};
-Vivus.EASE_OUT = function (x) {return 1 - Math.pow(1-x, 3);};
-Vivus.EASE_IN  = function (x) {return Math.pow(x, 3);};
+Vivus.LINEAR          = function (x) {return x;};
+Vivus.EASE            = function (x) {return -Math.cos(x * Math.PI) / 2 + 0.5;};
+Vivus.EASE_OUT        = function (x) {return 1 - Math.pow(1-x, 3);};
+Vivus.EASE_IN         = function (x) {return Math.pow(x, 3);};
+Vivus.EASE_OUT_BOUNCE = function (x) {
+  var base = -Math.cos(x * (0.5 * Math.PI)) + 1,
+    rate = Math.pow(base,1.5),
+    rateR = Math.pow(1 - x, 2),
+    progress = -Math.abs(Math.cos(rate * (2.5 * Math.PI) )) + 1;
+  return (1- rateR) + (progress * rateR);
+};
 
 
 /**
@@ -90,7 +96,7 @@ Vivus.EASE_IN  = function (x) {return Math.pow(x, 3);};
  *
  * @param {DOM|String}   element  SVG Dom element or id of it
  */
-Vivus.prototype.setElement = function (element) {
+Vivus.prototype.setElement = function (element, options) {
   // Basic check
   if (typeof element === 'undefined') {
     throw new Error('Vivus [constructor]: "element" parameter is required');
@@ -104,14 +110,23 @@ Vivus.prototype.setElement = function (element) {
     }
   }
 
+  // Create the object element if the property `file` exists in the options object
+  if (options && options.file) {
+    var objElm = document.createElement('object');
+    objElm.setAttribute('type', 'image/svg+xml');
+    objElm.setAttribute('data', options.file);
+    element.appendChild(objElm);
+    element = objElm;
+  }
+
   switch (element.constructor) {
-  case SVGSVGElement:
-  case SVGElement:
+  case window.SVGSVGElement:
+  case window.SVGElement:
     this.el = element;
     this.isReady = true;
     break;
 
-  case HTMLObjectElement:
+  case window.HTMLObjectElement:
     // If the Object is already loaded
     this.el = element.contentDocument.querySelector('svg');
     if (this.el) {
@@ -134,7 +149,7 @@ Vivus.prototype.setElement = function (element) {
     break;
 
   default:
-    throw new Error('Vivus [constructor]: "element" parameter must be a string or a SVGelement');
+    throw new Error('Vivus [constructor]: "element" parameter is not valid (or miss the "file" attribute)');
   }
 };
 
@@ -173,7 +188,7 @@ Vivus.prototype.setOptions = function (options) {
     this.start = options.start || allowedStarts[0];
   }
 
-  this.isIE        = (navigator.userAgent.indexOf('MSIE') !== -1);
+  this.isIE        = (window.navigator.userAgent.indexOf('MSIE') !== -1);
   this.duration    = parsePositiveInt(options.duration, 120);
   this.delay       = parsePositiveInt(options.delay, null);
   this.dashGap     = parsePositiveInt(options.dashGap, 2);
