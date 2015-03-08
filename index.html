@@ -357,11 +357,14 @@
 				</ul>
 
 				<p class="code">
-					new Vivus('my-svg-id', {type: 'delayed', duration: 200}, myCallback);
+					// Inline SVG<br/>
+					new Vivus('my-svg-id', {type: 'delayed', duration: 200}, myCallback);<br/><br/>
+					// Dynamic load<br/>
+					new Vivus('my-div-id', {type: 'delayed', duration: 200, file: 'link/to/my.svg'}, myCallback);
 				</p>
 				<p>The Vivus constructor asks for 3 parameters :</p>
 				<ul>
-					<li>The ID of the SVG to animate (or the DOM element)</li>
+					<li>The ID (or object) of DOM element to interact with.<br/>It can be an inline SVG or a wrapper element to append an object tag from the option <i>file</i>.</li>
 					<li>Options object (described in the following)</li>
 					<li>Callback to call at the end of the animation (optional)</li>
 				</ul>
@@ -385,6 +388,12 @@
 
 					<dt>delay <small>integer</small></dt>
 					<dd>time between the drawing of first and last path, in frames (only for <i>delayed</i> animations)</dd>
+
+					<dt>file <small>string</small></dt>
+					<dd>link to the SVG to animate. If set, Vivus will create an object tag and append it to the DOM element given to the constructor. Be careful, use the <i>onReady</i> callback before playing with the Vivus instance.</dd>
+
+					<dt>onReady <small>function</small></dt>
+					<dd>function called when the instance is ready to play</dd>
 
 					<dt>dashGap <small>integer</small></dt>
 					<dd>whitespace extra margin between dashes. The default value is 2. Increase it in case of glitches at the initial state of the animation</dd>

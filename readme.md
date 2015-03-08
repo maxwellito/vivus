@@ -61,12 +61,16 @@ The code is inspired from other repositories. The drawer is inspired from the ex
 As I said, no dependencies here. All you need to do is include the scripts.
 
 ```js
+// Inline SVG
 new Vivus('my-svg-id', {type: 'delayed', duration: 200}, myCallback);
+
+// Dynamic load
+new Vivus('my-div-id', {type: 'delayed', duration: 200, file: 'link/to/my.svg'}, myCallback);
 ```
 
 The Vivus constructor asks for 3 parameters:
 
-- The ID of the SVG to animate (or the DOM element)
+- ID (or object) of DOM element to interact with.<br/>It can be an inline SVG or a wrapper element to append an object tag from the option `file`
 - Option object (described in the following)
 - Callback to call at the end of the animation (optional)
 
@@ -82,6 +86,10 @@ defines how to trigger the animation
   - `autostart` makes it start right now
 - `delay` (integer)
 time between the drawing of first and last path, in frames (only for delayed animations)
+- `file` (string)
+link to the SVG to animate. If set, Vivus will create an object tag and append it to the DOM element given to the constructor. Be careful, use the `onReady` callback before playing with the Vivus instance.
+- `onReady` (function)
+function called when the instance is ready to play
 - `dashGap` (integer)
 whitespace extra margin between dashes. The default value is `2`. Increase it in case of glitches at the initial state of the animation
 - `pathTimingFunction` (function)
