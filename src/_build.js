@@ -1,6 +1,6 @@
 'use strict';
 
-(function () {
+(function (window, document) {
 
   //import("pathformer.js");
   //import("vivus.js");
@@ -20,4 +20,4 @@
     window.Vivus = Vivus;
   }
 
-}());
+}(window, document));

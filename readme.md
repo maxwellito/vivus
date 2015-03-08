@@ -4,12 +4,13 @@ Demo available on http://maxwellito.github.io/vivus
 
 Vivus is a lightweight JavaScript class (with no dependencies) that allows you to animate SVGs, giving them the appearence of being drawn. There are a variety of different animations available, as well as the option to create a custom script to draw your SVG in whatever way you like.
 
-Available via 
+Available via:
 
- - Bower: `bower install vivus`
- - NPM: `npm install vivus` ([link](https://www.npmjs.com/package/vivus))
- - SPM: `spm install vivus` ([link](http://spmjs.io/package/vivus))
- - jsDelivr CDN: `//cdn.jsdelivr.net/vivus/0.1.2/vivus.min.js`
+ - [Bower](http://bower.io/): `bower install vivus`
+ - [NPM](https://www.npmjs.com/package/vivus): `npm install vivus`
+ - [SPM](http://spmjs.io/package/vivus): `spm install vivus`
+ - [jsDelivr CDN](http://www.jsdelivr.com/#!vivus): `//cdn.jsdelivr.net/vivus/0.1.2/vivus.min.js`
+ - [WebJars](http://www.webjars.org/)
 
 Join the conversation on [Gitter](https://gitter.im/maxwellito/vivus)
 
