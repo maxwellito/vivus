@@ -1,6 +1,6 @@
 /**
  * vivus - JavaScript library to make drawing animation on SVG
- * @version v0.2.0
+ * @version v0.2.1
  * @link https://github.com/maxwellito/vivus
  * @license MIT
  */
@@ -380,7 +380,7 @@ Vivus.prototype.setElement = function (element, options) {
 
   case window.HTMLObjectElement:
     // If the Object is already loaded
-    this.el = element.contentDocument.querySelector('svg');
+    this.el = element.contentDocument && element.contentDocument.querySelector('svg');
     if (this.el) {
       this.isReady = true;
       return;
@@ -389,7 +389,7 @@ Vivus.prototype.setElement = function (element, options) {
     // If we have to wait for it
     var self = this;
     element.addEventListener('load', function () {
-      self.el = element.contentDocument.querySelector('svg');
+      self.el = element.contentDocument && element.contentDocument.querySelector('svg');
       if (!self.el) {
         throw new Error('Vivus [constructor]: object loaded does not contain any SVG');
       }
