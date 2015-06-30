@@ -77,7 +77,7 @@ The Vivus constructor asks for 3 parameters:
 
 The option object must respect the following structure :
 
-- `type` (string) defines what kind of animation will be used: `delayed`, `async`, `oneByOne` or `script`
+- `type` (string) defines what kind of animation will be used: `delayed`, `async`, `oneByOne`, `script`, `scenario` or `scenario-sync` 
 - `duration` (integer) animation duration, in frames
 - `start` (string)
 defines how to trigger the animation
