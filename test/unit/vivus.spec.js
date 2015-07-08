@@ -24,6 +24,12 @@ describe('Vivus', function () {
         this.loadCb[i]();
       }
     }
+    this.getBoundingClientRect = function () {
+      return {
+        height: 11,
+        top: 364
+      };
+    }
   };
   window.HTMLObjectElement = ObjectElementMock;
 
