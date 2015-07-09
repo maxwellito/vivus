@@ -160,6 +160,14 @@ describe('Vivus', function () {
       expect(myVivus.isReady).toEqual(true);
     });
 
+    it('the vivus instance should have `el` and `parentEl` different if the element is an object', function () {
+      objTag = new ObjectElementMock();
+      objTag.contentDocument = wrapTag;
+      objTag.loaded();
+      var myVivus = new Vivus(objTag);
+      expect(myVivus.parentEl).not.toEqual(myVivus.el);
+    });
+
     it('should call `onReady` callback once the SVG is loaded', function () {
       objTag = new ObjectElementMock();
       objTag.contentDocument = document.createElement('div');
@@ -240,6 +248,11 @@ describe('Vivus', function () {
       expect(myVivus.type).toBeDefined();
       expect(myVivus.start).toBeDefined();
       expect(myVivus.duration).toBeDefined();
+    });
+
+    it('the vivus instance should have `el` and `parentEl` equal if the element is a SVG object', function () {
+      myVivus = new Vivus(svgTag, {});
+      expect(myVivus.el).toEqual(myVivus.parentEl);
     });
 
     // Callback
