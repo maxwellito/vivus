@@ -1,6 +1,6 @@
 /**
  * vivus - JavaScript library to make drawing animation on SVG
- * @version v0.2.1
+ * @version v0.2.2
  * @link https://github.com/maxwellito/vivus
  * @license MIT
  */
@@ -361,6 +361,7 @@ Vivus.prototype.setElement = function (element, options) {
       throw new Error('Vivus [constructor]: "element" parameter is not related to an existing ID');
     }
   }
+  this.parentEl = element;
 
   // Create the object element if the property `file` exists in the options object
   if (options && options.file) {
@@ -440,7 +441,7 @@ Vivus.prototype.setOptions = function (options) {
     this.start = options.start || allowedStarts[0];
   }
 
-  this.isIE        = (window.navigator.userAgent.indexOf('MSIE') !== -1 || window.navigator.userAgent.indexOf('Trident/') !== -1 || window.navigator.userAgent.indexOf('Edge/') !== -1 );
+  this.isIE        = (window.navigator.userAgent.indexOf('MSIE') !== -1);
   this.duration    = parsePositiveInt(options.duration, 120);
   this.delay       = parsePositiveInt(options.delay, null);
   this.dashGap     = parsePositiveInt(options.dashGap, 2);
@@ -705,7 +706,7 @@ Vivus.prototype.starter = function () {
   case 'inViewport':
     var self = this,
     listener = function () {
-      if (self.isInViewport(self.el, 1)) {
+      if (self.isInViewport(self.parentEl, 1)) {
         self.play();
         window.removeEventListener('scroll', listener);
       }
