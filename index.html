@@ -16,9 +16,9 @@
 			body {
 				margin: 0 0 40px;
 				font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-				font-weight: 100;
+				font-weight: 200;
 				color: #666666;
-				background-color: #F9F9F9;
+				background-color: #FFFFFF;
 				word-break: break-word;
 			}
 			a, a:visited, a:hover, a:link {
@@ -32,47 +32,67 @@
 				font-size: 1rem;
 				line-height: 1.4rem;
 			}
-			dl dt {
-				font-weight: bold;
-			}
-			dl dd {
-				margin-bottom: 14px;
-			}
 			button, .button {
-				margin: 0; padding: 8px;
-				border-radius: 10px;
-				border: 1px solid #666666;
-				color: #666666;
+				margin: 0; padding: 3px 6px;
+				border-radius: 6px;
+				border: 1px solid currentColor;
+				color: inherit;
 				background-color: rgba(0,0,0,0);
 				font-size: 0.6rem;
-				font-weight: 100;
+				font-weight: 300;
 				text-decoration: none;
 				cursor: pointer;
 				outline: 0;
 			}
 			button.active, .button.active {
-				color: #F9F9F9;
-				background-color: #666666;
+				background-color: currentColor;
+			}
+			button.active span, .button.active span {
+				color: #FFFFFF;
 			}
 			i {
-				background-color: rgba(0,0,0,0.1);
+				background-color: rgba(0, 0, 0, 0.05);
 				border-radius: 4px;
+			}
+			svg * {
+				fill: none;
+				stroke: currentColor;
 			}
 
 			/* Common components */
+			.bloc {
+				color: #f9f9f9;
+				padding: 1px 0 30px;
+				clear: both;
+			}
 			.content {
 				margin: auto;
 				max-width: 960px;
 				padding: 0 20px;
 			}
-			.smaller {
-				margin: 4px 0;
+			.col3 {
+				width: 33.33%;
+				float: left;
+				text-align: center;
+				border-bottom-color: currentColor;
+				border-bottom-style: solid;
+			}
+			.col-container {
+				padding: 0 12px;
+			}
+			.col3 p {
 				font-size: 0.75rem;
 				line-height: 1.05rem;
 			}
+
+			/* Text */
 			.bigger {
 				font-size: 1rem;
+				font-weight: 100;
 				line-height: 1.4rem;
+			}
+			.center {
+				text-align: center;
 			}
 			.clearer {
 				clear: both;
@@ -83,45 +103,13 @@
 			.italic {
 				font-style: italic;
 			}
-			.col3 {
-				width: 33.33%;
-				float: left;
-				text-align: center;
-				border-bottom-color: #666;
-				border-bottom-style: solid;
-			}
-			.col-container {
-				padding: 0 12px;
-			}
-			.col3 p {
-				font-size: 0.75rem;
-				line-height: 1.05rem;
-			}
-			.code {
-				overflow: hidden;
-				margin: 0; padding: 10px;
-				border: none;
-				background-color: rgba(0,0,0,0.1);
-				font-size: 0.6125rem;
-				line-height: 0.8575rem;
-				font-family: monospace;
-			}
-			.bloc {
-				color: #f9f9f9;
-				padding: 1px 0 30px;
-				border-color: #f9f9f9;
-				clear: both;
-			}
-			.bloc button {
-				border: 1px solid #f9f9f9;
-				color: #f9f9f9;
-			}
 
-			/* Colors */
-			.bloc-head { background: #5aa8c5; padding: 30px; }
-			.bloc-anim { background: #2e2e2e; }
-			.bloc-documentation { background: #d36281; }
-			.bloc-example { background: #4fe084; }
+			/* Blocs */
+			.bloc-head     { color: #5aa8c5; padding: 30px; }
+			.bloc-demo     { color: #FF495F; }
+			.bloc-timing   { color: #F7A800; }
+			.bloc-scenario { color: #4fe084; }
+			.bloc-doc      { color: #69B0CA; }
 
 			/* Custom */
 			#hi-there {
@@ -166,7 +154,6 @@
 			}
 
 			@media (max-width: 767px) {
-				.code { overflow: scroll; }
 				#polaroid { width: 100%; max-height: 300px; }
 				.example-description { margin-left: 0; }
 				.timing-description { margin-right: 0; }
@@ -204,7 +191,6 @@
 				#polaroid { width: 100%; max-height: 260px; }
 			}
 
-
 		</style>
 	</head>
 	<body>
@@ -215,30 +201,30 @@
 				 viewBox="0 0 404.7 354" enable-background="new 0 0 404.7 354" id="hi-there" onclick="hi.reset().play();">
 
 				<!-- HI -->
-				<path fill="none" data-duration="10" stroke="#FFFFFF" stroke-width="4" d="M324.6,61.2c16.6,0,29.5-12.9,29.5-29.5c0-16.6-12.9-29.5-29.5-29.5c-16.6,0-29.5,12.9-29.5,29.5C295.1,48.4,308,61.2,324.6,61.2z"/>
-        <path fill="none" data-duration="130" stroke="#FFFFFF" stroke-width="4" d="M366.2,204.2c-9.8,0-15-5.6-15-15.1V77.2h-85v28h19.5c9.8,0,8.5,2.1,8.5,11.6v72.4c0,9.5,0.5,15.1-9.3,15.1H277h-20.7c-8.5,0-14.2-4.1-14.2-12.9V52.4c0-8.5,5.7-12.3,14.2-12.3h18.8v-28h-127v28h18.1c8.5,0,9.9,2.1,9.9,8.9v56.1h-75V53.4c0-11.5,8.6-13.3,17-13.3h11v-28H2.2v28h26c8.5,0,12,2.1,12,7.9v142.2c0,8.5-3.6,13.9-12,13.9h-21v33h122v-33h-11c-8.5,0-17-4.1-17-12.2v-57.8h75v58.4c0,9.1-1.4,11.6-9.9,11.6h-18.1v33h122.9h5.9h102.2v-33H366.2z"/>
+				<path data-duration="10" stroke-width="4" d="M324.6,61.2c16.6,0,29.5-12.9,29.5-29.5c0-16.6-12.9-29.5-29.5-29.5c-16.6,0-29.5,12.9-29.5,29.5C295.1,48.4,308,61.2,324.6,61.2z"/>
+        <path data-duration="130" stroke-width="4" d="M366.2,204.2c-9.8,0-15-5.6-15-15.1V77.2h-85v28h19.5c9.8,0,8.5,2.1,8.5,11.6v72.4c0,9.5,0.5,15.1-9.3,15.1H277h-20.7c-8.5,0-14.2-4.1-14.2-12.9V52.4c0-8.5,5.7-12.3,14.2-12.3h18.8v-28h-127v28h18.1c8.5,0,9.9,2.1,9.9,8.9v56.1h-75V53.4c0-11.5,8.6-13.3,17-13.3h11v-28H2.2v28h26c8.5,0,12,2.1,12,7.9v142.2c0,8.5-3.6,13.9-12,13.9h-21v33h122v-33h-11c-8.5,0-17-4.1-17-12.2v-57.8h75v58.4c0,9.1-1.4,11.6-9.9,11.6h-18.1v33h122.9h5.9h102.2v-33H366.2z"/>
 
-        <path fill="none" data-async data-delay="20" stroke="#FFFFFF" stroke-width="4" d="M358.8,82.8c11.1-4.2,18.8-14.7,18.8-27.5c0-8.5-3.4-16-8.9-21.3"/>
-				<path fill="none" data-async stroke="#FFFFFF" stroke-width="4" d="M124.2,105.7V77c0-11.5,9.1-13.8,17.5-13.8h10.5V44.7"/>
-				<polyline fill="none" data-async stroke="#FFFFFF" stroke-width="4" points="147.9,40.2 171.2,63.2 175.7,63.2"/>
-				<line fill="none" data-async stroke="#FFFFFF" stroke-width="4" x1="295.1" y1="32.1" x2="275.2" y2="12.2"/>
-				<path fill="none" data-async stroke="#FFFFFF" stroke-width="4" d="M266.2,204.7V75.9c0-8.5,5.2-12.8,13.7-12.8h18.3V44.7"/>
-				<polyline fill="none" data-async stroke="#FFFFFF" stroke-width="4" points="265.9,105.2 289.2,129.2 293.7,129.2"/>
-				<polyline fill="none" data-async stroke="#FFFFFF" stroke-width="4" points="374.2,204.7 374.2,94.2 358.8,82.8 351.2,77.2"/>
-				<polyline fill="none" data-async stroke="#FFFFFF" stroke-width="4" points="148.2,237.2 171.2,261.2 294.6,261.2 300.5,261.2 402.2,261.2 402.2,228.2 379.2,204.2"/>
-				<polyline fill="none" data-async stroke="#FFFFFF" stroke-width="4" points="124.2,204.7 124.2,157.2 175.7,157.2"/>
-				<line fill="none" data-async stroke="#FFFFFF" stroke-width="4" x1="147.7" y1="228.2" x2="129.2" y2="204.2"/>
-				<polyline fill="none" data-async stroke="#FFFFFF" stroke-width="4" points="7.2,237.3 30.2,261.2 152.2,261.2 152.2,241.7"/>
-				<polyline fill="none" data-async stroke="#FFFFFF" stroke-width="4" points="1.9,40.2 26,63.2 39.7,63.2"/>
-				<line fill="none" data-async stroke="#FFFFFF" stroke-width="4" x1="129.2" y1="12.2" x2="148.2" y2="33.2"/>
-				<line fill="none" data-async stroke="#FFFFFF" stroke-width="4" x1="303.9" y1="53" x2="328.1" y2="77.2"/>
+        <path data-async data-delay="20" stroke-width="4" d="M358.8,82.8c11.1-4.2,18.8-14.7,18.8-27.5c0-8.5-3.4-16-8.9-21.3"/>
+				<path data-async stroke-width="4" d="M124.2,105.7V77c0-11.5,9.1-13.8,17.5-13.8h10.5V44.7"/>
+				<polyline data-async stroke-width="4" points="147.9,40.2 171.2,63.2 175.7,63.2"/>
+				<line data-async stroke-width="4" x1="295.1" y1="32.1" x2="275.2" y2="12.2"/>
+				<path data-async stroke-width="4" d="M266.2,204.7V75.9c0-8.5,5.2-12.8,13.7-12.8h18.3V44.7"/>
+				<polyline data-async stroke-width="4" points="265.9,105.2 289.2,129.2 293.7,129.2"/>
+				<polyline data-async stroke-width="4" points="374.2,204.7 374.2,94.2 358.8,82.8 351.2,77.2"/>
+				<polyline data-async stroke-width="4" points="148.2,237.2 171.2,261.2 294.6,261.2 300.5,261.2 402.2,261.2 402.2,228.2 379.2,204.2"/>
+				<polyline data-async stroke-width="4" points="124.2,204.7 124.2,157.2 175.7,157.2"/>
+				<line data-async stroke-width="4" x1="147.7" y1="228.2" x2="129.2" y2="204.2"/>
+				<polyline data-async stroke-width="4" points="7.2,237.3 30.2,261.2 152.2,261.2 152.2,241.7"/>
+				<polyline data-async stroke-width="4" points="1.9,40.2 26,63.2 39.7,63.2"/>
+				<line data-async stroke-width="4" x1="129.2" y1="12.2" x2="148.2" y2="33.2"/>
+				<line data-async stroke-width="4" x1="303.9" y1="53" x2="328.1" y2="77.2"/>
 
-				<line fill="none" stroke="#FFFFFF" stroke-width="4" x1="345.1" y1="10.5" x2="368.7" y2="34"/>
+				<line stroke-width="4" x1="345.1" y1="10.5" x2="368.7" y2="34"/>
 
 				<!-- there -->
-				<path fill="none" data-delay="30" data-duration="60" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" d="M76.8,337.3c0,0,1.9,12.2,13.1,12.2c22.1,0,23.8-1.8,59-66.4c-19.7,35.7-36.4,66.2-19.3,66.2c15.2,0,22.9-14.2,28.3-23.7c3.3-0.5,24-3.2,35-25.5c4-8.1,4.1-17.8-8.1-15.2c-5.6,1.2-13.1,14.8-15.7,19.2c-7.6,12.7-22.4,45.2-22.4,45.2s10.3-22.4,21.5-22.4c15.5,0-9.4,22.4,4.7,22.4c4.9,0,11.7-11.4,16.6-20.9c7.5,4.7,19.7,1.7,24.5-8.1c10.1-20.4-14.4-12.8-24.5,8.1c-5.5,11.3-2.2,21.1,11.2,21.1c16.4,0,26.1-28.3,30.5-37.5c9.9,2.5,14,2.5,22.7-1.1c-3.5,5.1-24,38.1-8.3,38.1c6.7,0,11.7-11.4,16.6-20.9c7.5,4.7,19.7,1.7,24.5-8.1c10.1-20.4-14.4-12.8-24.5,8.1c-5.5,11.3-2.2,21.1,11.2,21.1c16.4,0,20.6-4,24.7-10.5"/>
+				<path data-delay="30" data-duration="60" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" d="M76.8,337.3c0,0,1.9,12.2,13.1,12.2c22.1,0,23.8-1.8,59-66.4c-19.7,35.7-36.4,66.2-19.3,66.2c15.2,0,22.9-14.2,28.3-23.7c3.3-0.5,24-3.2,35-25.5c4-8.1,4.1-17.8-8.1-15.2c-5.6,1.2-13.1,14.8-15.7,19.2c-7.6,12.7-22.4,45.2-22.4,45.2s10.3-22.4,21.5-22.4c15.5,0-9.4,22.4,4.7,22.4c4.9,0,11.7-11.4,16.6-20.9c7.5,4.7,19.7,1.7,24.5-8.1c10.1-20.4-14.4-12.8-24.5,8.1c-5.5,11.3-2.2,21.1,11.2,21.1c16.4,0,26.1-28.3,30.5-37.5c9.9,2.5,14,2.5,22.7-1.1c-3.5,5.1-24,38.1-8.3,38.1c6.7,0,11.7-11.4,16.6-20.9c7.5,4.7,19.7,1.7,24.5-8.1c10.1-20.4-14.4-12.8-24.5,8.1c-5.5,11.3-2.2,21.1,11.2,21.1c16.4,0,20.6-4,24.7-10.5"/>
 
-				<path fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" d="M157.3,300.8c3.8-2.3-29,0.8-35.6,3.2"/>
+				<path stroke-width="4" stroke-linecap="round" stroke-linejoin="round" d="M157.3,300.8c3.8-2.3-29,0.8-35.6,3.2"/>
 			</svg>
 		</div>
 
@@ -253,26 +239,26 @@
 		</div>
 
 		<!-- Animation examples/demo -->
-		<div class="bloc bloc-anim">
+		<div class="bloc bloc-demo">
 			<div class="content">
 
-				<h2>How it looks</h2>
+				<h2>Animation types</h2>
 				<div>
 					<div class="col3">
 						<svg id="obturateur1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
 				 width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" onclick="obt1.reset().play();">
-							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="90"/>
-							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="85.74"/>
-							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="72.947"/>
-							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="39.74"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="34.042" y1="131.189" x2="67.047" y2="77.781"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="31.306" y1="75.416" x2="92.41" y2="60.987"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="68.81" y1="34.042" x2="122.219" y2="67.046"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="124.584" y1="31.305" x2="139.013" y2="92.409"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="165.957" y1="68.809" x2="132.953" y2="122.219"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="168.693" y1="124.584" x2="107.59" y2="139.012"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="131.19" y1="165.957" x2="77.781" y2="132.953"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="75.417" y1="168.693" x2="60.987" y2="107.59"/>
+							<circle stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="90"/>
+							<circle stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="85.74"/>
+							<circle stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="72.947"/>
+							<circle stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="39.74"/>
+							<line stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="34.042" y1="131.189" x2="67.047" y2="77.781"/>
+							<line stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="31.306" y1="75.416" x2="92.41" y2="60.987"/>
+							<line stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="68.81" y1="34.042" x2="122.219" y2="67.046"/>
+							<line stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="124.584" y1="31.305" x2="139.013" y2="92.409"/>
+							<line stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="165.957" y1="68.809" x2="132.953" y2="122.219"/>
+							<line stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="168.693" y1="124.584" x2="107.59" y2="139.012"/>
+							<line stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="131.19" y1="165.957" x2="77.781" y2="132.953"/>
+							<line stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="75.417" y1="168.693" x2="60.987" y2="107.59"/>
 						</svg>
 						<div class="col-container">
 							<h3>Delayed</h3>
@@ -284,18 +270,18 @@
 					<div class="col3">
 						<svg id="obturateur2" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
 				 width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" onclick="obt2.reset().play();">
-							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="90"/>
-							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="85.74"/>
-							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="72.947"/>
-							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="39.74"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="34.042" y1="131.189" x2="67.047" y2="77.781"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="31.306" y1="75.416" x2="92.41" y2="60.987"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="68.81" y1="34.042" x2="122.219" y2="67.046"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="124.584" y1="31.305" x2="139.013" y2="92.409"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="165.957" y1="68.809" x2="132.953" y2="122.219"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="168.693" y1="124.584" x2="107.59" y2="139.012"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="131.19" y1="165.957" x2="77.781" y2="132.953"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="75.417" y1="168.693" x2="60.987" y2="107.59"/>
+							<circle stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="90"/>
+							<circle stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="85.74"/>
+							<circle stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="72.947"/>
+							<circle stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="39.74"/>
+							<line stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="34.042" y1="131.189" x2="67.047" y2="77.781"/>
+							<line stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="31.306" y1="75.416" x2="92.41" y2="60.987"/>
+							<line stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="68.81" y1="34.042" x2="122.219" y2="67.046"/>
+							<line stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="124.584" y1="31.305" x2="139.013" y2="92.409"/>
+							<line stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="165.957" y1="68.809" x2="132.953" y2="122.219"/>
+							<line stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="168.693" y1="124.584" x2="107.59" y2="139.012"/>
+							<line stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="131.19" y1="165.957" x2="77.781" y2="132.953"/>
+							<line stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="75.417" y1="168.693" x2="60.987" y2="107.59"/>
 						</svg>
 						<div class="col-container">
 							<h3>Async</h3>
@@ -307,18 +293,18 @@
 					<div class="col3">
 						<svg id="obturateur3" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
 				 width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" onclick="obt3.reset().play();">
-							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="90"/>
-							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="85.74"/>
-							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="72.947"/>
-							<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="39.74"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="34.042" y1="131.189" x2="67.047" y2="77.781"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="31.306" y1="75.416" x2="92.41" y2="60.987"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="68.81" y1="34.042" x2="122.219" y2="67.046"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="124.584" y1="31.305" x2="139.013" y2="92.409"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="165.957" y1="68.809" x2="132.953" y2="122.219"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="168.693" y1="124.584" x2="107.59" y2="139.012"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="131.19" y1="165.957" x2="77.781" y2="132.953"/>
-							<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="75.417" y1="168.693" x2="60.987" y2="107.59"/>
+							<circle stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="90"/>
+							<circle stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="85.74"/>
+							<circle stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="72.947"/>
+							<circle stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="39.74"/>
+							<line stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="34.042" y1="131.189" x2="67.047" y2="77.781"/>
+							<line stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="31.306" y1="75.416" x2="92.41" y2="60.987"/>
+							<line stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="68.81" y1="34.042" x2="122.219" y2="67.046"/>
+							<line stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="124.584" y1="31.305" x2="139.013" y2="92.409"/>
+							<line stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="165.957" y1="68.809" x2="132.953" y2="122.219"/>
+							<line stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="168.693" y1="124.584" x2="107.59" y2="139.012"/>
+							<line stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="131.19" y1="165.957" x2="77.781" y2="132.953"/>
+							<line stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="75.417" y1="168.693" x2="60.987" y2="107.59"/>
 						</svg>
 						<div class="col-container">
 							<h3>OneByOne</h3>
@@ -331,141 +317,58 @@
 			</div>
 		</div>
 
-		<!-- How it works? -->
-		<div class="content">
-			<h2>How it works</h2>
-			<p>To get this effect, the script uses the CSS property <i>strokeDashoffset</i>. This property manages the stroke offset on every line of the SVG. Now, all we have to do is add some JavaScript to update this value progressively and the magic begins.
-			<br>
-			However, there's a problem with this. The <i>strokeDashoffset</i> property is only available on the path elements. This is an issue because in an SVG there are a lot of elements such as <i>circle</i>, <i>rect</i>, <i>line</i> and <i>polyline</i> which will break the animation. So to fix this, there is another class available in the repo called <i>pathformer</i>. It's made for transforming most objects of your SVG into <i>path</i> elements to be able to use <i>strokeDashoffset</i> and animate your SVGs.</p>
-
-			<p>The code is inspired from other repositories. The drawer is inspired from the excellent <a href="http://tympanus.net/codrops/">Codrops</a> post about <a href="http://tympanus.net/codrops/2013/12/30/svg-drawing-animation/">SVG Drawing Animation</a> (if you didn't know about this website, get ready to have your mind blown). The <i>pathformer</i> is inspired from <a href="https://github.com/Waest/SVGPathConverter">SVGPathConverter</a> by <a href="https://github.com/Waest">Waest</a>.</p>
-		</div>
-
-		<!-- How to use it? -->
-		<div class="bloc bloc-documentation">
+		<!-- Scripting -->
+		<div class="bloc bloc-timing">
 			<div class="content">
 
-				<h2>How to use it</h2>
-				<p>As I said, there are no dependencies here. You just need to include the script.</p>
-				<p>The library is also available via:
-				<ul>
-					<li>Bower: <i>bower install vivus</i></li>
-					<li>NPM: <i>npm install vivus</i></li>
-					<li>SPM: <i>spm install vivus</i></li>
-					<li>jsDelivr CDN: <i>//cdn.jsdelivr.net/vivus/0.2.1/vivus.min.js</i></li>
-					<li>WebJars</li>
-				</ul>
+				<h2>Timing function</h2>
+				<p>To give more freedom, it's possible to override the animation of each path and/or the entire SVG. It works a bit like the CSS animation timing function. But instead of using a cubic-bezier function, it use a simple JavaScript function. It must accept a number as parameter (between 0 to 1), then return a number (also between 0 and 1). It's a hook.</p>
+				<p>Here an example test to play around with the different properties available.</p>
 
-				<p class="code">
-					// Inline SVG<br/>
-					new Vivus('my-svg-id', {type: 'delayed', duration: 200}, myCallback);<br/><br/>
-					// Dynamic load<br/>
-					new Vivus('my-div-id', {type: 'delayed', duration: 200, file: 'link/to/my.svg'}, myCallback);
-				</p>
-				<p>The Vivus constructor asks for 3 parameters :</p>
-				<ul>
-					<li>The ID (or object) of DOM element to interact with.<br/>It can be an inline SVG or a wrapper element to append an object tag from the option <i>file</i>.</li>
-					<li>Options object (described in the following)</li>
-					<li>Callback to call at the end of the animation (optional)</li>
-				</ul>
-
-				<p>The options object must respect the following structure :</p>
-				<dl>
-					<dt>type <small>string</small></dt>
-					<dd>define what kind of animation will be used: <i>delayed</i>, <i>async</i>, <i>oneByOne</i>, <i>scenario</i> or <i>scenario-sync</i></dd>
-
-					<dt>duration <small>integer</small></dt>
-					<dd>animation duration, in frames</dd>
-
-					<dt>start <small>string</small></dt>
-					<dd>define how to trigger the animation
-						<p class="smaller">
-							<strong>inViewport</strong> once the SVG is in the viewport<br>
-							<strong>manual</strong> give you the freedom to call <i>play</i> method to start<br>
-							<strong>autostart</strong> make it start right now<br>
+				<div>
+					<svg id="timing-example" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve" onclick="timing&&timing.reset().play();">
+						<g stroke-width="4" stroke-linecap="round" stroke-miterlimit="10">
+							<line x1="68.18066" y1="68.18066" x2="131.81934" y2="131.81934"/>
+							<line x1="68.18066" y1="131.82031" x2="131.81934" y2="68.17969"/>
+							<circle cx="100" cy="100" r="65"/>
+							<circle cx="100" cy="100" r="75"/>
+							<circle cx="100" cy="100" r="85"/>
+							<circle cx="100" cy="100" r="95"/>
+						</g>
+					</svg>
+					<div class="timing-description">
+						<p>Type
+							<span class="button-group">
+								<button onclick="timingTest(this,'type','delayed');" class="active"><span>delayed</span></button>
+								<button onclick="timingTest(this,'type','async');"><span>async</span></button>
+								<button onclick="timingTest(this,'type','oneByOne');"><span>oneByOne</span></button>
+							</span>
 						</p>
-					</dd>
-
-					<dt>delay <small>integer</small></dt>
-					<dd>time between the drawing of first and last path, in frames (only for <i>delayed</i> animations)</dd>
-
-					<dt>file <small>string</small></dt>
-					<dd>link to the SVG to animate. If set, Vivus will create an object tag and append it to the DOM element given to the constructor. Be careful, use the <i>onReady</i> callback before playing with the Vivus instance.</dd>
-
-					<dt>onReady <small>function</small></dt>
-					<dd>function called when the instance is ready to play</dd>
-
-					<dt>dashGap <small>integer</small></dt>
-					<dd>whitespace extra margin between dashes. The default value is 2. Increase it in case of glitches at the initial state of the animation</dd>
-
-					<dt>pathTimingFunction <small>function</small></dt>
-					<dd>timing animation function for each path element of the SVG. The function must accept a value between 0 and 1, then return a number between 0 and 1.</dd>
-
-					<dt>animTimingFunction <small>function</small></dt>
-					<dd>timing animation function for the complete SVG. The function must accept a value between 0 and 1, then return a number between 0 and 1.</dd>
-
-					<dt>forceRender <small>boolean</small></dt>
-					<dd>force the browser to re-render all updated path items. By default, the value is true on IE only. (<a href="https://github.com/maxwellito/vivus#troubleshoot">more details</a>)</dd>
-
-					<dt>selfDestroy <small>boolean</small></dt>
-					<dd>remove all extra styling on the SVG, and leave it as original</dd>
-				</dl>
-
-				<p>To control the animation, there are three methods are available : play, stop and reset. The method play takes one parameter which is the speed. This value can be positive, negative (to go backwards), or under 1 to play slowly. By default the value is 1.</p>
-
-			</div>
-		</div>
-
-		<!-- Scripting -->
-		<div class="content">
-
-			<h2>Timing function</h2>
-			<p>To give more freedom, it's possible to override the animation of each path and/or the entire SVG. It works a bit like the CSS animation timing function. But instead of using a cubic-bezier function, it use a simple JavaScript function. It must accept a number as parameter (between 0 to 1), then return a number (also between 0 and 1). It's a hook.</p>
-			<p>Here an example test to play around with the different properties available.</p>
-
-			<div>
-				<svg id="timing-example" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve" onclick="timing&&timing.reset().play();">
-					<g fill="none" stroke="#666666" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10">
-						<line x1="68.18066" y1="68.18066" x2="131.81934" y2="131.81934"/>
-						<line x1="68.18066" y1="131.82031" x2="131.81934" y2="68.17969"/>
-						<circle cx="100" cy="100" r="65"/>
-						<circle cx="100" cy="100" r="75"/>
-						<circle cx="100" cy="100" r="85"/>
-						<circle cx="100" cy="100" r="95"/>
-					</g>
-				</svg>
-				<div class="timing-description">
-					<p>Type
-						<span class="button-group">
-							<button onclick="timingTest(this,'type','delayed');" class="active">delayed</button>
-							<button onclick="timingTest(this,'type','async');">async</button>
-							<button onclick="timingTest(this,'type','oneByOne');">oneByOne</button>
-						</span>
-					</p>
-					<p>Path timing function
-						<span class="button-group">
-							<button onclick="timingTest(this,'path','LINEAR');" class="active">linear</button>
-							<button onclick="timingTest(this,'path','EASE');">ease</button>
-							<button onclick="timingTest(this,'path','EASE_IN');">ease-in</button>
-							<button onclick="timingTest(this,'path','EASE_OUT');">ease-out</button>
-							<button onclick="timingTest(this,'path','EASE_OUT_BOUNCE');">ease-out bounce</button>
-						</span>
-					</p>
-					<p>Anim timing function
-						<span class="button-group">
-							<button onclick="timingTest(this,'anim','LINEAR');" class="active">linear</button>
-							<button onclick="timingTest(this,'anim','EASE');">ease</button>
-							<button onclick="timingTest(this,'anim','EASE_IN');">ease-in</button>
-							<button onclick="timingTest(this,'anim','EASE_OUT');">ease-out</button>
-							<button onclick="timingTest(this,'anim','EASE_OUT_BOUNCE');">ease-out bounce</button>
-						</span>
-					</p>
+						<p>Path timing function
+							<span class="button-group">
+								<button onclick="timingTest(this,'path','LINEAR');" class="active"><span>linear</span></button>
+								<button onclick="timingTest(this,'path','EASE');"><span>ease</span></button>
+								<button onclick="timingTest(this,'path','EASE_IN');"><span>ease-in</span></button>
+								<button onclick="timingTest(this,'path','EASE_OUT');"><span>ease-out</span></button>
+								<button onclick="timingTest(this,'path','EASE_OUT_BOUNCE');"><span>ease-out bounce</span></button>
+							</span>
+						</p>
+						<p>Anim timing function
+							<span class="button-group">
+								<button onclick="timingTest(this,'anim','LINEAR');" class="active"><span>linear</span></button>
+								<button onclick="timingTest(this,'anim','EASE');"><span>ease</span></button>
+								<button onclick="timingTest(this,'anim','EASE_IN');"><span>ease-in</span></button>
+								<button onclick="timingTest(this,'anim','EASE_OUT');"><span>ease-out</span></button>
+								<button onclick="timingTest(this,'anim','EASE_OUT_BOUNCE');"><span>ease-out bounce</span></button>
+							</span>
+						</p>
+					</div>
 				</div>
 			</div>
 		</div>
 
 		<!-- Scripting example -->
-		<div class="bloc bloc-example">
+		<div class="bloc bloc-scenario">
 			<div class="content">
 
 				<div class="script-example">
@@ -474,59 +377,59 @@
 
 				 		<!-- Case -->
 				 		<!-- The case items will be drawn at the same time (attribute `data-async` on each tag) with a custom duration of 40 frames (attribute `data-duration`). WARNING: When you want to draw a bloc asynchronously (like here), the last item need to be `data-async` free. Otherwise the following tags will also start at the same time. I know it's a bit confusing, play a bit with it and you'll see. -->
-						<path data-async data-duration="40" fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+						<path data-async data-duration="40" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
 							M106.725,104.742c-0.773,2.498-3.586,4.229-6.285,3.867L12.473,96.802c-2.699-0.363-4.262-2.682-3.49-5.18l25.164-81.436
 							c0.771-2.496,3.584-4.229,6.283-3.866l87.966,11.808c2.699,0.362,4.264,2.68,3.49,5.179L106.725,104.742z"/>
-						<path data-async data-duration="40" fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+						<path data-async data-duration="40" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
 							M101.02,123.207c-0.773,2.5-3.587,4.23-6.286,3.867L6.766,115.27c-2.699-0.363-4.26-2.682-3.488-5.182l2.91-9.417
 							c0.771-2.499,3.585-4.23,6.285-3.87l87.967,11.809c2.699,0.361,4.261,2.682,3.49,5.18L101.02,123.207z"/>
-						<line data-async data-duration="40" fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="103.377" y1="128.225" x2="154.768" y2="155.32"/>
-						<line data-async data-duration="40" fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="109.852" y1="112.684" x2="155.035" y2="136.906"/>
-						<path data-async data-duration="40" fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+						<line data-async data-duration="40" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="103.377" y1="128.225" x2="154.768" y2="155.32"/>
+						<line data-async data-duration="40" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="109.852" y1="112.684" x2="155.035" y2="136.906"/>
+						<path data-async data-duration="40" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
 							M9.096,120.207l47.932,21.994c0,0,98.06,12.414,97.74,13.119c-0.318,0.709,5.426-16.205,5.426-16.205l-2.646-96.842
 							c-1.098-7.587-2.467-11.8-8.559-15.024l-12.635-6.604"/>
-						<path data-async data-duration="40" fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+						<path data-async data-duration="40" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
 							M161.586,38.135l30.717,16.085c0,0,5.295,2.323,4.543,6.504l-3.215,10.527c-0.648,2.621-2.939,4.988-8.229,2.798l-9.154-4.701
 							l-11.834,56.441"/>
-						<path data-duration="40" fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+						<path data-duration="40" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
 							M183.148,49.518c0,0,5.295,2.324,4.543,6.506l-3.215,10.526c-0.648,2.622-2.938,4.988-8.229,2.798"/>
 
 						<!-- Lens -->
 						<!-- All item will be drawn line by line, with an exception for the first one, a little delay (attribute `data-delay) to make a break between the drawing of the case and the start of the lens part -->
-						<path data-delay="20" fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+						<path data-delay="20" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
 							M87.176,56.143C83.274,68.78,69.043,77.538,55.395,75.706S33.846,62.146,37.75,49.511c3.903-12.637,18.135-21.392,31.783-19.562
 							C83.181,31.782,91.081,43.51,87.176,56.143z"/>
-						<path fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+						<path stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
 							M92.745,56.891c-4.785,15.48-22.219,26.213-38.942,23.969C37.079,78.615,27.4,64.245,32.184,48.763
 							c4.783-15.48,22.218-26.211,38.94-23.968C87.848,27.041,97.528,41.411,92.745,56.891z"/>
-						<path fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+						<path stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
 							M78.99,26.933c16.169,7.426,19.398,10.989,22.026,20.105c1.283,4.449,1.271,9.411-0.3,14.489
 							c-4.783,15.479-22.217,26.213-38.941,23.969c-8.68-1.165-21.171-7.963-25.613-14.055"/>
-						<path fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+						<path stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
 							M42.602,50.162c3.137-10.157,14.573-17.193,25.543-15.722"/>
 
 						<!-- Flash -->
 						<!-- This tag does not have any extra attribute. So it will start when the previous tag is finished. His duration and delay will be the one given in the options. -->
-						<path fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+						<path stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
 							M103.789,29.275c-0.568,1.841,0.582,3.549,2.57,3.818l12.807,1.72c1.988,0.266,4.062-1.012,4.633-2.851l1.66-5.38
 							c0.568-1.843-0.582-3.551-2.57-3.816l-12.807-1.72c-1.988-0.268-4.062,1.01-4.633,2.85L103.789,29.275z"/>
 
 						<!-- Output -->
 						<!-- Same case as Flash -->
-						<path fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+						<path stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
 							M11.129,105.791c-0.297,0.965,0.305,1.855,1.346,1.994l81.446,10.932c1.038,0.141,2.123-0.527,2.42-1.49l0,0
 							c0.298-0.961-0.304-1.855-1.343-1.996l-81.447-10.93C12.51,104.16,11.426,104.828,11.129,105.791L11.129,105.791z"/>
 
 						<!-- Design (color lines on the front) -->
 						<!-- All the lines will start at the same time, because they all have the attribute `data-async` -->
-						<line data-async fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="47.583" y1="101.505" x2="51.561" y2="88.267"/>
-						<line data-async fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="53.391" y1="102.326" x2="57.047" y2="90.125"/>
-						<line data-async fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="59.224" y1="103.068" x2="62.749" y2="91.295"/>
-						<line data-async fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="65.057" y1="103.814" x2="69.015" y2="90.637"/>
-						<line data-async fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="72.87" y1="19.969" x2="75.497" y2="11.082"/>
-						<line data-async fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="78.512" y1="21.325" x2="81.317" y2="11.868"/>
-						<line data-async fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="83.833" y1="23.718" x2="87.16" y2="12.582"/>
-						<line data-async fill="none" stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="89.145" y1="26.141" x2="92.939" y2="13.498"/>
+						<line data-async stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="47.583" y1="101.505" x2="51.561" y2="88.267"/>
+						<line data-async stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="53.391" y1="102.326" x2="57.047" y2="90.125"/>
+						<line data-async stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="59.224" y1="103.068" x2="62.749" y2="91.295"/>
+						<line data-async stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="65.057" y1="103.814" x2="69.015" y2="90.637"/>
+						<line data-async stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="72.87" y1="19.969" x2="75.497" y2="11.082"/>
+						<line data-async stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="78.512" y1="21.325" x2="81.317" y2="11.868"/>
+						<line data-async stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="83.833" y1="23.718" x2="87.16" y2="12.582"/>
+						<line data-async stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="89.145" y1="26.141" x2="92.939" y2="13.498"/>
 
 					</svg>
 					<div class="example-description">
@@ -539,6 +442,13 @@
 					<div class="clearer"></div>
 
 				</div>
+			</div>
+		</div>
+
+		<!-- Info and documentation link -->
+		<div class="bloc bloc-doc">
+			<div class="content">
+				<p class="center">More information and documentation on <a href="https://github.com/maxwellito/vivus#vivusjs">GitHub</a>.</p>
 			</div>
 		</div>
 
