@@ -106,7 +106,7 @@ The Vivus object has 3 control methods:
 - `stop()` Stops the animation.
 - `reset()` Reinitialises the SVG to the original state: undrawn.
 - `finish()` Set the SVG to the final state: drawn.
-- `setFrameProgress(progress)` Set the progress of the animation. Progress must be a number between 0 et 1.
+- `setFrameProgress(progress)` Set the progress of the animation. Progress must be a number between 0 and 1.
 - `destroy()` Reset the SVG but make the instance out of order.
 
 These control methods return the object so you can chain the actions.
