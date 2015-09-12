@@ -120,7 +120,7 @@ Pathformer.prototype.rectToPath = function (element) {
 Pathformer.prototype.polylineToPath = function (element) {
   var i, path;
   var newElement = {};
-  var points = element.points.split(' ');
+  var points = element.points.trim().split(' ');
   
   // Reformatting if points are defined without commas
   if (element.points.indexOf(',') === -1) {
