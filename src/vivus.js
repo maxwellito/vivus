@@ -116,6 +116,8 @@ Vivus.prototype.setElement = function (element, options) {
     var objElm = document.createElement('object');
     objElm.setAttribute('type', 'image/svg+xml');
     objElm.setAttribute('data', options.file);
+    objElm.setAttribute('width', '100%');
+    objElm.setAttribute('height', '100%');
     element.appendChild(objElm);
     element = objElm;
   }
