@@ -40,7 +40,7 @@ gulp.task('distrib', function () {
  *
  */
 gulp.task('lint', function () {
-  return gulp.src('./src/*.js')
+  return gulp.src(['src/pathformer.js', 'src/vivus.js'])
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
 });

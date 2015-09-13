@@ -22,6 +22,9 @@
 	"globals": {
 		"Pathformer": false,
 		"Vivus": false,
+		"window": false,
+		"document": false,
+		"define": false,
 		"jasmine": false,
 		"it": false,
 		"expect": false,
