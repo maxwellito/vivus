@@ -252,6 +252,9 @@ Vivus.prototype.mapping = function () {
   paths = this.el.querySelectorAll('path');
 
   for (i = 0; i < paths.length; i++) {
+
+    if ( this.isInvisible(paths[i])) continue;
+
     path = paths[i];
     pathObj = {
       el: path,
@@ -318,6 +321,42 @@ Vivus.prototype.mapping = function () {
     }
     lengthMeter += pathObj.length;
     this.frameLength = this.frameLength || this.duration;
+  }
+};
+
+/**
+ * Method to best guess if a path should added into
+ * the animation or not.
+ * - Handle first user option:
+ *     data-vivus-ignore: false <- draw anyway
+ *     data-vivus-ignore: true <- don't draw whatever
+ * - Won't draw invisible stroke and nested child of invisible
+ * - Best guess on style options
+ */
+Vivus.prototype.isInvisible = function (el) {
+  var displayAttr, ignoreAttr, invisible, strokeAttr;
+  invisible = false;
+  ignoreAttr = el.getAttribute("data-vivus-ignore");
+  if (ignoreAttr != null) {
+    if (ignoreAttr === "true") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  if ((el.parentNode != null) && (el.parentNode.tagName != 'svg') && this.isInvisible(el.parentNode) === true) {
+    return true;
+  }
+  strokeAttr = el.getAttribute("stroke");
+  if ((strokeAttr != null) && strokeAttr === "none") {
+    return true;
+  }
+  displayAttr = el.getAttribute("display");
+  if ((displayAttr != null) && displayAttr === "none") {
+    return true;
+  }
+  if (el.style.display === "none" || el.style.visibility === "hidden" || el.style.opacity === 0) {
+    return true;
   }
 };
 
