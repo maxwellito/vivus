@@ -45,7 +45,7 @@ function Pathformer(element) {
  *
  * @type {Array}
  */
-Pathformer.prototype.TYPES = ['line', 'elipse', 'circle', 'polygon', 'polyline', 'rect'];
+Pathformer.prototype.TYPES = ['line', 'ellipse', 'circle', 'polygon', 'polyline', 'rect'];
 
 /**
  * List of attribute names which contain
@@ -120,7 +120,7 @@ Pathformer.prototype.rectToPath = function (element) {
 Pathformer.prototype.polylineToPath = function (element) {
   var i, path;
   var newElement = {};
-  var points = element.points.split(' ');
+  var points = element.points.trim().split(' ');
   
   // Reformatting if points are defined without commas
   if (element.points.indexOf(',') === -1) {
@@ -159,13 +159,13 @@ Pathformer.prototype.polygonToPath = function (element) {
 };
 
 /**
- * Read `elipse` element to extract and transform
+ * Read `ellipse` element to extract and transform
  * data, to make it ready for a `path` object.
  *
- * @param  {DOMelement} element Elipse element to transform
+ * @param  {DOMelement} element ellipse element to transform
  * @return {object}             Data for a `path` element
  */
-Pathformer.prototype.elipseToPath = function (element) {
+Pathformer.prototype.ellipseToPath = function (element) {
   var startX = element.cx - element.rx,
       startY = element.cy;
   var endX = parseFloat(element.cx) + parseFloat(element.rx),
