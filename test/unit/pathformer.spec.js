@@ -151,21 +151,21 @@ describe('Pathformer', function () {
       });
     });
 
-    // Elipse object
-    describe('elipse', function () {
-      var elipse = {
+    // Ellipse object
+    describe('ellipse', function () {
+      var ellipse = {
         cx: 2,
         cy: 3,
         rx: 3
       };
 
       it('should return an object with a `d` attribute', function () {
-        var output = Pathformer.prototype.elipseToPath(elipse);
+        var output = Pathformer.prototype.ellipseToPath(ellipse);
         expect(output.d).toBeDefined();
       });
 
       it('should return an object with an unclosed shape', function () {
-        var output = Pathformer.prototype.elipseToPath(elipse);
+        var output = Pathformer.prototype.ellipseToPath(ellipse);
         expect(output.d.substr(-1)).not.toEqual('Z');
       });
     });
