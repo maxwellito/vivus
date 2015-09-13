@@ -46,8 +46,6 @@ However, there's a problem with this. The `strokeDashoffset` property is only av
 
 There are few conditions that your SVG must meet:
 
-- The SVG must be inline in your HTML, otherwise JavaScript cannot manipulate it.
-
 - All elements must have a stroke property and cannot be filled. This is because the animation only looks to progressively draw strokes and will not check for filled colours. For example: fill: "none"; stroke: "#FFF";
 
 - You shoud avoid creating any hidden path elements in your SVG. Vivus considers them all eligible to be animated, so it is advised to remove them before playing with it. If they are not removed the animation might not achieve the desired effect, with blank areas and gaps appearing.
@@ -60,56 +58,83 @@ The code is inspired from other repositories. The drawer is inspired from the ex
 
 As I said, no dependencies here. All you need to do is include the scripts.
 
-```js
-// Inline SVG
-new Vivus('my-svg-id', {type: 'delayed', duration: 200}, myCallback);
+**Inline SVG**
 
-// Dynamic load
-new Vivus('my-div-id', {type: 'delayed', duration: 200, file: 'link/to/my.svg'}, myCallback);
+```html
+<svg id="my-svg">
+  <path...>
+  <path...>
+  <path...>
+</svg>
+
+<script>
+  new Vivus('my-svg', {duration: 200}, myCallback);
+</script>
 ```
+
+**Dynamic load**
+
+```html
+<div id="my-div"></div>
+
+<script>
+  new Vivus('my-div', {duration: 200, file: 'link/to/my.svg'}, myCallback);
+</script>
+```
+
+By default the `object` created will take the size of the parent element, this one must have a height and width or your SVG might not appear.
+
+If you need to edit this object, it is accessible in the `onReady` callback:
+
+```js
+new Vivus('my-div-id', {
+  file: 'link/to/my.svg'
+  onReady: function (myVivus) {
+    // `el` property is the SVG element
+    myVivus.el.setAttribute('height', 'auto');
+  }
+});
+```
+
+Check out the [hacks page](https://github.com/maxwellito/vivus/blob/master/hacks.md) for more tricks.
+
+### Constructor
 
 The Vivus constructor asks for 3 parameters:
 
 - ID (or object) of DOM element to interact with.<br/>It can be an inline SVG or a wrapper element to append an object tag from the option `file`
-- Option object (described in the following)
+- Option object (described in the following  |
 - Callback to call at the end of the animation (optional)
 
+### Option list
 
-The option object must respect the following structure :
+| Name       | Type     | Description |
+|------------|----------|-------------|
+|`type`      | string   | Defines what kind of animation will be used: `delayed`, `async`, `oneByOne`, `script`, `scenario` or `scenario-sync`. [Default: `delayed`] |
+|`file`      | string   | Link to the SVG to animate. If set, Vivus will create an object tag and append it to the DOM element given to the constructor. Be careful, use the `onReady` callback before playing with the Vivus instance. |
+|`start`     | string   | Defines how to trigger the animation (`inViewport` once the SVG is in the viewport, `manual` gives you the freedom to call draw method to start, `autostart` makes it start right now). [Default: `inViewport`] |
+|`duration`  | integer  | Animation duration, in frames. [Default: `200`] |
+|`delay`     | integer  | Time between the drawing of first and last path, in frames (only for `delayed` animations). |
+|`onReady`   | function | Function called when the instance is ready to play. |
+|`pathTimingFunction` | function | Timing animation function for each path element of the SVG. Check the [timing function part](#timing-function). |
+|`animTimingFunction` | function | Timing animation function for the complete SVG. Check the [timing function part](#timing-function). |
+|`dashGap`   | integer  | Whitespace extra margin between dashes. Increase it in case of glitches at the initial state of the animation. [Default: `2`] |
+|`forceRender` | boolean | Force the browser to re-render all updated path items. By default, the value is `true` on IE only. (check the 'troubleshoot' section for more details). |
+|`selfDestroy` | boolean | Removes all extra styling on the SVG, and leaves it as original. |
 
-- `type` (string) defines what kind of animation will be used: `delayed`, `async`, `oneByOne`, `script`, `scenario` or `scenario-sync` 
-- `duration` (integer) animation duration, in frames
-- `start` (string)
-defines how to trigger the animation
-  - `inViewport` once the SVG is in the viewport
-  - `manual` gives you the freedom to call draw method to start
-  - `autostart` makes it start right now
-- `delay` (integer)
-time between the drawing of first and last path, in frames (only for delayed animations)
-- `file` (string)
-link to the SVG to animate. If set, Vivus will create an object tag and append it to the DOM element given to the constructor. Be careful, use the `onReady` callback before playing with the Vivus instance.
-- `onReady` (function)
-function called when the instance is ready to play
-- `dashGap` (integer)
-whitespace extra margin between dashes. The default value is `2`. Increase it in case of glitches at the initial state of the animation
-- `pathTimingFunction` (function)
-timing animation function for each path element of the SVG. The function must accept a value between 0 and 1, then return a number between 0 and 1.
-- `animTimingFunction` (function)
-timing animation function for the complete SVG. The function must accept a value between 0 and 1, then return a number between 0 and 1.
-- `forceRender` (boolean)
-force the browser to re-render all updated path items. By default, the value is `true` on IE only. (check the 'troubleshoot' section for more details)
-- `selfDestroy` (boolean) removes all extra styling on the SVG, and leaves it as original
 
-The Vivus object has 3 control methods:
+### Methods
 
-- `play(speed)` Plays the animation with the speed given in parameter. This value can be negative to go backward, between 0 and 1 to go slowly, or superior to 1 to go fast. By default the value is 1.
-- `stop()` Stops the animation.
-- `reset()` Reinitialises the SVG to the original state: undrawn.
-- `finish()` Set the SVG to the final state: drawn.
-- `setFrameProgress(progress)` Set the progress of the animation. Progress must be a number between 0 and 1.
-- `destroy()` Reset the SVG but make the instance out of order.
+| Name          | Description         |
+|---------------|---------------------|
+| `play(speed)` | Plays the animation with the speed given in parameter. This value can be negative to go backward, between 0 and 1 to go slowly, or superior to 1 to go fast. [Default: `1`] |
+| `stop()`      | Stops the animation. |
+| `reset()`     | Reinitialises the SVG to the original state: undrawn. |
+| `finish()`    | Set the SVG to the final state: drawn. |
+| `setFrameProgress(progress)` | Set the progress of the animation. Progress must be a number between 0 and 1. |
+| `destroy()`   | Reset the SVG but make the instance out of order. |
 
-These control methods return the object so you can chain the actions.
+These methods return the object so you can chain the actions.
 
 ```js
 var myVivus = new Vivus('my-svg-id');
