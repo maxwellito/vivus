@@ -199,6 +199,8 @@ Vivus.prototype.setOptions = function (options) {
   this.selfDestroy = !!options.selfDestroy;
   this.onReady     = options.onReady;
 
+  this.ignoreInvisible = options.hasOwnProperty('ignoreInvisible') ? !!options.ignoreInvisible : false;
+
   this.animTimingFunction = options.animTimingFunction || Vivus.LINEAR;
   this.pathTimingFunction = options.pathTimingFunction || Vivus.LINEAR;
 
@@ -255,6 +257,9 @@ Vivus.prototype.mapping = function () {
 
   for (i = 0; i < paths.length; i++) {
     path = paths[i];
+    if (this.isInvisible(path)) {
+      continue;
+    }
     pathObj = {
       el: path,
       length: Math.ceil(path.getTotalLength())
@@ -482,12 +487,6 @@ Vivus.prototype.getStatus = function () {
   return this.currentFrame === 0 ? 'start' : this.currentFrame === this.frameLength ? 'end' : 'progress';
 };
 
-
-/**
- * Controls
- **************************************
- */
-
 /**
  * Reset the instance to the initial state : undraw
  * Be careful, it just reset the animation, if you're
@@ -577,9 +576,40 @@ Vivus.prototype.destroy = function () {
 
 /**
  * Utils methods
- * from Codrops
+ * include methods from Codrops
  **************************************
  */
+
+/**
+ * Method to best guess if a path should added into
+ * the animation or not.
+ *
+ * 1. Use the `data-vivus-ignore` attribute if set
+ * 2. Check if the instance must ignore invisible paths
+ * 3. Check if the path is visible
+ *
+ * For now the visibility checking is unstable.
+ * It will be used for a beta phase.
+ *
+ * Other improvments are planned. Like detecting
+ * is the path got a stroke or a valid opacity.
+ */
+Vivus.prototype.isInvisible = function (el) {
+  var rect,
+    ignoreAttr = el.getAttribute('data-vivus-ignore');
+
+  if (ignoreAttr !== null) {
+    return ignoreAttr !== 'false';
+  }
+
+  if (this.ignoreInvisible) {
+    rect = el.getBoundingClientRect();
+    return !rect.width && !rect.height;
+  }
+  else {
+    return false;
+  }
+};
 
 /**
  * Parse attributes of a DOM element to

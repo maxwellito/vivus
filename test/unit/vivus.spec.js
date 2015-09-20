@@ -34,29 +34,28 @@ describe('Vivus', function () {
   window.HTMLObjectElement = ObjectElementMock;
 
   beforeEach(function () {
-    // Remove tag if existing
-    svgTag = document.getElementById(svgTagId);
-
     // Create the SVG
     svgTag = document.createElementNS('http://www.w3.org/2000/svg','svg');
     svgTag.id = svgTagId;
     svgTag.innerHTML = '<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="72.947"/>' +
       '<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="39.74"/>' +
-      '<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="34.042" y1="131.189" x2="67.047" y2="77.781"/>' +
-      '<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="165.957" y1="68.809" x2="132.953" y2="122.219"/>' +
-      '<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="131.19" y1="165.957" x2="77.781" y2="132.953"/>' +
-      '<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="68.81" y1="34.042" x2="122.219" y2="67.046"/>';
-
-    // Insert it to the body
-    document.body.appendChild(svgTag);
+      '<g>' +
+        '<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="34.042" y1="131.189" x2="67.047" y2="77.781"/>' +
+        '<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="165.957" y1="68.809" x2="132.953" y2="122.219"/>' +
+        '<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="131.19" y1="165.957" x2="77.781" y2="132.953"/>' +
+        '<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="68.81" y1="34.042" x2="122.219" y2="67.046"/>' +
+      '</g>';
 
     wrapTag = document.createElement('div');
     wrapTag.appendChild(svgTag);
+
+    document.body.appendChild(wrapTag);
   });
 
   afterEach(function () {
     // Remove tag
     svgTag.remove();
+    wrapTag.remove();
   });
 
   describe('[basic tests]', function () {
@@ -317,6 +316,28 @@ describe('Vivus', function () {
       });
     });
 
+    describe('Visibility checking:', function () {
+
+      it('should not accept a path which is not displayed', function () {
+        // Hide a path
+        svgTag.childNodes[1].style.display = 'none';
+        myVivus = new Vivus(svgTag, {ignoreInvisible: true});
+        expect(myVivus.map.length).toEqual(5);
+      });
+
+      it('should not accept a path which with an ignore tag', function () {
+        svgTag.childNodes[1].setAttribute('data-vivus-ignore', 'true');
+        myVivus = new Vivus(svgTag);
+        expect(myVivus.map.length).toEqual(5);
+      });
+
+      it('should not accept a path which is not displayed', function () {
+        svgTag.childNodes[1].setAttribute('data-vivus-ignore', 'false')
+        myVivus = new Vivus(svgTag);
+        expect(myVivus.map.length).toEqual(6);
+      });
+    });
+    
     // Drawing
     describe('Drawing:', function () {
 
