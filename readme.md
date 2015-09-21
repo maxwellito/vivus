@@ -161,6 +161,20 @@ new Vivus('my-svg-id', {
 
 **WARNING**: `animTimingFunction` is called at every frame of the animation, and `pathTimingFunction` is also called at every frame for each path of your SVG. So be careful about them. Keep it simple, or it can affect the performances.
 
+## Extra attributes
+
+The attribute `data-ignore` allow to ignore path tags from the vivus animation.
+
+```html
+<svg id="my-svg">
+  <path...>
+  <path data-ignore="true" ...>
+  <path...>
+</svg>
+```
+
+In this case, the second path won't be part of the animation.
+
 ## Scenarize
 
 This feature allows you to script the animation of your SVG. For this, the custom values will be set directly in the DOM of the SVG.

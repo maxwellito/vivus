@@ -326,18 +326,18 @@ describe('Vivus', function () {
       });
 
       it('should not accept a path which with an ignore tag', function () {
-        svgTag.childNodes[1].setAttribute('data-vivus-ignore', 'true');
+        svgTag.childNodes[1].setAttribute('data-ignore', 'true');
         myVivus = new Vivus(svgTag);
         expect(myVivus.map.length).toEqual(5);
       });
 
       it('should not accept a path which is not displayed', function () {
-        svgTag.childNodes[1].setAttribute('data-vivus-ignore', 'false')
+        svgTag.childNodes[1].setAttribute('data-ignore', 'false')
         myVivus = new Vivus(svgTag);
         expect(myVivus.map.length).toEqual(6);
       });
     });
-    
+
     // Drawing
     describe('Drawing:', function () {
 

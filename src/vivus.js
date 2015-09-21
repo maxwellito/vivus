@@ -596,7 +596,7 @@ Vivus.prototype.destroy = function () {
  */
 Vivus.prototype.isInvisible = function (el) {
   var rect,
-    ignoreAttr = el.getAttribute('data-vivus-ignore');
+    ignoreAttr = el.getAttribute('data-ignore');
 
   if (ignoreAttr !== null) {
     return ignoreAttr !== 'false';
