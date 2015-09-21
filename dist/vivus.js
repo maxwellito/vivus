@@ -1,6 +1,6 @@
 /**
  * vivus - JavaScript library to make drawing animation on SVG
- * @version v0.2.2
+ * @version v0.2.3
  * @link https://github.com/maxwellito/vivus
  * @license MIT
  */
@@ -56,7 +56,7 @@ function Pathformer(element) {
  *
  * @type {Array}
  */
-Pathformer.prototype.TYPES = ['line', 'elipse', 'circle', 'polygon', 'polyline', 'rect'];
+Pathformer.prototype.TYPES = ['line', 'ellipse', 'circle', 'polygon', 'polyline', 'rect'];
 
 /**
  * List of attribute names which contain
@@ -131,7 +131,7 @@ Pathformer.prototype.rectToPath = function (element) {
 Pathformer.prototype.polylineToPath = function (element) {
   var i, path;
   var newElement = {};
-  var points = element.points.split(' ');
+  var points = element.points.trim().split(' ');
   
   // Reformatting if points are defined without commas
   if (element.points.indexOf(',') === -1) {
@@ -170,13 +170,13 @@ Pathformer.prototype.polygonToPath = function (element) {
 };
 
 /**
- * Read `elipse` element to extract and transform
+ * Read `ellipse` element to extract and transform
  * data, to make it ready for a `path` object.
  *
- * @param  {DOMelement} element Elipse element to transform
+ * @param  {DOMelement} element ellipse element to transform
  * @return {object}             Data for a `path` element
  */
-Pathformer.prototype.elipseToPath = function (element) {
+Pathformer.prototype.ellipseToPath = function (element) {
   var startX = element.cx - element.rx,
       startY = element.cy;
   var endX = parseFloat(element.cx) + parseFloat(element.rx),
@@ -368,6 +368,8 @@ Vivus.prototype.setElement = function (element, options) {
     var objElm = document.createElement('object');
     objElm.setAttribute('type', 'image/svg+xml');
     objElm.setAttribute('data', options.file);
+    objElm.setAttribute('width', '100%');
+    objElm.setAttribute('height', '100%');
     element.appendChild(objElm);
     element = objElm;
   }
@@ -441,13 +443,15 @@ Vivus.prototype.setOptions = function (options) {
     this.start = options.start || allowedStarts[0];
   }
 
-  this.isIE        = (window.navigator.userAgent.indexOf('MSIE') !== -1);
+  this.isIE        = (window.navigator.userAgent.indexOf('MSIE') !== -1 || window.navigator.userAgent.indexOf('Trident/') !== -1 || window.navigator.userAgent.indexOf('Edge/') !== -1 );
   this.duration    = parsePositiveInt(options.duration, 120);
   this.delay       = parsePositiveInt(options.delay, null);
   this.dashGap     = parsePositiveInt(options.dashGap, 2);
   this.forceRender = options.hasOwnProperty('forceRender') ? !!options.forceRender : this.isIE;
   this.selfDestroy = !!options.selfDestroy;
   this.onReady     = options.onReady;
+
+  this.ignoreInvisible = options.hasOwnProperty('ignoreInvisible') ? !!options.ignoreInvisible : false;
 
   this.animTimingFunction = options.animTimingFunction || Vivus.LINEAR;
   this.pathTimingFunction = options.pathTimingFunction || Vivus.LINEAR;
@@ -505,6 +509,9 @@ Vivus.prototype.mapping = function () {
 
   for (i = 0; i < paths.length; i++) {
     path = paths[i];
+    if (this.isInvisible(path)) {
+      continue;
+    }
     pathObj = {
       el: path,
       length: Math.ceil(path.getTotalLength())
@@ -732,12 +739,6 @@ Vivus.prototype.getStatus = function () {
   return this.currentFrame === 0 ? 'start' : this.currentFrame === this.frameLength ? 'end' : 'progress';
 };
 
-
-/**
- * Controls
- **************************************
- */
-
 /**
  * Reset the instance to the initial state : undraw
  * Be careful, it just reset the animation, if you're
@@ -827,9 +828,40 @@ Vivus.prototype.destroy = function () {
 
 /**
  * Utils methods
- * from Codrops
+ * include methods from Codrops
  **************************************
  */
+
+/**
+ * Method to best guess if a path should added into
+ * the animation or not.
+ *
+ * 1. Use the `data-vivus-ignore` attribute if set
+ * 2. Check if the instance must ignore invisible paths
+ * 3. Check if the path is visible
+ *
+ * For now the visibility checking is unstable.
+ * It will be used for a beta phase.
+ *
+ * Other improvments are planned. Like detecting
+ * is the path got a stroke or a valid opacity.
+ */
+Vivus.prototype.isInvisible = function (el) {
+  var rect,
+    ignoreAttr = el.getAttribute('data-ignore');
+
+  if (ignoreAttr !== null) {
+    return ignoreAttr !== 'false';
+  }
+
+  if (this.ignoreInvisible) {
+    rect = el.getBoundingClientRect();
+    return !rect.width && !rect.height;
+  }
+  else {
+    return false;
+  }
+};
 
 /**
  * Parse attributes of a DOM element to
