@@ -294,10 +294,10 @@ console.table(logo.map);
 
 Thanks to all contributors! Also users who pushed me to improve the library by publishing it on NPM, or browser compatibility or features. Also thanks for fixing my awful english :)
 
-- @jolic for dynamic SVG loading, ignore invisible paths, infinite and beyond... 
-- @BenMcGeachy for making the documentation understandable
-- @TranscendOfSypherus for fixing the PathFormer
-- @flyingfisch for general helping with issues
-- @morgangiraud on the ignore invisible paths
+- [@jolic](https://github.com/jolic) for dynamic SVG loading, ignore invisible paths, infinite and beyond... 
+- [@BenMcGeachy](https://github.com/BenMcGeachy) for making the documentation understandable
+- [@TranscendOfSypherus](https://github.com/TranscendOfSypherus) for fixing the PathFormer
+- [@flyingfisch](https://github.com/flyingfisch) for general helping with issues
+- [@morgangiraud](https://github.com/morgangiraud) on the ignore invisible paths
 
 and many others...
