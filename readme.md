@@ -75,6 +75,16 @@ As I said, no dependencies here. All you need to do is include the scripts.
 **Dynamic load**
 
 ```html
+<object id="my-svg" type="image/svg+xml" data="link/to/my.svg"></object>
+
+<script>
+  new Vivus('my-svg', {duration: 200}, myCallback);
+</script>
+```
+
+or
+
+```html
 <div id="my-div"></div>
 
 <script>
@@ -279,3 +289,15 @@ var logo = new Vivus('myLogo', {type: 'scenario-sync'});
 // The property 'map' contain all the SVG mapping
 console.table(logo.map);
 ```
+
+## Special thanks!
+
+Thanks to all contributors! Also users who pushed me to improve the library by publishing it on NPM, or browser compatibility or features. Also thanks for fixing my awful english :)
+
+- @jolic for dynamic SVG loading, ignore invisible paths, infinite and beyond... 
+- @BenMcGeachy for making the documentation understandable
+- @TranscendOfSypherus for fixing the PathFormer
+- @flyingfisch for general helping with issues
+- @morgangiraud on the ignore invisible paths
+
+and many others...
