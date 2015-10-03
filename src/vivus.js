@@ -198,6 +198,7 @@ Vivus.prototype.setOptions = function (options) {
   this.forceRender = options.hasOwnProperty('forceRender') ? !!options.forceRender : this.isIE;
   this.selfDestroy = !!options.selfDestroy;
   this.onReady     = options.onReady;
+  this.frameLength = this.currentFrame = this.map = this.delayUnit = this.speed = this.handle = null;
 
   this.ignoreInvisible = options.hasOwnProperty('ignoreInvisible') ? !!options.ignoreInvisible : false;
 
@@ -552,7 +553,7 @@ Vivus.prototype.play = function (speed) {
 Vivus.prototype.stop = function () {
   if (this.handle) {
     cancelAnimFrame(this.handle);
-    delete this.handle;
+    this.handle = null;
   }
   return this;
 };

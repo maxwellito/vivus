@@ -509,11 +509,11 @@ describe('Vivus', function () {
 
     it('should stop the animation only when the animation is running', function () {
       myVivus.play();
-      expect(myVivus.handle).toBeDefined();
+      expect(myVivus.handle).toBeTruthy();
       myVivus.stop();
-      expect(myVivus.handle).not.toBeDefined();
+      expect(myVivus.handle).toBeFalsy();
       myVivus.stop();
-      expect(myVivus.handle).not.toBeDefined();
+      expect(myVivus.handle).toBeFalsy();
     });
 
     it('should remove all unecessary styling on every path element', function () {
