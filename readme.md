@@ -281,7 +281,7 @@ For Firefox users, you might encounter some glitches depending on your SVG and b
 
 ## Debug
 
-For an easier debug have a look to the attribute `map` of your Vivus object. This contains the mapping of your animation. If you're using Google Chrome, I recommend you use `console.table` to get a nice output of the array which will make your debug easier.
+For an easier debug have a look to the attribute `map` of your Vivus object. This contains the mapping of your animation. If you're using a modern browser, I recommend `console.table` to get a nice output of the array which will make your debug easier.
 
 ```javascript
 var logo = new Vivus('myLogo', {type: 'scenario-sync'});
