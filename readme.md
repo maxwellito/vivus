@@ -121,6 +121,7 @@ The Vivus constructor asks for 3 parameters:
 |`dashGap`   | integer  | Whitespace extra margin between dashes. Increase it in case of glitches at the initial state of the animation. [Default: `2`] |
 |`forceRender` | boolean | Force the browser to re-render all updated path items. By default, the value is `true` on IE only. (check the 'troubleshoot' section for more details). |
 |`selfDestroy` | boolean | Removes all extra styling on the SVG, and leaves it as original. |
+|`useAsSVG` | boolean | Default: false. Include .svg as svg html tag instead of object html tag. Use it to make your svg clickable. |
 
 
 ### Methods
