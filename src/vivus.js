@@ -65,8 +65,8 @@ function Vivus (element, options, callback) {
 
 /**
  * Timing functions
- ************************************** 
- * 
+ **************************************
+ *
  * Default functions to help developers.
  * It always take a number as parameter (between 0 to 1) then
  * return a number (between 0 and 1)
@@ -133,6 +133,9 @@ Vivus.prototype.setElement = function (element, options) {
     // If the Object is already loaded
     this.el = element.contentDocument && element.contentDocument.querySelector('svg');
     if (this.el) {
+      if(options.useAsSVG) {
+        self.useAsSVG(element);
+      }
       this.isReady = true;
       return;
     }
@@ -145,6 +148,9 @@ Vivus.prototype.setElement = function (element, options) {
         throw new Error('Vivus [constructor]: object loaded does not contain any SVG');
       }
       else {
+        if(options.useAsSVG) {
+          self.useAsSVG(element);
+        }
         self.isReady = true;
         self.init();
       }
@@ -154,6 +160,18 @@ Vivus.prototype.setElement = function (element, options) {
   default:
     throw new Error('Vivus [constructor]: "element" parameter is not valid (or miss the "file" attribute)');
   }
+};
+
+/**
+ * Include .svg file as svg html tag instead of object html tag.
+ * Use it to make your svg clickable.
+ * The method will not return anything.
+ *
+ * @param  {object} DOM object image/svg+xml
+ */
+Vivus.prototype.useAsSVG = function(objectElement) {
+  this.parentEl.insertBefore(this.el, objectElement);
+  this.parentEl.removeChild(objectElement);
 };
 
 /**
@@ -403,7 +421,7 @@ Vivus.prototype.trace = function () {
  * ressources, too much DOM manupulation..
  * but it's the only way to let the magic happen on IE.
  * By default, this fallback is only applied on IE.
- * 
+ *
  * @param  {Number} index Path index
  */
 Vivus.prototype.renderPath = function (index) {
@@ -422,7 +440,7 @@ Vivus.prototype.renderPath = function (index) {
  * This this mainly due to the case of passing an
  * object tag in the constructor. It will wait
  * the end of the loading to initialise.
- * 
+ *
  */
 Vivus.prototype.init = function () {
   // Set object variables
@@ -511,7 +529,7 @@ Vivus.prototype.finish = function () {
 
 /**
  * Set the level of progress of the drawing.
- * 
+ *
  * @param {number} progress Level of progress to set
  */
 Vivus.prototype.setFrameProgress = function (progress) {
