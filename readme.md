@@ -299,5 +299,6 @@ Thanks to all contributors! Also users who pushed me to improve the library by p
 - [@TranscendOfSypherus](https://github.com/TranscendOfSypherus) for fixing the PathFormer
 - [@flyingfisch](https://github.com/flyingfisch) for general helping with issues
 - [@morgangiraud](https://github.com/morgangiraud) on the ignore invisible paths
+- [@Nerdissimo](https://github.com/Nerdissimo) for inserting SVG without `object` wrapper 
 
 and many others...

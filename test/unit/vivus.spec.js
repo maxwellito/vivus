@@ -16,12 +16,13 @@ describe('Vivus', function () {
   // Mock ObjectElement and it's constructor via createElement
   ObjectElementMock = function () {
     this.loadCb = [];
+    this.attr = {};
     this.addEventListener = function (evtName, cb) {
       if (evtName === 'load') this.loadCb.push(cb);
     }
     this.loaded = function () {
       for (var i = 0; i < this.loadCb.length; i++) {
-        this.loadCb[i]();
+        this.loadCb[i]({target: this});
       }
     }
     this.getBoundingClientRect = function () {
@@ -29,6 +30,14 @@ describe('Vivus', function () {
         height: 11,
         top: 364
       };
+    }
+    this.insertBefore = function () {}
+    this.removeChild = function () {}
+    this.setAttribute = function (key, val) {
+      this.attr[key] = val;
+    }
+    this.getAttribute = function (key) {
+      return this.attr[key];
     }
   };
   window.HTMLObjectElement = ObjectElementMock;

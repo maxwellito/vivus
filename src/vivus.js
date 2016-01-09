@@ -116,8 +116,7 @@ Vivus.prototype.setElement = function (element, options) {
     var objElm = document.createElement('object');
     objElm.setAttribute('type', 'image/svg+xml');
     objElm.setAttribute('data', options.file);
-    objElm.setAttribute('width', '100%');
-    objElm.setAttribute('height', '100%');
+    objElm.setAttribute('built-by-vivus', 'true');
     element.appendChild(objElm);
     element = objElm;
   }
@@ -130,25 +129,34 @@ Vivus.prototype.setElement = function (element, options) {
     break;
 
   case window.HTMLObjectElement:
-    // If the Object is already loaded
-    this.el = element.contentDocument && element.contentDocument.querySelector('svg');
-    if (this.el) {
-      this.isReady = true;
-      return;
-    }
-
     // If we have to wait for it
-    var self = this;
-    element.addEventListener('load', function () {
+    var onLoad, self;
+    
+    self = this;
+    onLoad = function (e) {
+      if (self.isReady) {
+        return;
+      }
       self.el = element.contentDocument && element.contentDocument.querySelector('svg');
-      if (!self.el) {
+      if (!self.el && e) {
         throw new Error('Vivus [constructor]: object loaded does not contain any SVG');
       }
-      else {
+      else if (self.el) {
+        if (element.getAttribute('built-by-vivus')) {
+          self.parentEl.insertBefore(self.el, element);
+          self.parentEl.removeChild(element);
+          self.el.setAttribute('width', '100%');
+          self.el.setAttribute('height', '100%');
+        }
         self.isReady = true;
         self.init();
+        return true;
       }
-    });
+    };
+
+    if (!onLoad()) {
+      element.addEventListener('load', onLoad);
+    }
     break;
 
   default:
