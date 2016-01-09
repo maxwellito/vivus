@@ -202,7 +202,7 @@ Vivus.prototype.setOptions = function (options) {
   this.isIE        = (window.navigator.userAgent.indexOf('MSIE') !== -1 || window.navigator.userAgent.indexOf('Trident/') !== -1 || window.navigator.userAgent.indexOf('Edge/') !== -1 );
   this.duration    = parsePositiveInt(options.duration, 120);
   this.delay       = parsePositiveInt(options.delay, null);
-  this.dashGap     = parsePositiveInt(options.dashGap, 2);
+  this.dashGap     = parsePositiveInt(options.dashGap, 1);
   this.forceRender = options.hasOwnProperty('forceRender') ? !!options.forceRender : this.isIE;
   this.selfDestroy = !!options.selfDestroy;
   this.onReady     = options.onReady;
@@ -280,15 +280,12 @@ Vivus.prototype.mapping = function () {
       }
       continue;
     }
-    totalLength += pathObj.length;
     this.map.push(pathObj);
-    path.style.strokeDasharray  = pathObj.length + ' ' + (pathObj.length + this.dashGap);
-    path.style.strokeDashoffset = pathObj.length;
+    path.style.strokeDasharray  = pathObj.length + ' ' + (pathObj.length + this.dashGap * 2);
+    path.style.strokeDashoffset = pathObj.length + this.dashGap;
+    pathObj.length += this.dashGap;
+    totalLength += pathObj.length;
 
-    // Fix IE glitch
-    if (this.isIE) {
-      pathObj.length += this.dashGap;
-    }
     this.renderPath(i);
   }
 
