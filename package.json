@@ -4,7 +4,8 @@
   "description": "JavaScript library to make drawing animation on SVG",
   "main": "dist/vivus.js",
   "scripts": {
-    "test": "karma start test/karma.conf.js"
+    "test": "karma start test/karma.conf.js",
+    "serve": "python -m SimpleHTTPServer 8844"
   },
   "repository": {
     "type": "git",

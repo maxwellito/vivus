@@ -1,0 +1,62 @@
+<svg id="polaroid" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+viewBox="0 0 200 160" enable-background="new 0 0 200 160">
+
+  <g stroke="#f9f9f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10">
+    
+    <!-- Case -->
+    <!-- The case items will be drawn at the same time (attribute `data-async` on each tag) with a custom duration of 40 frames (attribute `data-duration`). WARNING: When you want to draw a bloc asynchronously (like here), the last item need to be `data-async` free. Otherwise the following tags will also start at the same time. I know it's a bit confusing, play a bit with it and you'll see. -->
+    <path data-async="" data-duration="40" d="
+      M106.725,104.742c-0.773,2.498-3.586,4.229-6.285,3.867L12.473,96.802c-2.699-0.363-4.262-2.682-3.49-5.18l25.164-81.436
+      c0.771-2.496,3.584-4.229,6.283-3.866l87.966,11.808c2.699,0.362,4.264,2.68,3.49,5.179L106.725,104.742z"/>
+    <path data-async="" data-duration="40" d="
+      M101.02,123.207c-0.773,2.5-3.587,4.23-6.286,3.867L6.766,115.27c-2.699-0.363-4.26-2.682-3.488-5.182l2.91-9.417
+      c0.771-2.499,3.585-4.23,6.285-3.87l87.967,11.809c2.699,0.361,4.261,2.682,3.49,5.18L101.02,123.207z"/>
+    <line data-async="" data-duration="40" x1="103.377" y1="128.225" x2="154.768" y2="155.32"/>
+    <line data-async="" data-duration="40" x1="109.852" y1="112.684" x2="155.035" y2="136.906"/>
+    <path data-async="" data-duration="40" d="
+      M9.096,120.207l47.932,21.994c0,0,98.06,12.414,97.74,13.119c-0.318,0.709,5.426-16.205,5.426-16.205l-2.646-96.842
+      c-1.098-7.587-2.467-11.8-8.559-15.024l-12.635-6.604"/>
+    <path data-async="" data-duration="40" d="
+      M161.586,38.135l30.717,16.085c0,0,5.295,2.323,4.543,6.504l-3.215,10.527c-0.648,2.621-2.939,4.988-8.229,2.798l-9.154-4.701
+      l-11.834,56.441"/>
+    <path data-duration="40" d="
+      M183.148,49.518c0,0,5.295,2.324,4.543,6.506l-3.215,10.526c-0.648,2.622-2.938,4.988-8.229,2.798"/>
+
+    <!-- Lens -->
+    <!-- All item will be drawn line by line, with an exception for the first one, a little delay (attribute `data-delay) to make a break between the drawing of the case and the start of the lens part -->
+    <path data-delay="20" d="
+      M87.176,56.143C83.274,68.78,69.043,77.538,55.395,75.706S33.846,62.146,37.75,49.511c3.903-12.637,18.135-21.392,31.783-19.562
+      C83.181,31.782,91.081,43.51,87.176,56.143z"/>
+    <path d="
+      M92.745,56.891c-4.785,15.48-22.219,26.213-38.942,23.969C37.079,78.615,27.4,64.245,32.184,48.763
+      c4.783-15.48,22.218-26.211,38.94-23.968C87.848,27.041,97.528,41.411,92.745,56.891z"/>
+    <path d="
+      M78.99,26.933c16.169,7.426,19.398,10.989,22.026,20.105c1.283,4.449,1.271,9.411-0.3,14.489
+      c-4.783,15.479-22.217,26.213-38.941,23.969c-8.68-1.165-21.171-7.963-25.613-14.055"/>
+    <path d="
+      M42.602,50.162c3.137-10.157,14.573-17.193,25.543-15.722"/>
+
+    <!-- Flash -->
+    <!-- This tag does not have any extra attribute. So it will start when the previous tag is finished. His duration and delay will be the one given in the options. -->
+    <path d="
+      M103.789,29.275c-0.568,1.841,0.582,3.549,2.57,3.818l12.807,1.72c1.988,0.266,4.062-1.012,4.633-2.851l1.66-5.38
+      c0.568-1.843-0.582-3.551-2.57-3.816l-12.807-1.72c-1.988-0.268-4.062,1.01-4.633,2.85L103.789,29.275z"/>
+
+    <!-- Output -->
+    <!-- Same case as Flash -->
+    <path d="
+      M11.129,105.791c-0.297,0.965,0.305,1.855,1.346,1.994l81.446,10.932c1.038,0.141,2.123-0.527,2.42-1.49l0,0
+      c0.298-0.961-0.304-1.855-1.343-1.996l-81.447-10.93C12.51,104.16,11.426,104.828,11.129,105.791L11.129,105.791z"/>
+
+    <!-- Design (color lines on the front) -->
+    <!-- All the lines will start at the same time, because they all have the attribute `data-async` -->
+    <line data-async="" x1="47.583" y1="101.505" x2="51.561" y2="88.267"/>
+    <line data-async="" x1="53.391" y1="102.326" x2="57.047" y2="90.125"/>
+    <line data-async="" x1="59.224" y1="103.068" x2="62.749" y2="91.295"/>
+    <line data-async="" x1="65.057" y1="103.814" x2="69.015" y2="90.637"/>
+    <line data-async="" x1="72.87" y1="19.969" x2="75.497" y2="11.082"/>
+    <line data-async="" x1="78.512" y1="21.325" x2="81.317" y2="11.868"/>
+    <line data-async="" x1="83.833" y1="23.718" x2="87.16" y2="12.582"/>
+    <line data-async="" x1="89.145" y1="26.141" x2="92.939" y2="13.498"/>
+  </g>
+</svg>
