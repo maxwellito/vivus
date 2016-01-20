@@ -1,6 +1,6 @@
 {
   "name": "vivus",
-  "version": "0.2.3",
+  "version": "0.3.0rc",
   "description": "JavaScript library to make drawing animation on SVG",
   "main": "dist/vivus.js",
   "scripts": {
