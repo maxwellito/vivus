@@ -142,6 +142,7 @@ The Vivus constructor asks for 3 parameters:
 | `reset()`     | Reinitialises the SVG to the original state: undrawn. |
 | `finish()`    | Set the SVG to the final state: drawn. |
 | `setFrameProgress(progress)` | Set the progress of the animation. Progress must be a number between 0 and 1. |
+| `getStatus()` | Get the status of the animation between `start`, `progress`, `end` |
 | `destroy()`   | Reset the SVG but make the instance out of order. |
 
 These methods return the object so you can chain the actions.
