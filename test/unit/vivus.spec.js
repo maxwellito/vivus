@@ -75,10 +75,15 @@ describe('Vivus', function () {
 
     it('should have timing functions set', function () {
       expect(Vivus.LINEAR).toBeDefined();
+      expect(Vivus.REVERSE).toBeDefined();
       expect(Vivus.EASE).toBeDefined();
+      expect(Vivus.EASE_REVERSE).toBeDefined();
       expect(Vivus.EASE_IN).toBeDefined();
+      expect(Vivus.EASE_IN_REVERSE).toBeDefined();
       expect(Vivus.EASE_OUT).toBeDefined();
+      expect(Vivus.EASE_OUT_REVERSE).toBeDefined();
       expect(Vivus.EASE_OUT_BOUNCE).toBeDefined();
+      expect(Vivus.EASE_OUT_BOUNCE_REVERSE).toBeDefined();
     });
 
     it('should have timing functions returning correct value on limits', function () {
@@ -92,6 +97,17 @@ describe('Vivus', function () {
       expect(Vivus.EASE_OUT(1)).toEqual(1);
       expect(Vivus.EASE_OUT_BOUNCE(0)).toEqual(0);
       expect(Vivus.EASE_OUT_BOUNCE(1)).toEqual(1);
+      // REVERSE
+      expect(Vivus.REVERSE(0)).toEqual(0);
+      expect(Vivus.REVERSE(1)).toEqual(1);
+      expect(Vivus.EASE_REVERSE(0)).toEqual(0);
+      expect(Vivus.EASE_REVERSE(1)).toEqual(1);
+      expect(Vivus.EASE_IN_REVERSE(0)).toEqual(0);
+      expect(Vivus.EASE_IN_REVERSE(1)).toEqual(1);
+      expect(Vivus.EASE_OUT_REVERSE(0)).toEqual(0);
+      expect(Vivus.EASE_OUT_REVERSE(1)).toEqual(1);
+      expect(Vivus.EASE_OUT_BOUNCE_REVERSE(0)).toEqual(0);
+      expect(Vivus.EASE_OUT_BOUNCE_REVERSE(1)).toEqual(1);
     });
   });
 
