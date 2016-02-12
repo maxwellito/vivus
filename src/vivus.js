@@ -356,8 +356,10 @@ Vivus.prototype.drawer = function () {
     this.stop();
     this.reset();
     this.callback(this);
-    if (this.instance_callback)
+    if (this.instance_callback) {
       this.instance_callback(this)
+      this.instance_callback = null
+    }
   } else if (this.currentFrame >= this.frameLength) {
     this.stop();
     this.currentFrame = this.frameLength;
@@ -366,8 +368,10 @@ Vivus.prototype.drawer = function () {
       this.destroy();
     }
     this.callback(this);
-    if (this.instance_callback)
+    if (this.instance_callback) {
       this.instance_callback(this)
+      this.instance_callback = null;
+    }
   } else {
     this.trace();
     this.handle = requestAnimFrame(function () {
