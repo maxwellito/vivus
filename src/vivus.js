@@ -356,6 +356,8 @@ Vivus.prototype.drawer = function () {
     this.stop();
     this.reset();
     this.callback(this);
+    if (this.instance_callback)
+      this.instance_callback(this)
   } else if (this.currentFrame >= this.frameLength) {
     this.stop();
     this.currentFrame = this.frameLength;
@@ -364,6 +366,8 @@ Vivus.prototype.drawer = function () {
       this.destroy();
     }
     this.callback(this);
+    if (this.instance_callback)
+      this.instance_callback(this)
   } else {
     this.trace();
     this.handle = requestAnimFrame(function () {
@@ -539,10 +543,17 @@ Vivus.prototype.setFrameProgress = function (progress) {
  *
  * @param  {number} speed Animation speed [optional]
  */
-Vivus.prototype.play = function (speed) {
-  if (speed && typeof speed !== 'number') {
+Vivus.prototype.play = function (speed, callback) {
+  if (speed && typeof speed === "function") {
+    this.instance_callback = speed // first parameter is actually the callback function
+    speed = null
+  } else if (speed && typeof speed !== 'number') {
     throw new Error('Vivus [play]: invalid speed');
   }
+  // if the first parameter wasn't the callback, check if the seconds was
+  if (callback && typeof(callback) === "function" && !this.instance_callback)
+    this.instance_callback = callback;
+
   this.speed = speed || 1;
   if (!this.handle) {
     this.drawer();

@@ -137,7 +137,7 @@ The Vivus constructor asks for 3 parameters:
 
 | Name          | Description         |
 |---------------|---------------------|
-| `play(speed)` | Plays the animation with the speed given in parameter. This value can be negative to go backward, between 0 and 1 to go slowly, or superior to 1 to go fast. [Default: `1`] |
+| `play(speed, callback)` | Plays the animation with the speed given in parameter. This value can be negative to go backward, between 0 and 1 to go slowly, or superior to 1 to go fast. [Default: `1`]. Callback executed after the animation is finished (optional) |
 | `stop()`      | Stops the animation. |
 | `reset()`     | Reinitialises the SVG to the original state: undrawn. |
 | `finish()`    | Set the SVG to the final state: drawn. |
@@ -153,6 +153,24 @@ myVivus
   .stop()
   .reset()
   .play(2)
+```
+
+#### Play method callback
+
+Instead of using the global constructor callback when you create the Vivus object, you can add callbacks to be
+executed for specific `play` method calls.
+
+```js
+var myVivus = new Vivus('my-svg-id');
+myVivus.play(1, function() {
+  // called after the animation completes
+})
+
+// alternativly if you leave the speed param blank and use the default, you
+// can pass the callback as the first parameter like so.
+myVivus.play(function() {
+  // called after the animation completes
+})
 ```
 
 ## Timing function
