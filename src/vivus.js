@@ -570,6 +570,7 @@ Vivus.prototype.stop = function () {
  *
  */
 Vivus.prototype.destroy = function () {
+  this.stop();
   var i, path;
   for (i = 0; i < this.map.length; i++) {
     path = this.map[i];
