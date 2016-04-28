@@ -1,0 +1,4 @@
+dir: src
+articles:
+  - About: readme.md
+  - Hacks: hacks.md
