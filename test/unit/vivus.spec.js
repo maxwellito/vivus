@@ -402,6 +402,22 @@ describe('Vivus', function () {
         myVivus.play();
       });
 
+      it('should stop animation if destroy has been called', function (done) {
+        var callbackSpy = jasmine.createSpy('spy');
+        myVivus = new Vivus(svgTag, {
+          type: 'oneByOne',
+          duration: 2,
+          start: 'autostart'
+        }, callbackSpy);
+
+        myVivus.destroy();
+
+        setTimeout(function () {
+          expect(callbackSpy.calls.count()).toEqual(0);
+          done();
+        }, 50);
+      });
+
       it('should stop the animation once it reaches currentFrame == 0', function (done) {
         myVivus = new Vivus(svgTag, {
           type: 'oneByOne',
