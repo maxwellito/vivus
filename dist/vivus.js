@@ -317,8 +317,8 @@ function Vivus (element, options, callback) {
 
 /**
  * Timing functions
- ************************************** 
- * 
+ **************************************
+ *
  * Default functions to help developers.
  * It always take a number as parameter (between 0 to 1) then
  * return a number (between 0 and 1)
@@ -383,7 +383,7 @@ Vivus.prototype.setElement = function (element, options) {
   case window.HTMLObjectElement:
     // If we have to wait for it
     var onLoad, self;
-    
+
     self = this;
     onLoad = function (e) {
       if (self.isReady) {
@@ -565,7 +565,7 @@ Vivus.prototype.mapping = function () {
       break;
 
     case 'scenario-sync':
-      path = paths[i];
+      path = pathObj.el;
       pAttrs = this.parseAttr(path);
       pathObj.startAt = timePoint + (parsePositiveInt(pAttrs['data-delay'], this.delayUnit) || 0);
       pathObj.duration = parsePositiveInt(pAttrs['data-duration'], this.duration);
@@ -574,7 +574,7 @@ Vivus.prototype.mapping = function () {
       break;
 
     case 'scenario':
-      path = paths[i];
+      path = pathObj.el;
       pAttrs = this.parseAttr(path);
       pathObj.startAt = parsePositiveInt(pAttrs['data-start'], this.delayUnit) || 0;
       pathObj.duration = parsePositiveInt(pAttrs['data-duration'], this.duration);
@@ -661,7 +661,7 @@ Vivus.prototype.trace = function () {
  * ressources, too much DOM manupulation..
  * but it's the only way to let the magic happen on IE.
  * By default, this fallback is only applied on IE.
- * 
+ *
  * @param  {Number} index Path index
  */
 Vivus.prototype.renderPath = function (index) {
@@ -680,7 +680,7 @@ Vivus.prototype.renderPath = function (index) {
  * This this mainly due to the case of passing an
  * object tag in the constructor. It will wait
  * the end of the loading to initialise.
- * 
+ *
  */
 Vivus.prototype.init = function () {
   // Set object variables
@@ -769,7 +769,7 @@ Vivus.prototype.finish = function () {
 
 /**
  * Set the level of progress of the drawing.
- * 
+ *
  * @param {number} progress Level of progress to set
  */
 Vivus.prototype.setFrameProgress = function (progress) {
@@ -822,6 +822,7 @@ Vivus.prototype.stop = function () {
  *
  */
 Vivus.prototype.destroy = function () {
+  this.stop();
   var i, path;
   for (i = 0; i < this.map.length; i++) {
     path = this.map[i];
