@@ -1,6 +1,6 @@
 /**
  * vivus - JavaScript library to make drawing animation on SVG
- * @version v0.3.0
+ * @version v0.3.1
  * @link https://github.com/maxwellito/vivus
  * @license MIT
  */
