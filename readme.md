@@ -6,8 +6,8 @@ Vivus is a lightweight JavaScript class (with no dependencies) that allows you t
 
 Available via:
 
- - [Bower](http://bower.io/): `bower install vivus`
  - [NPM](https://www.npmjs.com/package/vivus): `npm install vivus`
+ - [Bower](http://bower.io/): `bower install vivus`
  - [jsDelivr CDN](http://www.jsdelivr.com/#!vivus): `//cdn.jsdelivr.net/vivus/latest/vivus.min.js`
  - [CDNJS CDN](https://cdnjs.com/libraries/vivus)
  - [WebJars](http://www.webjars.org/)
