@@ -276,6 +276,13 @@ describe('Vivus', function () {
     // Mapping
     describe('Mapping:', function () {
 
+      it('shoud not trigger any error if the SVG is empty', function () {
+        expect(function () {
+          var svgTag = document.createElementNS('http://www.w3.org/2000/svg','svg');
+          myVivus = new Vivus(svgTag, {});
+        }).not.toThrow();
+      });
+
       it('shoud create a mapping of the SVG', function () {
         myVivus = new Vivus(svgTag, {});
         expect(myVivus.map && myVivus.map.length).toEqual(6);
@@ -308,7 +315,7 @@ describe('Vivus', function () {
           SVGPathElement.prototype.getTotalLength = getTotalLengthBkp;
           console.warn = warnBkp;
         });
-        
+
         it('shoud call console.warn if a path length is NaN', function () {
           var warnSpy = jasmine.createSpy('spy');
           console.warn = warnSpy;
@@ -453,7 +460,7 @@ describe('Vivus', function () {
 
       it('should use renderPath if forceRender option is set to true', function () {
         myVivus = new Vivus(svgTag, { duration: 2, start: 'manual', forceRender: true });
-        
+
         var originalFirstPath = myVivus.map[0].el;
         myVivus.renderPath(0);
         expect(myVivus.map[0].el).not.toBe(originalFirstPath);
@@ -461,7 +468,7 @@ describe('Vivus', function () {
 
       it('should not use renderPath if forceRender option is set to false', function () {
         myVivus = new Vivus(svgTag, { duration: 2, start: 'manual', forceRender: false });
-        
+
         var originalFirstPath = myVivus.map[0].el;
         myVivus.renderPath(0);
         expect(myVivus.map[0].el).toBe(originalFirstPath);

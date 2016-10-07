@@ -1,6 +1,6 @@
 /**
  * vivus - JavaScript library to make drawing animation on SVG
- * @version v0.3.1
+ * @version v0.3.2
  * @link https://github.com/maxwellito/vivus
  * @license MIT
  */
@@ -61,7 +61,7 @@ Pathformer.prototype.TYPES = ['line', 'ellipse', 'circle', 'polygon', 'polyline'
 /**
  * List of attribute names which contain
  * data. This array list them to check if
- * they contain bad values, like percentage. 
+ * they contain bad values, like percentage.
  *
  * @type {Array}
  */
@@ -75,7 +75,8 @@ Pathformer.prototype.ATTR_WATCH = ['cx', 'cy', 'points', 'r', 'rx', 'ry', 'x', '
  */
 Pathformer.prototype.scan = function (svg) {
   var fn, element, pathData, pathDom,
-    elements = svg.querySelectorAll(this.TYPES.join(','));
+      elements = svg.querySelectorAll(this.TYPES.join(','));
+
   for (var i = 0; i < elements.length; i++) {
     element = elements[i];
     fn = this[element.tagName.toLowerCase() + 'ToPath'];
@@ -94,8 +95,13 @@ Pathformer.prototype.scan = function (svg) {
  * @return {object}             Data for a `path` element
  */
 Pathformer.prototype.lineToPath = function (element) {
-  var newElement = {};
-  newElement.d = 'M' + element.x1 + ',' + element.y1 + 'L' + element.x2 + ',' + element.y2;
+  var newElement = {},
+      x1 = element.x1 || 0,
+      y1 = element.y1 || 0,
+      x2 = element.x2 || 0,
+      y2 = element.y2 || 0;
+
+  newElement.d = 'M' + x1 + ',' + y1 + 'L' + x2 + ',' + y2;
   return newElement;
 };
 
@@ -110,10 +116,11 @@ Pathformer.prototype.lineToPath = function (element) {
  */
 Pathformer.prototype.rectToPath = function (element) {
   var newElement = {},
-    x = parseFloat(element.x) || 0,
-    y = parseFloat(element.y) || 0,
-    width = parseFloat(element.width) || 0,
-    height = parseFloat(element.height) || 0;
+      x      = parseFloat(element.x)      || 0,
+      y      = parseFloat(element.y)      || 0,
+      width  = parseFloat(element.width)  || 0,
+      height = parseFloat(element.height) || 0;
+
   newElement.d  = 'M' + x + ' ' + y + ' ';
   newElement.d += 'L' + (x + width) + ' ' + y + ' ';
   newElement.d += 'L' + (x + width) + ' ' + (y + height) + ' ';
@@ -129,10 +136,10 @@ Pathformer.prototype.rectToPath = function (element) {
  * @return {object}             Data for a `path` element
  */
 Pathformer.prototype.polylineToPath = function (element) {
-  var i, path;
-  var newElement = {};
-  var points = element.points.trim().split(' ');
-  
+  var newElement = {},
+      points = element.points.trim().split(' '),
+      i, path;
+
   // Reformatting if points are defined without commas
   if (element.points.indexOf(',') === -1) {
     var formattedPoints = [];
@@ -165,6 +172,7 @@ Pathformer.prototype.polylineToPath = function (element) {
  */
 Pathformer.prototype.polygonToPath = function (element) {
   var newElement = Pathformer.prototype.polylineToPath(element);
+
   newElement.d += 'Z';
   return newElement;
 };
@@ -177,15 +185,19 @@ Pathformer.prototype.polygonToPath = function (element) {
  * @return {object}             Data for a `path` element
  */
 Pathformer.prototype.ellipseToPath = function (element) {
-  var startX = element.cx - element.rx,
-      startY = element.cy;
-  var endX = parseFloat(element.cx) + parseFloat(element.rx),
-      endY = element.cy;
+  var newElement = {},
+      rx = parseFloat(element.rx) || 0,
+      ry = parseFloat(element.ry) || 0,
+      cx = parseFloat(element.cx) || 0,
+      cy = parseFloat(element.cy) || 0,
+      startX = cx - rx,
+      startY = cy,
+      endX = parseFloat(cx) + parseFloat(rx),
+      endY = cy;
 
-  var newElement = {};
   newElement.d = 'M' + startX + ',' + startY +
-                 'A' + element.rx + ',' + element.ry + ' 0,1,1 ' + endX + ',' + endY +
-                 'A' + element.rx + ',' + element.ry + ' 0,1,1 ' + startX + ',' + endY;
+                 'A' + rx + ',' + ry + ' 0,1,1 ' + endX + ',' + endY +
+                 'A' + rx + ',' + ry + ' 0,1,1 ' + startX + ',' + endY;
   return newElement;
 };
 
@@ -197,14 +209,18 @@ Pathformer.prototype.ellipseToPath = function (element) {
  * @return {object}             Data for a `path` element
  */
 Pathformer.prototype.circleToPath = function (element) {
-  var newElement = {};
-  var startX = element.cx - element.r,
-      startY = element.cy;
-  var endX = parseFloat(element.cx) + parseFloat(element.r),
-      endY = element.cy;
+  var newElement = {},
+      r  = parseFloat(element.r)  || 0,
+      cx = parseFloat(element.cx) || 0,
+      cy = parseFloat(element.cy) || 0,
+      startX = cx - r,
+      startY = cy,
+      endX = parseFloat(cx) + parseFloat(r),
+      endY = cy;
+      
   newElement.d =  'M' + startX + ',' + startY +
-                  'A' + element.r + ',' + element.r + ' 0,1,1 ' + endX + ',' + endY +
-                  'A' + element.r + ',' + element.r + ' 0,1,1 ' + startX + ',' + endY;
+                  'A' + r + ',' + r + ' 0,1,1 ' + endX + ',' + endY +
+                  'A' + r + ',' + r + ' 0,1,1 ' + startX + ',' + endY;
   return newElement;
 };
 
@@ -458,7 +474,8 @@ Vivus.prototype.setOptions = function (options) {
   this.forceRender = options.hasOwnProperty('forceRender') ? !!options.forceRender : this.isIE;
   this.selfDestroy = !!options.selfDestroy;
   this.onReady     = options.onReady;
-  this.frameLength = this.currentFrame = this.map = this.delayUnit = this.speed = this.handle = null;
+  this.map         = new Array();
+  this.frameLength = this.currentFrame = this.delayUnit = this.speed = this.handle = null;
 
   this.ignoreInvisible = options.hasOwnProperty('ignoreInvisible') ? !!options.ignoreInvisible : false;
 
