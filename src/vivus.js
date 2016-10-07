@@ -206,7 +206,8 @@ Vivus.prototype.setOptions = function (options) {
   this.forceRender = options.hasOwnProperty('forceRender') ? !!options.forceRender : this.isIE;
   this.selfDestroy = !!options.selfDestroy;
   this.onReady     = options.onReady;
-  this.frameLength = this.currentFrame = this.map = this.delayUnit = this.speed = this.handle = null;
+  this.map         = new Array();
+  this.frameLength = this.currentFrame = this.delayUnit = this.speed = this.handle = null;
 
   this.ignoreInvisible = options.hasOwnProperty('ignoreInvisible') ? !!options.ignoreInvisible : false;
 
