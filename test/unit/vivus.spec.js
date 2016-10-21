@@ -276,14 +276,14 @@ describe('Vivus', function () {
     // Mapping
     describe('Mapping:', function () {
 
-      it('shoud not trigger any error if the SVG is empty', function () {
+      it('should not trigger any error if the SVG is empty', function () {
         expect(function () {
           var svgTag = document.createElementNS('http://www.w3.org/2000/svg','svg');
           myVivus = new Vivus(svgTag, {});
         }).not.toThrow();
       });
 
-      it('shoud create a mapping of the SVG', function () {
+      it('should create a mapping of the SVG', function () {
         myVivus = new Vivus(svgTag, {});
         expect(myVivus.map && myVivus.map.length).toEqual(6);
       });
@@ -316,7 +316,7 @@ describe('Vivus', function () {
           console.warn = warnBkp;
         });
 
-        it('shoud call console.warn if a path length is NaN', function () {
+        it('should call console.warn if a path length is NaN', function () {
           var warnSpy = jasmine.createSpy('spy');
           console.warn = warnSpy;
           myVivus = new Vivus(svgTag);
@@ -324,7 +324,7 @@ describe('Vivus', function () {
           expect(myVivus.map.length).toEqual(0);
         });
 
-        it('shoudn\'t call console.warn if not defined a path length is NaN', function () {
+        it('shouldn\'t call console.warn if not defined a path length is NaN', function () {
           console.warn = null;
           myVivus = new Vivus(svgTag);
           expect(myVivus.map.length).toEqual(0);

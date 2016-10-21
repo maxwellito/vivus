@@ -48,7 +48,7 @@ There are few conditions that your SVG must meet:
 
 - All elements must have a stroke property and cannot be filled. This is because the animation only looks to progressively draw strokes and will not check for filled colours. For example: fill: "none"; stroke: "#FFF";
 
-- You shoud avoid creating any hidden path elements in your SVG. Vivus considers them all eligible to be animated, so it is advised to remove them before playing with it. If they are not removed the animation might not achieve the desired effect, with blank areas and gaps appearing.
+- You should avoid creating any hidden path elements in your SVG. Vivus considers them all eligible to be animated, so it is advised to remove them before playing with it. If they are not removed the animation might not achieve the desired effect, with blank areas and gaps appearing.
 
 - `text` elements aren't allowed, they cannot be transformed into `path` elements. See [#22](https://github.com/maxwellito/vivus/issues/22) for more details.
 
