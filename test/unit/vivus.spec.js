@@ -380,6 +380,45 @@ describe('Vivus', function () {
         myVivus.finish().play(-1);
       });
 
+      it('should call the method callback as the second param once the animation is finished', function (done) {
+        myVivus = new Vivus(svgTag, {
+          type: "oneByOne",
+          duration: 2,
+          start: "manual",
+        })
+
+        myVivus.play(1, function() {
+          expect(true).toBe(true);
+          done();
+        })
+      })
+
+      it('should call the method callback as the first param once the animation is finished', function (done) {
+        myVivus = new Vivus(svgTag, {
+          type: "oneByOne",
+          duration: 2,
+          start: "manual",
+        })
+
+        myVivus.play(function() {
+          expect(true).toBe(true);
+          done();
+        })
+      })
+
+      it('should call the method callback once the reverse animation is finished', function (done) {
+        myVivus = new Vivus(svgTag, {
+          type: "oneByOne",
+          duration: 2,
+          start: "manual",
+        })
+
+        myVivus.finish().play(-1, function() {
+          expect(true).toBe(true);
+          done();
+        })
+      })
+
       it('should call destroy method once the animation is finished', function (done) {
         var destroySpy = jasmine.createSpy('spy');
         myVivus = new Vivus(svgTag, {
