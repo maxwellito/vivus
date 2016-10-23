@@ -289,7 +289,7 @@ describe('Vivus', function () {
       });
 
       it('should map with correct values for start and duration', function () {
-        var i, typeIndex, types = ['delayed', 'async', 'oneByOne', 'scenario', 'scenario-sync'];
+        var i, typeIndex, types = ['delayed', 'sync', 'oneByOne', 'scenario', 'scenario-sync'];
         for (typeIndex in types) {
           myVivus = new Vivus(svgTag, {type: types[typeIndex], duration: 200});
           for (i in myVivus.map) {

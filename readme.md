@@ -24,11 +24,11 @@ On the following images, the pink color represents the `duration` value, and the
 
 Every path element is drawn at the same time with a small delay at the start. This is currently the default animation.
 
-### Async
+### Sync
 
-![Timeline for async animation](https://raw.github.com/maxwellito/vivus/master/assets/async.png)
+![Timeline for sync animation](https://raw.github.com/maxwellito/vivus/master/assets/sync.png)
 
-Each line is drawn asynchronously. They all start and finish at the same time, hence the name `async`.
+Each line is drawn synchronously. They all start and finish at the same time, hence the name `sync`.
 
 ### OneByOne
 
@@ -120,7 +120,7 @@ The Vivus constructor asks for 3 parameters:
 
 | Name       | Type     | Description |
 |------------|----------|-------------|
-|`type`      | string   | Defines what kind of animation will be used: `delayed`, `async`, `oneByOne`, `script`, `scenario` or `scenario-sync`. [Default: `delayed`] |
+|`type`      | string   | Defines what kind of animation will be used: `delayed`, `sync`, `oneByOne`, `script`, `scenario` or `scenario-sync`. [Default: `delayed`] |
 |`file`      | string   | Link to the SVG to animate. If set, Vivus will create an object tag and append it to the DOM element given to the constructor. Be careful, use the `onReady` callback before playing with the Vivus instance. |
 |`start`     | string   | Defines how to trigger the animation (`inViewport` once the SVG is in the viewport, `manual` gives you the freedom to call draw method to start, `autostart` makes it start right now). [Default: `inViewport`] |
 |`duration`  | integer  | Animation duration, in frames. [Default: `200`] |
@@ -216,7 +216,7 @@ animation duration of this path, in frames
 ### `scenario-sync`
 
 It's not the sexiest code ever, but it's quite flexible. In addition to this, the behaviour is fairly different.
-By using this animation type, the default behaviour is the same as `oneByOne`. However, you can define some properties on a specific path item such as the duration, the delay to start (from the end of the previous path) and if it should be played asynchronously.
+By using this animation type, the default behaviour is the same as `oneByOne`. However, you can define some properties on a specific path item such as the duration, the delay to start (from the end of the previous path) and if it should be played synchronously.
 
 - `data-delay` (integer)
 time between the end of the animation of the previous path and the start of the current path, in frames

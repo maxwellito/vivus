@@ -16,7 +16,7 @@ var requestAnimFrame, cancelAnimFrame, parsePositiveInt;
 /**
  * Class constructor
  * option structure
- *   type: 'delayed'|'async'|'oneByOne'|'script' (to know if the item must be drawn asynchronously or not, default: delayed)
+ *   type: 'delayed'|'sync'|'oneByOne'|'script' (to know if the items must be drawn synchronously or not, default: delayed)
  *   duration: <int> (in frames)
  *   start: 'inViewport'|'manual'|'autostart' (start automatically the animation, default: inViewport)
  *   delay: <int> (delay between the drawing of first and last path)
@@ -30,7 +30,7 @@ var requestAnimFrame, cancelAnimFrame, parsePositiveInt;
  *  - 'delayed'
  *    all paths are draw at the same time but with a
  *    little delay between them before start
- *  - 'async'
+ *  - 'sync'
  *    all path are start and finish at the same time
  *  - 'oneByOne'
  *    only one path is draw at the time
@@ -172,7 +172,7 @@ Vivus.prototype.setElement = function (element, options) {
  * @param  {object} options Object from the constructor
  */
 Vivus.prototype.setOptions = function (options) {
-  var allowedTypes = ['delayed', 'async', 'oneByOne', 'scenario', 'scenario-sync'];
+  var allowedTypes = ['delayed', 'sync', 'async', 'nsync', 'oneByOne', 'scenario', 'scenario-sync'];
   var allowedStarts =  ['inViewport', 'manual', 'autostart'];
 
   // Basic check
@@ -314,7 +314,9 @@ Vivus.prototype.mapping = function () {
       pathObj.duration = pathObj.length / totalLength * this.duration;
       break;
 
+    case 'sync':
     case 'async':
+    case 'nsync':
       pathObj.startAt = 0;
       pathObj.duration = this.duration;
       break;

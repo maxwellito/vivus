@@ -294,8 +294,8 @@
 							<line x1="75.417" y1="168.693" x2="60.987" y2="107.59"/>
 						</svg>
 						<div class="col-container">
-							<h3>Async</h3>
-							<p>Each line is drawn asynchronously. They all start and finish at the same time, hence the name `async`.</p>
+							<h3>Sync</h3>
+							<p>Each line is drawn synchronously. They all start and finish at the same time, hence the name `sync`.</p>
 							<button onclick="obt2.reset().play();">replay</button>
 						</div>
 					</div>
@@ -350,7 +350,7 @@
 						<p>Type
 							<span class="button-group">
 								<button onclick="timingTest(this,'type','delayed');" class="active"><span>delayed</span></button>
-								<button onclick="timingTest(this,'type','async');"><span>async</span></button>
+								<button onclick="timingTest(this,'type','sync');"><span>sync</span></button>
 								<button onclick="timingTest(this,'type','oneByOne');"><span>oneByOne</span></button>
 							</span>
 						</p>
@@ -478,7 +478,7 @@
 				var progress = -Math.abs(Math.cos(rate * (2.5 * Math.PI) )) + 1;
 				return (1- rateR) + (progress * rateR);
 			}
-			
+
 			var timing,
 				timingProps = {
 					type: 'delayed',
@@ -508,7 +508,7 @@
 					}
 				}),
 				obt1 = new Vivus('obturateur1', {type: 'delayed', duration: 150}),
-				obt2 = new Vivus('obturateur2', {type: 'async', duration: 150}),
+				obt2 = new Vivus('obturateur2', {type: 'sync', duration: 150}),
 				obt3 = new Vivus('obturateur3', {type: 'oneByOne', duration: 150}),
 				pola = new Vivus('polaroid', {type: 'scenario-sync', duration: 20, forceRender: false});
 		</script>
