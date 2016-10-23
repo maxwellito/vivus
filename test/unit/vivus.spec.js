@@ -454,6 +454,19 @@ describe('Vivus', function () {
         });
         myVivus.play(0.5);
       });
+
+      it('should start by the last path if reverseStack is enabled', function () {
+        myVivus = new Vivus(svgTag, {
+          type: 'oneByOne',
+          duration: 5,
+          reverseStack: true
+        });
+        myVivus.setFrameProgress(.5);
+
+        var paths = svgTag.querySelectorAll('path');
+        expect(+paths[0].style.strokeDashoffset).not.toEqual(0);
+        expect(+paths[paths.length -1].style.strokeDashoffset).toEqual(0);
+      });
     });
 
     describe('Force Render:', function () {

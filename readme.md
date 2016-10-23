@@ -130,6 +130,7 @@ The Vivus constructor asks for 3 parameters:
 |`animTimingFunction` | function | Timing animation function for the complete SVG. Check the [timing function part](#timing-function). |
 |`dashGap`   | integer  | Whitespace extra margin between dashes. Increase it in case of glitches at the initial state of the animation. [Default: `2`] |
 |`forceRender` | boolean | Force the browser to re-render all updated path items. By default, the value is `true` on IE only. (check the 'troubleshoot' section for more details). |
+|`reverseStack`| boolean | Reverse the order of execution. The default behaviour is to render from the first 'path' in the SVG to the last one. This option allow you to reverse the order. [Default: `false`] |
 |`selfDestroy` | boolean | Removes all extra styling on the SVG, and leaves it as original. |
 
 
@@ -295,11 +296,11 @@ console.table(logo.map);
 
 Thanks to all contributors! Also users who pushed me to improve the library by publishing it on NPM, or browser compatibility or features. Also thanks for fixing my awful english :)
 
-- [@jolic](https://github.com/jolic) for dynamic SVG loading, ignore invisible paths, infinite and beyond... 
+- [@jolic](https://github.com/jolic) for dynamic SVG loading, ignore invisible paths, infinite and beyond...
 - [@BenMcGeachy](https://github.com/BenMcGeachy) for making the documentation understandable
 - [@TranscendOfSypherus](https://github.com/TranscendOfSypherus) for fixing the PathFormer
 - [@flyingfisch](https://github.com/flyingfisch) for general helping with issues
 - [@morgangiraud](https://github.com/morgangiraud) on the ignore invisible paths
-- [@Nerdissimo](https://github.com/Nerdissimo) for inserting SVG without `object` wrapper 
+- [@Nerdissimo](https://github.com/Nerdissimo) for inserting SVG without `object` wrapper
 
 and many others...

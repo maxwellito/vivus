@@ -199,15 +199,16 @@ Vivus.prototype.setOptions = function (options) {
     this.start = options.start || allowedStarts[0];
   }
 
-  this.isIE        = (window.navigator.userAgent.indexOf('MSIE') !== -1 || window.navigator.userAgent.indexOf('Trident/') !== -1 || window.navigator.userAgent.indexOf('Edge/') !== -1 );
-  this.duration    = parsePositiveInt(options.duration, 120);
-  this.delay       = parsePositiveInt(options.delay, null);
-  this.dashGap     = parsePositiveInt(options.dashGap, 1);
-  this.forceRender = options.hasOwnProperty('forceRender') ? !!options.forceRender : this.isIE;
-  this.selfDestroy = !!options.selfDestroy;
-  this.onReady     = options.onReady;
-  this.map         = new Array();
-  this.frameLength = this.currentFrame = this.delayUnit = this.speed = this.handle = null;
+  this.isIE         = (window.navigator.userAgent.indexOf('MSIE') !== -1 || window.navigator.userAgent.indexOf('Trident/') !== -1 || window.navigator.userAgent.indexOf('Edge/') !== -1 );
+  this.duration     = parsePositiveInt(options.duration, 120);
+  this.delay        = parsePositiveInt(options.delay, null);
+  this.dashGap      = parsePositiveInt(options.dashGap, 1);
+  this.forceRender  = options.hasOwnProperty('forceRender') ? !!options.forceRender : this.isIE;
+  this.reverseStack = !!options.reverseStack;
+  this.selfDestroy  = !!options.selfDestroy;
+  this.onReady      = options.onReady;
+  this.map          = new Array();
+  this.frameLength  = this.currentFrame = this.delayUnit = this.speed = this.handle = null;
 
   this.ignoreInvisible = options.hasOwnProperty('ignoreInvisible') ? !!options.ignoreInvisible : false;
 
@@ -293,6 +294,11 @@ Vivus.prototype.mapping = function () {
   totalLength = totalLength === 0 ? 1 : totalLength;
   this.delay = this.delay === null ? this.duration / 3 : this.delay;
   this.delayUnit = this.delay / (paths.length > 1 ? paths.length - 1 : 1);
+
+  // Reverse stack if asked
+  if (this.reverseStack) {
+    this.map.reverse();
+  }
 
   for (i = 0; i < this.map.length; i++) {
     pathObj = this.map[i];
