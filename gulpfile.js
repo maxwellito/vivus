@@ -40,7 +40,7 @@ gulp.task('distrib', function () {
  *
  */
 gulp.task('lint', function () {
-  return gulp.src(['src/pathformer.js', 'src/vivus.js'])
+  return gulp.src(['src/vivus.js', 'src/pathformer.js', 'test/**/*.spec.js'])
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
 });
@@ -52,7 +52,12 @@ gulp.task('lint', function () {
  */
 gulp.task('test', function () {
   // Be sure to return the stream
-  return gulp.src(['src/pathformer.js', 'src/vivus.js', 'test/unit/**.js'])
+  return gulp.src([
+      'test/unit.setup.js',
+      'src/pathformer.js',
+      'src/vivus.js',
+      'test/unit/**.js'
+    ])
     .pipe(karma({
       configFile: 'test/karma.conf.js',
       action: 'run'

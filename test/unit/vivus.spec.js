@@ -7,6 +7,7 @@
 describe('Vivus', function () {
 
   var ObjectElementMock,
+    triggerFrames,
     myVivus,
     objTag,
     wrapTag,
@@ -18,29 +19,40 @@ describe('Vivus', function () {
     this.loadCb = [];
     this.attr = {};
     this.addEventListener = function (evtName, cb) {
-      if (evtName === 'load') this.loadCb.push(cb);
-    }
+      if (evtName === 'load') {
+        this.loadCb.push(cb);
+      }
+    };
     this.loaded = function () {
       for (var i = 0; i < this.loadCb.length; i++) {
         this.loadCb[i]({target: this});
       }
-    }
+    };
     this.getBoundingClientRect = function () {
       return {
         height: 11,
         top: 364
       };
-    }
-    this.insertBefore = function () {}
-    this.removeChild = function () {}
+    };
+    this.insertBefore = function () {};
+    this.removeChild = function () {};
     this.setAttribute = function (key, val) {
       this.attr[key] = val;
-    }
+    };
     this.getAttribute = function (key) {
       return this.attr[key];
-    }
+    };
   };
   window.HTMLObjectElement = ObjectElementMock;
+
+  triggerFrames = function (counter) {
+    counter = counter || -1;
+    while (window.requestAnimFrameStack.length && counter !== 0) {
+      window.requestAnimFrameStack.shift()();
+      counter--;
+    }
+  };
+
 
   beforeEach(function () {
     // Create the SVG
@@ -59,6 +71,9 @@ describe('Vivus', function () {
     wrapTag.appendChild(svgTag);
 
     document.body.appendChild(wrapTag);
+
+    // Reset the request anim frame stack
+    window.requestAnimFrameStack = [];
   });
 
   afterEach(function () {
@@ -188,7 +203,7 @@ describe('Vivus', function () {
     it('should throw an error if the SVG file does not exists', function () {
       objTag = new ObjectElementMock();
       objTag.contentDocument = document.createElement('div');
-      var myVivus = new Vivus(objTag);
+      new Vivus(objTag);
       expect(function () {
         objTag.loaded();
       }).toThrow();
@@ -348,7 +363,7 @@ describe('Vivus', function () {
       });
 
       it('should not accept a path which is not displayed', function () {
-        svgTag.childNodes[1].setAttribute('data-ignore', 'false')
+        svgTag.childNodes[1].setAttribute('data-ignore', 'false');
         myVivus = new Vivus(svgTag);
         expect(myVivus.map.length).toEqual(6);
       });
@@ -357,141 +372,147 @@ describe('Vivus', function () {
     // Drawing
     describe('Drawing:', function () {
 
-      it('should call the callback once the animation is finished', function (done) {
+      it('should call the callback once the animation is finished', function () {
+        var done = false;
         myVivus = new Vivus(svgTag, {
-          type: 'oneByOne',
-          duration: 2,
+          duration: 6,
           start: 'autostart'
         }, function () {
-          expect(true).toBe(true);
-          done();
+          done = true;
         });
+
+        triggerFrames();
+        expect(done).toBe(true);
       });
 
-      it('should call the callback once the reverse animation is finished', function (done) {
+      it('should call the callback once the reverse animation is finished', function () {
+        var done = false;
         myVivus = new Vivus(svgTag, {
           type: 'oneByOne',
-          duration: 2
+          duration: 6
         }, function () {
-          expect(true).toBe(true);
-          done();
+          done = true;
         });
 
         myVivus.finish().play(-1);
+        triggerFrames();
+        expect(done).toBe(true);
       });
 
-      it('should call the method callback as the second param once the animation is finished', function (done) {
+      it('should call the method callback as the second param once the animation is finished', function () {
+        var done = false;
         myVivus = new Vivus(svgTag, {
-          type: "oneByOne",
-          duration: 2,
-          start: "manual",
-        })
+          duration: 6,
+          start: 'manual',
+        });
 
         myVivus.play(1, function() {
-          expect(true).toBe(true);
-          done();
-        })
-      })
+          done = true;
+        });
+        triggerFrames();
+        expect(done).toBe(true);
+      });
 
-      it('should call the method callback as the first param once the animation is finished', function (done) {
+      it('should call the method callback as the first param once the animation is finished', function () {
+        var done = false;
         myVivus = new Vivus(svgTag, {
-          type: "oneByOne",
-          duration: 2,
-          start: "manual",
-        })
+          duration: 6,
+          start: 'manual',
+        });
 
         myVivus.play(function() {
-          expect(true).toBe(true);
-          done();
-        })
-      })
+          done = true;
+        });
+        triggerFrames();
+        expect(done).toBe(true);
+      });
 
-      it('should call the method callback once the reverse animation is finished', function (done) {
+      it('should call the method callback once the reverse animation is finished', function () {
+        var done = false;
         myVivus = new Vivus(svgTag, {
-          type: "oneByOne",
-          duration: 2,
-          start: "manual",
-        })
+          duration: 6,
+          start: 'manual',
+        });
 
         myVivus.finish().play(-1, function() {
-          expect(true).toBe(true);
-          done();
-        })
-      })
+          done = true;
+        });
+        triggerFrames();
+        expect(done).toBe(true);
+      });
 
-      it('should call destroy method once the animation is finished', function (done) {
-        var destroySpy = jasmine.createSpy('spy');
+      it('should call the method callback provided in the last play call', function () {
+        var done = false;
         myVivus = new Vivus(svgTag, {
-          type: 'oneByOne',
-          duration: 2,
+          duration: 6,
+          start: 'manual',
+        });
+
+        myVivus.finish().play(-1, function () {});
+        myVivus.play(function() {
+          done = true;
+        });
+        triggerFrames();
+        expect(done).toBe(true);
+      });
+
+      it('should call destroy method once the animation is finished', function () {
+        myVivus = new Vivus(svgTag, {
+          duration: 6,
           start: 'manual',
           selfDestroy: true
-        }, function () {
-          expect(destroySpy.calls.count()).toEqual(1);
-          done();
         });
-        myVivus.destroy = destroySpy;
+        myVivus.destroy = jasmine.createSpy('spy');
         myVivus.play();
+        triggerFrames();
+        expect(myVivus.destroy.calls.count()).toEqual(1);
       });
 
-      it('should\' call destroy method if selfDestroy option is not present', function (done) {
-        var destroySpy = jasmine.createSpy('spy');
+      it('should\' call destroy method if selfDestroy option is not present', function () {
         myVivus = new Vivus(svgTag, {
-          type: 'oneByOne',
-          duration: 2,
+          duration: 6,
           start: 'manual'
-        }, function () {
-          expect(destroySpy.calls.count()).toEqual(0);
-          done();
         });
-        myVivus.destroy = destroySpy;
+        myVivus.destroy = jasmine.createSpy('spy');
         myVivus.play();
+        triggerFrames();
+        expect(myVivus.destroy.calls.count()).toEqual(0);
       });
 
-      it('should stop animation if destroy has been called', function (done) {
+      it('should stop animation if destroy has been called', function () {
         var callbackSpy = jasmine.createSpy('spy');
         myVivus = new Vivus(svgTag, {
-          type: 'oneByOne',
-          duration: 2,
+          duration: 6,
           start: 'autostart'
         }, callbackSpy);
 
+        triggerFrames(1);
         myVivus.destroy();
 
-        setTimeout(function () {
-          expect(callbackSpy.calls.count()).toEqual(0);
-          done();
-        }, 50);
+        triggerFrames();
+        expect(callbackSpy.calls.count()).toEqual(0);
       });
 
-      it('should stop the animation once it reaches currentFrame == 0', function (done) {
+      it('should stop the animation once it reaches currentFrame == 0', function () {
         myVivus = new Vivus(svgTag, {
-          type: 'oneByOne',
-          duration: 2,
+          duration: 6,
           start: 'manual'
         });
-        myVivus.stop = function () {
-          expect(true).toBe(true);
-          done();
-        };
+        myVivus.stop = jasmine.createSpy('spy');
         myVivus.play(-1);
+        triggerFrames();
+        expect(myVivus.stop.calls.count()).toEqual(1);
       });
 
-      it('should trace reasonably', function (done) {
-        var callCount = 0;
-
+      it('should trace reasonably', function () {
         myVivus = new Vivus(svgTag, {
-          type: 'oneByOne',
-          duration: 2,
+          duration: 6,
           start: 'manual'
-        }, function () {
-          expect(callCount).toEqual(4);
-          done();
         });
-        spyOn(myVivus, 'trace').and.callFake(function() {
-          callCount++;
-        });
+        spyOn(myVivus, 'trace').and.callThrough();
         myVivus.play(0.5);
+        triggerFrames();
+        expect(myVivus.trace.calls.count()).toEqual(12);
       });
 
       it('should start by the last path if reverseStack is enabled', function () {
@@ -500,7 +521,7 @@ describe('Vivus', function () {
           duration: 5,
           reverseStack: true
         });
-        myVivus.setFrameProgress(.5);
+        myVivus.setFrameProgress(0.5);
 
         var paths = svgTag.querySelectorAll('path');
         expect(+paths[0].style.strokeDashoffset).not.toEqual(0);
@@ -568,30 +589,24 @@ describe('Vivus', function () {
       expect(myVivus.speed).toEqual(1);
     });
 
-    it('shouldn\'t run another process of drawing if the animation is in progress', function (done) {
-      var callCount = 0;
-
+    it('shouldn\'t run another process of drawing if the animation is in progress', function () {
       myVivus = new Vivus(svgTag, {
-        type: 'oneByOne',
-        duration: 2,
+        duration: 6,
         start: 'manual'
-      }, function () {
-        expect(callCount).toEqual(4);
-        done();
       });
-
-      spyOn(myVivus, 'trace').and.callFake(function() {
-        callCount++;
-      });
+      spyOn(myVivus, 'trace').and.callThrough();
 
       myVivus.play(0.5);
       myVivus.play(0.5);
-      myVivus.play(0.5);
-      myVivus.play(0.5);
-      myVivus.play(0.5);
+      triggerFrames();
+      expect(myVivus.trace.calls.count()).toEqual(12);
     });
 
     it('should stop the animation only when the animation is running', function () {
+      myVivus = new Vivus(svgTag, {
+        duration: 6,
+        start: 'manual'
+      });
       myVivus.play();
       expect(myVivus.handle).toBeTruthy();
       myVivus.stop();

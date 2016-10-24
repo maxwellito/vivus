@@ -214,7 +214,7 @@ describe('Pathformer', function () {
           rx: 3,
           r: 1
         };
-      })
+      });
 
       it('should return an object with a `d` attribute', function () {
         var output = Pathformer.prototype.circleToPath(circle);

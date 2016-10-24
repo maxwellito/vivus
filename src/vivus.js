@@ -207,7 +207,7 @@ Vivus.prototype.setOptions = function (options) {
   this.reverseStack = !!options.reverseStack;
   this.selfDestroy  = !!options.selfDestroy;
   this.onReady      = options.onReady;
-  this.map          = new Array();
+  this.map          = [];
   this.frameLength  = this.currentFrame = this.delayUnit = this.speed = this.handle = null;
 
   this.ignoreInvisible = options.hasOwnProperty('ignoreInvisible') ? !!options.ignoreInvisible : false;
@@ -364,11 +364,6 @@ Vivus.prototype.drawer = function () {
   if (this.currentFrame <= 0) {
     this.stop();
     this.reset();
-    this.callback(this);
-    if (this.instance_callback) {
-      this.instance_callback(this)
-      this.instance_callback = null
-    }
   } else if (this.currentFrame >= this.frameLength) {
     this.stop();
     this.currentFrame = this.frameLength;
@@ -376,16 +371,18 @@ Vivus.prototype.drawer = function () {
     if (this.selfDestroy) {
       this.destroy();
     }
-    this.callback(this);
-    if (this.instance_callback) {
-      this.instance_callback(this)
-      this.instance_callback = null;
-    }
   } else {
     this.trace();
     this.handle = requestAnimFrame(function () {
       self.drawer();
     });
+    return;
+  }
+
+  this.callback(this);
+  if (this.instanceCallback) {
+    this.instanceCallback(this);
+    this.instanceCallback = null;
   }
 };
 
@@ -557,15 +554,20 @@ Vivus.prototype.setFrameProgress = function (progress) {
  * @param  {number} speed Animation speed [optional]
  */
 Vivus.prototype.play = function (speed, callback) {
-  if (speed && typeof speed === "function") {
-    this.instance_callback = speed // first parameter is actually the callback function
-    speed = null
-  } else if (speed && typeof speed !== 'number') {
+  this.instanceCallback = null;
+
+  if (speed && typeof speed === 'function') {
+    this.instanceCallback = speed; // first parameter is actually the callback function
+    speed = null;
+  }
+  else if (speed && typeof speed !== 'number') {
     throw new Error('Vivus [play]: invalid speed');
   }
   // if the first parameter wasn't the callback, check if the seconds was
-  if (callback && typeof(callback) === "function" && !this.instance_callback)
-    this.instance_callback = callback;
+  if (callback && typeof(callback) === 'function' && !this.instanceCallback) {
+    this.instanceCallback = callback;
+  }
+
 
   this.speed = speed || 1;
   if (!this.handle) {

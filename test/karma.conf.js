@@ -15,6 +15,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'test/unit.setup.js',
       'src/pathformer.js',
       'src/vivus.js',
       'test/unit/**.js'

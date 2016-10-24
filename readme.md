@@ -320,5 +320,6 @@ Thanks to all contributors! Also users who pushed me to improve the library by p
 - [@flyingfisch](https://github.com/flyingfisch) for general helping with issues
 - [@morgangiraud](https://github.com/morgangiraud) on the ignore invisible paths
 - [@Nerdissimo](https://github.com/Nerdissimo) for inserting SVG without `object` wrapper
+- [@jsimnz](https://github.com/jsimnz) for adding callbacks to play method
 
 and many others...
