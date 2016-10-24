@@ -1,6 +1,6 @@
 /**
  * vivus - JavaScript library to make drawing animation on SVG
- * @version v0.3.2
+ * @version v0.4.0
  * @link https://github.com/maxwellito/vivus
  * @license MIT
  */
@@ -284,7 +284,7 @@ var requestAnimFrame, cancelAnimFrame, parsePositiveInt;
 /**
  * Class constructor
  * option structure
- *   type: 'delayed'|'async'|'oneByOne'|'script' (to know if the item must be drawn asynchronously or not, default: delayed)
+ *   type: 'delayed'|'sync'|'oneByOne'|'script' (to know if the items must be drawn synchronously or not, default: delayed)
  *   duration: <int> (in frames)
  *   start: 'inViewport'|'manual'|'autostart' (start automatically the animation, default: inViewport)
  *   delay: <int> (delay between the drawing of first and last path)
@@ -298,7 +298,7 @@ var requestAnimFrame, cancelAnimFrame, parsePositiveInt;
  *  - 'delayed'
  *    all paths are draw at the same time but with a
  *    little delay between them before start
- *  - 'async'
+ *  - 'sync'
  *    all path are start and finish at the same time
  *  - 'oneByOne'
  *    only one path is draw at the time
@@ -440,7 +440,7 @@ Vivus.prototype.setElement = function (element, options) {
  * @param  {object} options Object from the constructor
  */
 Vivus.prototype.setOptions = function (options) {
-  var allowedTypes = ['delayed', 'async', 'oneByOne', 'scenario', 'scenario-sync'];
+  var allowedTypes = ['delayed', 'sync', 'async', 'nsync', 'oneByOne', 'scenario', 'scenario-sync'];
   var allowedStarts =  ['inViewport', 'manual', 'autostart'];
 
   // Basic check
@@ -467,15 +467,16 @@ Vivus.prototype.setOptions = function (options) {
     this.start = options.start || allowedStarts[0];
   }
 
-  this.isIE        = (window.navigator.userAgent.indexOf('MSIE') !== -1 || window.navigator.userAgent.indexOf('Trident/') !== -1 || window.navigator.userAgent.indexOf('Edge/') !== -1 );
-  this.duration    = parsePositiveInt(options.duration, 120);
-  this.delay       = parsePositiveInt(options.delay, null);
-  this.dashGap     = parsePositiveInt(options.dashGap, 1);
-  this.forceRender = options.hasOwnProperty('forceRender') ? !!options.forceRender : this.isIE;
-  this.selfDestroy = !!options.selfDestroy;
-  this.onReady     = options.onReady;
-  this.map         = new Array();
-  this.frameLength = this.currentFrame = this.delayUnit = this.speed = this.handle = null;
+  this.isIE         = (window.navigator.userAgent.indexOf('MSIE') !== -1 || window.navigator.userAgent.indexOf('Trident/') !== -1 || window.navigator.userAgent.indexOf('Edge/') !== -1 );
+  this.duration     = parsePositiveInt(options.duration, 120);
+  this.delay        = parsePositiveInt(options.delay, null);
+  this.dashGap      = parsePositiveInt(options.dashGap, 1);
+  this.forceRender  = options.hasOwnProperty('forceRender') ? !!options.forceRender : this.isIE;
+  this.reverseStack = !!options.reverseStack;
+  this.selfDestroy  = !!options.selfDestroy;
+  this.onReady      = options.onReady;
+  this.map          = [];
+  this.frameLength  = this.currentFrame = this.delayUnit = this.speed = this.handle = null;
 
   this.ignoreInvisible = options.hasOwnProperty('ignoreInvisible') ? !!options.ignoreInvisible : false;
 
@@ -562,6 +563,11 @@ Vivus.prototype.mapping = function () {
   this.delay = this.delay === null ? this.duration / 3 : this.delay;
   this.delayUnit = this.delay / (paths.length > 1 ? paths.length - 1 : 1);
 
+  // Reverse stack if asked
+  if (this.reverseStack) {
+    this.map.reverse();
+  }
+
   for (i = 0; i < this.map.length; i++) {
     pathObj = this.map[i];
 
@@ -576,7 +582,9 @@ Vivus.prototype.mapping = function () {
       pathObj.duration = pathObj.length / totalLength * this.duration;
       break;
 
+    case 'sync':
     case 'async':
+    case 'nsync':
       pathObj.startAt = 0;
       pathObj.duration = this.duration;
       break;
@@ -624,9 +632,6 @@ Vivus.prototype.drawer = function () {
   if (this.currentFrame <= 0) {
     this.stop();
     this.reset();
-    this.callback(this);
-    if (this.instance_callback)
-      this.instance_callback(this)
   } else if (this.currentFrame >= this.frameLength) {
     this.stop();
     this.currentFrame = this.frameLength;
@@ -634,14 +639,18 @@ Vivus.prototype.drawer = function () {
     if (this.selfDestroy) {
       this.destroy();
     }
-    this.callback(this);
-    if (this.instance_callback)
-      this.instance_callback(this)
   } else {
     this.trace();
     this.handle = requestAnimFrame(function () {
       self.drawer();
     });
+    return;
+  }
+
+  this.callback(this);
+  if (this.instanceCallback) {
+    this.instanceCallback(this);
+    this.instanceCallback = null;
   }
 };
 
@@ -813,15 +822,20 @@ Vivus.prototype.setFrameProgress = function (progress) {
  * @param  {number} speed Animation speed [optional]
  */
 Vivus.prototype.play = function (speed, callback) {
-  if (speed && typeof speed === "function") {
-    this.instance_callback = speed // first parameter is actually the callback function
-    speed = null
-  } else if (speed && typeof speed !== 'number') {
+  this.instanceCallback = null;
+
+  if (speed && typeof speed === 'function') {
+    this.instanceCallback = speed; // first parameter is actually the callback function
+    speed = null;
+  }
+  else if (speed && typeof speed !== 'number') {
     throw new Error('Vivus [play]: invalid speed');
   }
   // if the first parameter wasn't the callback, check if the seconds was
-  if (callback && typeof(callback) === "function" && !this.instance_callback)
-    this.instance_callback = callback;
+  if (callback && typeof(callback) === 'function' && !this.instanceCallback) {
+    this.instanceCallback = callback;
+  }
+
 
   this.speed = speed || 1;
   if (!this.handle) {
