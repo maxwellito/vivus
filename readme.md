@@ -2,6 +2,8 @@
 
 Demo available on http://maxwellito.github.io/vivus
 
+Play with it on [Vivus Instant](https://maxwellito.github.io/vivus-instant/)
+
 Vivus is a lightweight JavaScript class (with no dependencies) that allows you to animate SVGs, giving them the appearance of being drawn. There are a variety of different animations available, as well as the option to create a custom script to draw your SVG in whatever way you like.
 
 Available via:
@@ -13,6 +15,8 @@ Available via:
  - [WebJars](http://www.webjars.org/)
 
 Join the conversation on [Gitter](https://gitter.im/maxwellito/vivus)
+
+Try Vivus with your SVG on [Vivus Instant](https://maxwellito.github.io/vivus-instant/). If you plan to use the library to animate a single SVG without callback or controls, this will allow you to download your animated SVG, powered by CSS, JavaScript free.
 
 ## Animations
 
