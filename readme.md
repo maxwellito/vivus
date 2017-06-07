@@ -142,7 +142,7 @@ The Vivus constructor asks for 3 parameters:
 
 | Name          | Description         |
 |---------------|---------------------|
-| `play(speed, callback)` | Plays the animation with the speed given in parameter. This value can be negative to go backward, between 0 and 1 to go slowly, or superior to 1 to go fast. [Default: `1`]. Callback executed after the animation is finished (optional) |
+| `play(speed, callback)` | Plays the animation with the speed given in parameter. This value can be negative to go backward, between 0 and 1 to go slowly, >1 to go faster, or <0 to go in reverse from current state. [Default: `1`]. Callback executed after the animation is finished (optional) |
 | `stop()`      | Stops the animation. |
 | `reset()`     | Reinitialises the SVG to the original state: undrawn. |
 | `finish()`    | Set the SVG to the final state: drawn. |
