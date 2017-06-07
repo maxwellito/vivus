@@ -1,6 +1,6 @@
 'use strict';
 
-var requestAnimFrame, cancelAnimFrame, parsePositiveInt;
+var setupEnv, requestAnimFrame, cancelAnimFrame, parsePositiveInt;
 
 /**
  * Vivus
@@ -714,7 +714,7 @@ Vivus.prototype.scrollY = function () {
   return window.pageYOffset || this.docElem.scrollTop;
 };
 
-var setupEnv = function () {
+setupEnv = function () {
 
   if (Vivus.prototype.docElem) {
     return;
@@ -762,7 +762,7 @@ var setupEnv = function () {
       }
     );
   })();
-}
+};
 
 /**
  * Parse string to integer.
