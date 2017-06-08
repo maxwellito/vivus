@@ -73,16 +73,27 @@ function Vivus (element, options, callback) {
  * It always take a number as parameter (between 0 to 1) then
  * return a number (between 0 and 1)
  */
-Vivus.LINEAR          = function (x) {return x;};
-Vivus.EASE            = function (x) {return -Math.cos(x * Math.PI) / 2 + 0.5;};
-Vivus.EASE_OUT        = function (x) {return 1 - Math.pow(1-x, 3);};
-Vivus.EASE_IN         = function (x) {return Math.pow(x, 3);};
-Vivus.EASE_OUT_BOUNCE = function (x) {
+Vivus.LINEAR            = function (x) {return x;};
+Vivus.REVERSE           = function (x) {return 1 - x;};
+Vivus.EASE              = function (x) {return -Math.cos(x * Math.PI) / 2 + 0.5;};
+Vivus.EASE_REVERSE      = function (x) {return 1 - ( -Math.cos(x * Math.PI) / 2 + 0.5 );};
+Vivus.EASE_OUT          = function (x) {return 1 - Math.pow(1-x, 3);};
+Vivus.EASE_OUT_REVERSE  = function (x) {return 1 - ( 1 - Math.pow(1-x, 3) );};
+Vivus.EASE_IN           = function (x) {return Math.pow(x, 3);};
+Vivus.EASE_IN_REVERSE   = function (x) {return 1 - ( Math.pow(x, 3) );};
+Vivus.EASE_OUT_BOUNCE   = function (x) {
   var base = -Math.cos(x * (0.5 * Math.PI)) + 1,
     rate = Math.pow(base,1.5),
     rateR = Math.pow(1 - x, 2),
     progress = -Math.abs(Math.cos(rate * (2.5 * Math.PI) )) + 1;
   return (1- rateR) + (progress * rateR);
+};
+Vivus.EASE_OUT_BOUNCE_REVERSE   = function (x) {
+  var base = -Math.cos(x * (0.5 * Math.PI)) + 1,
+    rate = Math.pow(base,1.5),
+    rateR = Math.pow(1 - x, 2),
+    progress = -Math.abs(Math.cos(rate * (2.5 * Math.PI) )) + 1;
+  return 1 - ( (1- rateR) + (progress * rateR) );
 };
 
 
