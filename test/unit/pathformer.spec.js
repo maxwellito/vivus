@@ -7,7 +7,9 @@
 describe('Pathformer', function () {
 
   var svgTag,
-    svgTagId = 'my-svg';
+    svgTagId = 'my-svg',
+    svgGroupTag,
+    svgGroupTagId = 'my-svg-group';
 
   beforeEach(function () {
     // Remove tag if existing
@@ -18,13 +20,17 @@ describe('Pathformer', function () {
 
     // Create the SVG
     svgTag = document.createElementNS('http://www.w3.org/2000/svg','svg');
-    svgTag.id = 'my-svg';
+    svgTag.id = svgTagId;
     svgTag.innerHTML = '<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="72.947"/>' +
       '<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="39.74"/>' +
+      '<g id="' + svgGroupTagId + '">' +
       '<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="34.042" y1="131.189" x2="67.047" y2="77.781"/>' +
       '<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="165.957" y1="68.809" x2="132.953" y2="122.219"/>' +
       '<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="131.19" y1="165.957" x2="77.781" y2="132.953"/>' +
-      '<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="68.81" y1="34.042" x2="122.219" y2="67.046"/>';
+      '<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="68.81" y1="34.042" x2="122.219" y2="67.046"/>' +
+      '</g>';
+
+    svgGroupTag = svgTag.querySelector('#'+svgGroupTagId);
 
     // Insert it to the body
     document.body.appendChild(svgTag);
@@ -48,6 +54,12 @@ describe('Pathformer', function () {
     it('should work with only the SVG object', function () {
       expect(function () {
         new Pathformer(svgTag);
+      }).not.toThrow();
+    });
+
+    it('should work with only the SVG group object', function () {
+      expect(function () {
+        new Pathformer(svgGroupTag);
       }).not.toThrow();
     });
 

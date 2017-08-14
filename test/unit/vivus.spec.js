@@ -12,7 +12,8 @@ describe('Vivus', function () {
     objTag,
     wrapTag,
     svgTag,
-    svgTagId = 'my-svg';
+    svgTagId = 'my-svg',
+    svgGroupTagId = 'my-svg-group';
 
   // Mock ObjectElement and it's constructor via createElement
   ObjectElementMock = function () {
@@ -60,7 +61,7 @@ describe('Vivus', function () {
     svgTag.id = svgTagId;
     svgTag.innerHTML = '<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="72.947"/>' +
       '<circle fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" cx="100" cy="100" r="39.74"/>' +
-      '<g>' +
+      '<g id="' + svgGroupTagId + '">' +
         '<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="34.042" y1="131.189" x2="67.047" y2="77.781"/>' +
         '<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="165.957" y1="68.809" x2="132.953" y2="122.219"/>' +
         '<line fill="none" stroke="#f9f9f9" stroke-width="3" stroke-miterlimit="10" x1="131.19" y1="165.957" x2="77.781" y2="132.953"/>' +
@@ -128,6 +129,12 @@ describe('Vivus', function () {
     it('should work with only the SVG object', function () {
       expect(function () {
         new Vivus(svgTag);
+      }).not.toThrow();
+    });
+
+    it('should work with the SVG group object', function () {
+      expect(function () {
+        new Vivus(svgGroupTagId);
       }).not.toThrow();
     });
 

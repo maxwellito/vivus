@@ -40,7 +40,9 @@ function Pathformer(element) {
       throw new Error('Pathformer [constructor]: "element" parameter is not related to an existing ID');
     }
   }
-  if (element.constructor instanceof window.SVGElement || /^svg$/i.test(element.nodeName)) {
+  if (element instanceof window.SVGElement || 
+      element instanceof window.SVGGElement ||
+      /^svg$/i.test(element.nodeName)) {
     this.el = element;
   } else {
     throw new Error('Pathformer [constructor]: "element" parameter must be a string or a SVGelement');
@@ -394,6 +396,7 @@ Vivus.prototype.setElement = function (element, options) {
   switch (element.constructor) {
   case window.SVGSVGElement:
   case window.SVGElement:
+  case window.SVGGElement:
     this.el = element;
     this.isReady = true;
     break;

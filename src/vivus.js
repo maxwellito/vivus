@@ -126,6 +126,7 @@ Vivus.prototype.setElement = function (element, options) {
   switch (element.constructor) {
   case window.SVGSVGElement:
   case window.SVGElement:
+  case window.SVGGElement:
     this.el = element;
     this.isReady = true;
     break;
