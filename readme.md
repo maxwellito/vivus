@@ -10,7 +10,7 @@ Available via:
 
  - [NPM](https://www.npmjs.com/package/vivus): `npm install vivus`
  - [Bower](http://bower.io/): `bower install vivus`
- - [jsDelivr CDN](http://www.jsdelivr.com/#!vivus): `//cdn.jsdelivr.net/vivus/latest/vivus.min.js`
+ - [jsDelivr CDN](http://www.jsdelivr.com/#!vivus): `//cdn.jsdelivr.net/npm/vivus@latest/dist/vivus.min.js`
  - [CDNJS CDN](https://cdnjs.com/libraries/vivus)
  - [WebJars](http://www.webjars.org/)
 
