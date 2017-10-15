@@ -26,3 +26,5 @@ new Vivus('mySVG', {}, function (obj) {
   obj.el.classList.add('finished');
 });
 ```
+
+**WARNING**: This hack cannot work on sandboxed solutions like the use of `object` tag.
