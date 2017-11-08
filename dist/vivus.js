@@ -1,6 +1,6 @@
 /**
  * vivus - JavaScript library to make drawing animation on SVG
- * @version v0.4.1
+ * @version v0.4.2
  * @link https://github.com/maxwellito/vivus
  * @license MIT
  */
@@ -123,10 +123,28 @@ Pathformer.prototype.rectToPath = function (element) {
       width  = parseFloat(element.width)  || 0,
       height = parseFloat(element.height) || 0;
 
-  newElement.d  = 'M' + x + ' ' + y + ' ';
-  newElement.d += 'L' + (x + width) + ' ' + y + ' ';
-  newElement.d += 'L' + (x + width) + ' ' + (y + height) + ' ';
-  newElement.d += 'L' + x + ' ' + (y + height) + ' Z';
+  if (element.rx || element.ry) {
+    var rx = parseInt(element.rx, 10) || -1,
+        ry = parseInt(element.ry, 10) || -1;
+    rx = Math.min(Math.max(rx < 0 ? ry : rx, 0), width/2);
+    ry = Math.min(Math.max(ry < 0 ? rx : ry, 0), height/2);
+
+    newElement.d = 'M ' + (x + rx) + ',' + y + ' ' +
+                   'L ' + (x + width - rx) + ',' + y + ' ' +
+                   'A ' + rx + ',' + ry + ',0,0,1,' + (x + width) + ',' + (y + ry) + ' ' +
+                   'L ' + (x + width) + ',' + (y + height - ry) + ' ' +
+                   'A ' + rx + ',' + ry + ',0,0,1,' + (x + width - rx) + ',' + (y + height) + ' ' +
+                   'L ' + (x + rx) + ',' + (y + height) + ' ' +
+                   'A ' + rx + ',' + ry + ',0,0,1,' + x + ',' + (y + height - ry) + ' ' +
+                   'L ' + x + ',' + (y + ry) + ' ' +
+                   'A ' + rx + ',' + ry + ',0,0,1,' + (x + rx) + ',' + y;
+  }
+  else {
+    newElement.d = 'M' + x + ' ' + y + ' ' +
+                   'L' + (x + width) + ' ' + y + ' ' +
+                   'L' + (x + width) + ' ' + (y + height) + ' ' +
+                   'L' + x + ' ' + (y + height) + ' Z';
+  }
   return newElement;
 };
 

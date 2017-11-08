@@ -130,6 +130,34 @@ describe('Pathformer', function () {
         expect(output.d.indexOf('0')).not.toEqual(-1);
         expect(output.d.indexOf('undefined')).toEqual(-1);
       });
+
+      it('should apply rounded corners', function () {
+        var result = 'M 50,10 ' +
+          'L 50,10 A 40,20,0,0,1,90,30 ' +
+          'L 90,50 A 40,20,0,0,1,50,70 ' +
+          'L 50,70 A 40,20,0,0,1,10,50 ' +
+          'L 10,30 A 40,20,0,0,1,50,10';
+
+        var output = Pathformer.prototype.rectToPath({
+          x:10, y:10, width:80, height:60, rx:100, ry:20
+        });
+
+        expect(output.d).toEqual(result);
+      });
+
+      it('should apply rounded corners even when a value is missing', function () {
+        var result = 'M 30,10 ' +
+          'L 70,10 A 20,20,0,0,1,90,30 ' +
+          'L 90,50 A 20,20,0,0,1,70,70 ' +
+          'L 30,70 A 20,20,0,0,1,10,50 ' +
+          'L 10,30 A 20,20,0,0,1,30,10';
+
+        var output = Pathformer.prototype.rectToPath({
+          x:10, y:10, width:80, height:60,  ry:20
+        });
+
+        expect(output.d).toEqual(result);
+      });
     });
 
     // Polyline object
