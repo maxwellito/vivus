@@ -153,7 +153,7 @@ The Vivus constructor asks for 3 parameters:
 These methods return the object so you can chain the actions.
 
 ```js
-var myVivus = new Vivus('my-svg-id');
+const myVivus = new Vivus('my-svg-id');
 myVivus
   .stop()
   .reset()
@@ -166,7 +166,7 @@ Instead of using the global constructor callback when you create the Vivus objec
 executed for specific `play` method calls.
 
 ```js
-var myVivus = new Vivus('my-svg-id');
+const myVivus = new Vivus('my-svg-id');
 myVivus.play(1, function() {
   // called after the animation completes
 })
@@ -308,7 +308,7 @@ For Firefox users, you might encounter some glitches depending on your SVG and b
 For an easier debug have a look to the attribute `map` of your Vivus object. This contains the mapping of your animation. If you're using a modern browser, I recommend `console.table` to get a nice output of the array which will make your debug easier.
 
 ```javascript
-var logo = new Vivus('myLogo', {type: 'scenario-sync'});
+const logo = new Vivus('myLogo', {type: 'scenario-sync'});
 
 // The property 'map' contain all the SVG mapping
 console.table(logo.map);
