@@ -155,12 +155,13 @@ describe('Vivus', function () {
 
     it('should accept any DOM element if `file` option is set', function () {
       var divTag = document.createElement('div');
+      spyOn(window, 'XMLHttpRequest');
       try {
         new Vivus(divTag, {file: 'opensource.svg'});
       }
       catch(err) {}
 
-      expect(!!divTag.querySelector('object')).toBe(true);
+      expect(window.XMLHttpRequest).toHaveBeenCalled();
     });
 
     it('should throw an error if the element is not a correct type (DOM object or string)', function () {
