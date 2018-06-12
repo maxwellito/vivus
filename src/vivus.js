@@ -99,6 +99,8 @@ Vivus.EASE_OUT_BOUNCE = function (x) {
  * @param {DOM|String}   element  SVG Dom element or id of it
  */
 Vivus.prototype.setElement = function (element, options) {
+  var onLoad, self;
+
   // Basic check
   if (typeof element === 'undefined') {
     throw new Error('Vivus [constructor]: "element" parameter is required');
@@ -113,14 +115,32 @@ Vivus.prototype.setElement = function (element, options) {
   }
   this.parentEl = element;
 
-  // Create the object element if the property `file` exists in the options object
+  // Load the SVG with XMLHttpRequest and extract the SVG
   if (options && options.file) {
-    var objElm = document.createElement('object');
-    objElm.setAttribute('type', 'image/svg+xml');
-    objElm.setAttribute('data', options.file);
-    objElm.setAttribute('built-by-vivus', 'true');
-    element.appendChild(objElm);
-    element = objElm;
+    var self = this;
+    onLoad = function (e) {
+      var domSandbox = document.createElement('div');
+      domSandbox.innerHTML = this.responseText;
+
+      var svgTag = domSandbox.querySelector('svg');
+      if (!svgTag) {
+        throw new Error('Vivus [load]: Cannot find the SVG in the loaded file : ' + options.file);
+      }
+
+      self.el = svgTag
+      self.el.setAttribute('width', '100%');
+      self.el.setAttribute('height', '100%');
+      self.parentEl.appendChild(self.el)
+      self.isReady = true;
+      self.init();
+      self = null;
+    }
+    
+    var oReq = new window.XMLHttpRequest();
+    oReq.addEventListener('load', onLoad);
+    oReq.open('GET', options.file);
+    oReq.send();
+    return;
   }
 
   switch (element.constructor) {
@@ -132,9 +152,6 @@ Vivus.prototype.setElement = function (element, options) {
     break;
 
   case window.HTMLObjectElement:
-    // If we have to wait for it
-    var onLoad, self;
-
     self = this;
     onLoad = function (e) {
       if (self.isReady) {
@@ -153,7 +170,7 @@ Vivus.prototype.setElement = function (element, options) {
         }
         self.isReady = true;
         self.init();
-        return true;
+        self = null;
       }
     };
 
