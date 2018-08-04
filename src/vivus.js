@@ -432,10 +432,10 @@ Vivus.prototype.trace = function () {
       this.renderPath(i);
     }
     if (path.progress == 1) {
-		  path.el.style.strokeDashoffset = null;
-		  path.el.style.strokeDasharray = null;
-		  this.renderPath(i);
-	  }
+      path.el.style.strokeDashoffset = null;
+      path.el.style.strokeDasharray = null;
+      this.renderPath(i);
+    }
   }
 };
 
