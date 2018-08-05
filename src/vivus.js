@@ -431,6 +431,11 @@ Vivus.prototype.trace = function () {
       path.el.style.strokeDashoffset = Math.floor(path.length * (1 - progress));
       this.renderPath(i);
     }
+    if (path.progress == 1) {
+      path.el.style.strokeDashoffset = null;
+      path.el.style.strokeDasharray = null;
+      this.renderPath(i);
+    }
   }
 };
 
