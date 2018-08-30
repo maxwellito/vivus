@@ -1,0 +1,14 @@
+{
+ "name": "maxwellito/vivus",
+ "type": "package",
+ "description": "A very important module to our very important client.",
+ "keywords": ["SVG"],
+ "homepage": "https://github.com/maxwellito/vivus.git",
+ "license": "proprietary",
+ "minimum-stability": "dev",
+ "extra": {
+   "branch-alias": {
+     "master": "master"
+   }
+ }
+}
