@@ -102,7 +102,7 @@ If you need to edit this object, it is accessible in the `onReady` callback:
 
 ```js
 new Vivus('my-div-id', {
-  file: 'link/to/my.svg'
+  file: 'link/to/my.svg',
   onReady: function (myVivus) {
     // `el` property is the SVG element
     myVivus.el.setAttribute('height', 'auto');
