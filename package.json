@@ -5,7 +5,11 @@
   "main": "dist/vivus.js",
   "scripts": {
     "test": "karma start test/karma.conf.js",
-    "serve": "python -m SimpleHTTPServer 8844"
+    "serve": "python -m SimpleHTTPServer 8844",
+    "lint": "./node_modules/eslint/bin/eslint.js src test",
+    "build": "npm run build-raw && npm run build-min",
+    "build-raw": "node src/_build.js > dist/vivus.js",
+    "build-min": "uglifyjs dist/vivus.js -o dist/vivus.min.js -c -m --source-map"
   },
   "repository": {
     "type": "git",
@@ -21,20 +25,11 @@
     "node": ">=0.10.22"
   },
   "devDependencies": {
-    "gulp": "^3.8.5",
-    "gulp-concat": "^2.2.0",
-    "gulp-header": "^1.2.2",
-    "gulp-imports": "0.0.2",
-    "gulp-jshint": "^1.6.3",
-    "gulp-karma": "0.0.4",
-    "gulp-uglify": "^0.3.1",
-    "gulp-util": "^2.2.19",
-    "karma": "^0.12.17",
-    "karma-chrome-launcher": "^0.1.4",
-    "karma-coverage": "^0.2.6",
-    "karma-jasmine": "~0.2.0"
-  },
-  "spm": {
-    "main": "dist/vivus.js"
+    "eslint": "^5.15.3",
+    "karma": "^4.0.1",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-coverage": "^1.1.2",
+    "karma-jasmine": "^2.0.1",
+    "uglify-js": "^3.5.2"
   }
 }

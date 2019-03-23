@@ -1,9 +1,19 @@
-'use strict';
+var fs = require('fs');
+var pkg = require('../package.json');
+var vivus = fs.readFileSync('src/vivus.js', { encoding: 'utf8' });
+var pathformer = fs.readFileSync('src/pathformer.js', { encoding: 'utf8' });
+
+var output = `/**
+ * ${pkg.name} - ${pkg.description}
+ * @version v${pkg.version}
+ * @link ${pkg.homepage}
+ * @license ${pkg.license}
+ */
 
 (function () {
 
-  //import("pathformer.js");
-  //import("vivus.js");
+  ${pathformer}
+  ${vivus}
 
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
@@ -21,3 +31,6 @@
   }
 
 }());
+`;
+
+console.log(output);
