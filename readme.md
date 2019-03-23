@@ -8,11 +8,11 @@ Vivus is a lightweight JavaScript class (with no dependencies) that allows you t
 
 Available via:
 
- - [NPM](https://www.npmjs.com/package/vivus): `npm install vivus`
- - [Bower](http://bower.io/): `bower install vivus`
- - [jsDelivr CDN](http://www.jsdelivr.com/#!vivus): `//cdn.jsdelivr.net/npm/vivus@latest/dist/vivus.min.js`
- - [CDNJS CDN](https://cdnjs.com/libraries/vivus)
- - [WebJars](http://www.webjars.org/)
+- [NPM](https://www.npmjs.com/package/vivus): `npm install vivus`
+- [Bower](http://bower.io/): `bower install vivus`
+- [jsDelivr CDN](http://www.jsdelivr.com/#!vivus): `//cdn.jsdelivr.net/npm/vivus@latest/dist/vivus.min.js`
+- [CDNJS CDN](https://cdnjs.com/libraries/vivus)
+- [WebJars](http://www.webjars.org/)
 
 Join the conversation on [Gitter](https://gitter.im/maxwellito/vivus)
 
@@ -46,7 +46,7 @@ To get this effect, the script uses the CSS property `strokeDashoffset`. This pr
 
 However, there's a problem with this. The `strokeDashoffset` property is only available on the path elements. This is an issue because in an SVG there are a lot of elements such as `circle`, `rect`, `line` and `polyline` which will break the animation. So to fix this, there is another class available in the repo called `pathformer`. It's made for transforming all objects of your SVG into `path` elements to be able to use `strokeDashoffset` and animate your SVGs.
 
-*The animation always draws elements in the same order as they are defined in the SVG tag.*
+_The animation always draws elements in the same order as they are defined in the SVG tag._
 
 There are few conditions that your SVG must meet:
 
@@ -82,7 +82,7 @@ As I said, no dependencies here. All you need to do is include the scripts.
 <object id="my-svg" type="image/svg+xml" data="link/to/my.svg"></object>
 
 <script>
-  new Vivus('my-svg', {duration: 200}, myCallback);
+  new Vivus('my-svg', { duration: 200 }, myCallback);
 </script>
 ```
 
@@ -92,7 +92,7 @@ or
 <div id="my-div"></div>
 
 <script>
-  new Vivus('my-div', {duration: 200, file: 'link/to/my.svg'}, myCallback);
+  new Vivus('my-div', { duration: 200, file: 'link/to/my.svg' }, myCallback);
 </script>
 ```
 
@@ -117,38 +117,37 @@ Check out the [hacks page](https://github.com/maxwellito/vivus/blob/master/hacks
 The Vivus constructor asks for 3 parameters:
 
 - ID (or object) of DOM element to interact with.<br/>It can be an inline SVG or a wrapper element to append an object tag from the option `file`
-- Option object (described in the following  |
+- Option object (described in the following |
 - Callback to call at the end of the animation (optional)
 
 ### Option list
 
-| Name       | Type     | Description |
-|------------|----------|-------------|
-|`type`      | string   | Defines what kind of animation will be used: `delayed`, `sync`, `oneByOne`, `script`, `scenario` or `scenario-sync`. [Default: `delayed`] |
-|`file`      | string   | Link to the SVG to animate. If set, Vivus will create an object tag and append it to the DOM element given to the constructor. Be careful, use the `onReady` callback before playing with the Vivus instance. |
-|`start`     | string   | Defines how to trigger the animation (`inViewport` once the SVG is in the viewport, `manual` gives you the freedom to call draw method to start, `autostart` makes it start right now). [Default: `inViewport`] |
-|`duration`  | integer  | Animation duration, in frames. [Default: `200`] |
-|`delay`     | integer  | Time between the drawing of first and last path, in frames (only for `delayed` animations). |
-|`onReady`   | function | Function called when the instance is ready to play. |
-|`pathTimingFunction` | function | Timing animation function for each path element of the SVG. Check the [timing function part](#timing-function). |
-|`animTimingFunction` | function | Timing animation function for the complete SVG. Check the [timing function part](#timing-function). |
-|`dashGap`   | integer  | Whitespace extra margin between dashes. Increase it in case of glitches at the initial state of the animation. [Default: `2`] |
-|`forceRender` | boolean | Force the browser to re-render all updated path items. By default, the value is `true` on IE only. (check the 'troubleshoot' section for more details). |
-|`reverseStack`| boolean | Reverse the order of execution. The default behaviour is to render from the first 'path' in the SVG to the last one. This option allow you to reverse the order. [Default: `false`] |
-|`selfDestroy` | boolean | Removes all extra styling on the SVG, and leaves it as original. |
-
+| Name                 | Type     | Description                                                                                                                                                                                                     |
+| -------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`               | string   | Defines what kind of animation will be used: `delayed`, `sync`, `oneByOne`, `script`, `scenario` or `scenario-sync`. [Default: `delayed`]                                                                       |
+| `file`               | string   | Link to the SVG to animate. If set, Vivus will create an object tag and append it to the DOM element given to the constructor. Be careful, use the `onReady` callback before playing with the Vivus instance.   |
+| `start`              | string   | Defines how to trigger the animation (`inViewport` once the SVG is in the viewport, `manual` gives you the freedom to call draw method to start, `autostart` makes it start right now). [Default: `inViewport`] |
+| `duration`           | integer  | Animation duration, in frames. [Default: `200`]                                                                                                                                                                 |
+| `delay`              | integer  | Time between the drawing of first and last path, in frames (only for `delayed` animations).                                                                                                                     |
+| `onReady`            | function | Function called when the instance is ready to play.                                                                                                                                                             |
+| `pathTimingFunction` | function | Timing animation function for each path element of the SVG. Check the [timing function part](#timing-function).                                                                                                 |
+| `animTimingFunction` | function | Timing animation function for the complete SVG. Check the [timing function part](#timing-function).                                                                                                             |
+| `dashGap`            | integer  | Whitespace extra margin between dashes. Increase it in case of glitches at the initial state of the animation. [Default: `2`]                                                                                   |
+| `forceRender`        | boolean  | Force the browser to re-render all updated path items. By default, the value is `true` on IE only. (check the 'troubleshoot' section for more details).                                                         |
+| `reverseStack`       | boolean  | Reverse the order of execution. The default behaviour is to render from the first 'path' in the SVG to the last one. This option allow you to reverse the order. [Default: `false`]                             |
+| `selfDestroy`        | boolean  | Removes all extra styling on the SVG, and leaves it as original.                                                                                                                                                |
 
 ### Methods
 
-| Name          | Description         |
-|---------------|---------------------|
-| `play(speed, callback)` | Plays the animation with the speed given in parameter. This value can be negative to go backward, between 0 and 1 to go slowly, >1 to go faster, or <0 to go in reverse from current state. [Default: `1`]. Callback executed after the animation is finished (optional) |
-| `stop()`      | Stops the animation. |
-| `reset()`     | Reinitialises the SVG to the original state: undrawn. |
-| `finish()`    | Set the SVG to the final state: drawn. |
-| `setFrameProgress(progress)` | Set the progress of the animation. Progress must be a number between 0 and 1. |
-| `getStatus()` | Get the status of the animation between `start`, `progress`, `end` |
-| `destroy()`   | Reset the SVG but make the instance out of order. |
+| Name                         | Description                                                                                                                                                                                                                                                              |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `play(speed, callback)`      | Plays the animation with the speed given in parameter. This value can be negative to go backward, between 0 and 1 to go slowly, >1 to go faster, or <0 to go in reverse from current state. [Default: `1`]. Callback executed after the animation is finished (optional) |
+| `stop()`                     | Stops the animation.                                                                                                                                                                                                                                                     |
+| `reset()`                    | Reinitialises the SVG to the original state: undrawn.                                                                                                                                                                                                                    |
+| `finish()`                   | Set the SVG to the final state: drawn.                                                                                                                                                                                                                                   |
+| `setFrameProgress(progress)` | Set the progress of the animation. Progress must be a number between 0 and 1.                                                                                                                                                                                            |
+| `getStatus()`                | Get the status of the animation between `start`, `progress`, `end`                                                                                                                                                                                                       |
+| `destroy()`                  | Reset the SVG but make the instance out of order.                                                                                                                                                                                                                        |
 
 These methods return the object so you can chain the actions.
 
@@ -157,7 +156,7 @@ const myVivus = new Vivus('my-svg-id');
 myVivus
   .stop()
   .reset()
-  .play(2)
+  .play(2);
 ```
 
 #### Play method callback
@@ -169,13 +168,13 @@ executed for specific `play` method calls.
 const myVivus = new Vivus('my-svg-id');
 myVivus.play(1, function() {
   // called after the animation completes
-})
+});
 
 // alternativly if you leave the speed param blank and use the default, you
 // can pass the callback as the first parameter like so.
 myVivus.play(function() {
   // called after the animation completes
-})
+});
 ```
 
 ## Timing function
@@ -186,11 +185,15 @@ If you don't want to create your own, timing methods are available via the const
 
 ```js
 // Here, the ease animation will be use for the global drawing.
-new Vivus('my-svg-id', {
+new Vivus(
+  'my-svg-id',
+  {
     type: 'delayed',
     duration: 200,
     animTimingFunction: Vivus.EASE
-}, myCallback);
+  },
+  myCallback
+);
 ```
 
 **WARNING**: `animTimingFunction` is called at every frame of the animation, and `pathTimingFunction` is also called at every frame for each path of your SVG. So be careful about them. Keep it simple, or it can affect the performance.
@@ -221,17 +224,16 @@ The best part of this type is the flexibility it provides. You don't have to res
 You will then have to define custom rules for each element in your SVG via extra attributes in your SVG DOM :
 
 - `data-start` (integer)
-time when the animation must start, in frames
+  time when the animation must start, in frames
 - `data-duration` (integer)
-animation duration of this path, in frames
-
+  animation duration of this path, in frames
 
 ```html
 <svg>
-  <path data-start="0" data-duration="10" .../>
-  <path data-start="20" data-duration="10" .../>
-  <path data-start="20" data-duration="20" .../>
-  <path data-start="0" data-duration="30" .../>
+  <path data-start="0" data-duration="10" ... />
+  <path data-start="20" data-duration="10" ... />
+  <path data-start="20" data-duration="20" ... />
+  <path data-start="0" data-duration="30" ... />
 </svg>
 ```
 
@@ -241,12 +243,12 @@ It's not the sexiest code ever, but it's quite flexible. In addition to this, th
 By using this animation type, the default behaviour is the same as `oneByOne`. However, you can define some properties on a specific path item such as the duration, the delay to start (from the end of the previous path) and if it should be played synchronously.
 
 - `data-delay` (integer)
-time between the end of the animation of the previous path and the start of the current path, in frames
+  time between the end of the animation of the previous path and the start of the current path, in frames
 - `data-duration` (integer)
-duration of this path animation, in frames
+  duration of this path animation, in frames
 - `data-async` (no value required)
-make the drawing of this path asynchronous. It means the next path will start at the same time.
-If a path does not have an attribute for duration or delay then the default values, set in the options, will be used.
+  make the drawing of this path asynchronous. It means the next path will start at the same time.
+  If a path does not have an attribute for duration or delay then the default values, set in the options, will be used.
 
 Example: here is a simple SVG containing 5 elements. With the following options `{duration: 20, delay: 0}`, we should get this timeline
 
@@ -256,18 +258,17 @@ This looks like 'oneByOne' animation, synchronous mode. But to make it a bit cus
 
 ```html
 <svg>
-	<path data-duration="10" .../>
-	<path data-delay="10" data-async .../>
-	<path data-delay="15" .../>
-	<path data-duration="10" data-delay="45" data-async .../>
-	<path data-duration="50" data-delay="5" .../>
+  <path data-duration="10" ... />
+  <path data-delay="10" data-async ... />
+  <path data-delay="15" ... />
+  <path data-duration="10" data-delay="45" data-async ... />
+  <path data-duration="50" data-delay="5" ... />
 </svg>
 ```
 
 This scenario should give us
 
 ![Timeline for this custom script animation](https://raw.github.com/maxwellito/vivus/master/assets/script_custom.png)
-
 
 I'm sorry if it does not look very sexy, and it's not really easy to use. I'm happy to make any changes, as long as the idea sounds interesting. Post an issue and I'll be very happy to talk about it!
 
@@ -282,12 +283,11 @@ To start, you will need to install the repo dependencies:
 $ npm install
 ```
 
-Then you can run Gulp with one of the following tasks:
+Then you can use NPM scripts to run the following tasks:
 
-- `distrib` make the build (generate `dist/vivus.js` and `dist/vivus.min.js`)
-- `lint` run JShint on the source files
+- `build` make the build (generate `dist/vivus.js` and `dist/vivus.min.js`)
+- `lint` run ESlint on the source files
 - `test` run Karma
-- `develop` keep watching your files, if any change is applied, Gulp will run the task(s) related to it.
 
 ## Troubleshoot
 
@@ -308,7 +308,7 @@ For Firefox users, you might encounter some glitches depending on your SVG and b
 For an easier debug have a look to the attribute `map` of your Vivus object. This contains the mapping of your animation. If you're using a modern browser, I recommend `console.table` to get a nice output of the array which will make your debug easier.
 
 ```javascript
-const logo = new Vivus('myLogo', {type: 'scenario-sync'});
+const logo = new Vivus('myLogo', { type: 'scenario-sync' });
 
 // The property 'map' contain all the SVG mapping
 console.table(logo.map);
