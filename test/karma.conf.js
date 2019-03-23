@@ -2,7 +2,7 @@
 // Generated on Fri Jul 18 2014 10:58:08 GMT+0100 (BST)
 
 module.exports = function(config) {
-  options = {
+  var options = {
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '..',
 
