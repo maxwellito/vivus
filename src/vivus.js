@@ -321,7 +321,7 @@ Vivus.prototype.setCallback = function(callback) {
  *
  */
 Vivus.prototype.mapping = function() {
-  var i, paths, path, pAttrs, pathObj, totalLength, lengthMeter, timePoint;
+  var i, paths, path, pAttrs, pathObj, totalLength, lengthMeter, timePoint, scale;
   timePoint = totalLength = lengthMeter = 0;
   paths = this.el.querySelectorAll('path');
 
@@ -330,9 +330,18 @@ Vivus.prototype.mapping = function() {
     if (this.isInvisible(path)) {
       continue;
     }
+
+    // If vector effect is non-scaling-stroke, the total length won't match the rendered length
+    // so we need to calculate the scale and apply it
+    if (path.getAttribute('vector-effect') === 'non-scaling-stroke') {
+      scale = path.getBoundingClientRect().width / path.getBBox().width;
+    } else {
+      scale = 1;
+    }
+
     pathObj = {
       el: path,
-      length: Math.ceil(path.getTotalLength())
+      length: Math.ceil(path.getTotalLength() * scale)
     };
     // Test if the path length is correct
     if (isNaN(pathObj.length)) {

@@ -186,41 +186,32 @@
       }
 
       // Obturateur
-      var obt1 = new Vivus('obt', {
+      new Vivus('obt', {
         type: 'delayed',
         duration: 150
       });
 
       // polaroid-dynamic
-      var polaroidD = new Vivus('polaroid-dynamic', {
+      new Vivus('polaroid-dynamic', {
         file: 'polaroid.svg',
         type: 'scenario-sync',
         duration: 20
       });
 
-      var hiD = new Vivus('hi-dynamic', {
+      new Vivus('hi-dynamic', {
         file: 'hi-there.svg',
         type: 'scenario-sync',
         duration: 20,
         start: 'manual'
       });
 
-      var synthD = new Vivus('synth-dynamic', {
+      new Vivus('synth-dynamic', {
         file: 'synth.svg',
         type: 'oneByOne',
         duration: 200,
         start: 'manual',
         animTimingFunction: Vivus.EASE_IN
       });
-
-      function easeOutBounce (x) {
-        var base = -Math.cos(x * (0.5 * Math.PI)) + 1;
-        var rate = Math.pow(base,1.5);
-        var rateR = Math.pow(1 - x, 2);
-        var progress = -Math.abs(Math.cos(rate * (2.5 * Math.PI) )) + 1;
-        return (1- rateR) + (progress * rateR);
-      }
-      
     </script>
   </body>
 </html>

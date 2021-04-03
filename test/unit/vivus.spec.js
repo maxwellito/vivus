@@ -292,6 +292,29 @@ describe('Vivus', function () {
         new Vivus(svgTag, {}, 42);
       }).toThrow(new Error('Vivus [constructor]: "callback" parameter must be a function'));
     });
+
+    it('should use scale to determine path length when vector effect is non-scaling-stroke', function () {
+      var scalingSvgTag = document.createElementNS('http://www.w3.org/2000/svg','svg');
+      var scalingWrapTag = document.createElement('div');
+
+      scalingSvgTag.setAttribute('viewBox', '0 0 500 200');
+      scalingWrapTag.style.width = '1000px';
+
+      scalingSvgTag.id = 'scaling-stroke-test';
+
+      scalingSvgTag.innerHTML = '<path vector-effect="non-scaling-stroke" fill="none" stroke="#f9f9f9" stroke-width="3" d="M0,68.57346635098205L20.833333333333332,3.8875909891199285L41.666666666666664,47.366000806779425L62.5,57.171841641625065L83.33333333333333"/>' +
+        '<path fill="none" stroke="#f9f9f9" stroke-width="3" d="M0,68.57346635098205L20.833333333333332,3.8875909891199285L41.666666666666664,47.366000806779425L62.5,57.171841641625065L83.33333333333333"/>';
+
+      scalingWrapTag.appendChild(scalingSvgTag);
+
+      document.body.appendChild(scalingWrapTag);
+
+      myVivus = new Vivus(scalingSvgTag);
+
+      expect(myVivus.map.length).toEqual(2);
+      expect(myVivus.map[0].length).toEqual(280);
+      expect(myVivus.map[1].length).toEqual(141);
+    });
   });
 
   describe('[engine]', function () {
@@ -633,7 +656,6 @@ describe('Vivus', function () {
         expect(!!paths[i].style.strokeDasharray).toEqual(false);
       }
     });
-
 
     /**
      * Where are the tests about `util` methods?
