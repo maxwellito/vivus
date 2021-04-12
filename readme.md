@@ -106,7 +106,7 @@ new Vivus('my-div-id', {
   onReady: function (myVivus) {
     // `el` property is the SVG element
     myVivus.el.setAttribute('height', 'auto');
-  }
+  },
 });
 ```
 
@@ -153,10 +153,7 @@ These methods return the object so you can chain the actions.
 
 ```js
 const myVivus = new Vivus('my-svg-id');
-myVivus
-  .stop()
-  .reset()
-  .play(2);
+myVivus.stop().reset().play(2);
 ```
 
 #### Play method callback
@@ -166,13 +163,13 @@ executed for specific `play` method calls.
 
 ```js
 const myVivus = new Vivus('my-svg-id');
-myVivus.play(1, function() {
+myVivus.play(1, function () {
   // called after the animation completes
 });
 
 // alternativly if you leave the speed param blank and use the default, you
 // can pass the callback as the first parameter like so.
-myVivus.play(function() {
+myVivus.play(function () {
   // called after the animation completes
 });
 ```
@@ -190,7 +187,7 @@ new Vivus(
   {
     type: 'delayed',
     duration: 200,
-    animTimingFunction: Vivus.EASE
+    animTimingFunction: Vivus.EASE,
   },
   myCallback
 );
@@ -271,6 +268,28 @@ This scenario should give us
 ![Timeline for this custom script animation](https://raw.github.com/maxwellito/vivus/master/assets/script_custom.png)
 
 I'm sorry if it does not look very sexy, and it's not really easy to use. I'm happy to make any changes, as long as the idea sounds interesting. Post an issue and I'll be very happy to talk about it!
+
+## Non Scaling
+
+Some SVG elements might use non sclaling properties, like `vector-effect="non-scaling-stroke"`, and are more likely to cause glitches. To give a bit of context, at init time, Vivus will map all the elements in the SVG and calculate their line length. But if the element is resized during the animation, it might compromise the animation.
+
+To keep animation consistency, the method `.recalc()` must be called when the SVG is resized. It will re-calculate the line length on affected elements at the next frame calculation. The following snippet is an example.
+
+```js
+// Create your Vivus object
+const vivusObject = new Vivus('my-div', {
+  duration: 200,
+  file: 'link/to/my.svg',
+});
+
+// Start your observer to update the SVG on resize
+const resizeObserver = new ResizeObserver((entries) => {
+  vivusObject.recalc();
+});
+resizeObserver.observe(vivusObject.el);
+```
+
+If you're not sure if your SVG is affected, Vivus will provide a warning in the console to give a bit of context.
 
 ## Development
 

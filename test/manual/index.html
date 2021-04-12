@@ -2,13 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>vivus.js - manual tests page</title>
     <meta name="description" content="SVG Drawing Animation" />
 
     <style type="text/css">
-
       /* Base style */
       html {
         font-size: 24px;
@@ -20,13 +19,22 @@
         font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
         font-weight: 200;
         color: #666666;
-        background-color: #FFFFFF;
+        background-color: #ffffff;
         word-break: break-word;
       }
-      h1, h2, h3, h4, h5, h6, p {
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      p {
         font-weight: 100;
       }
-      a, a:visited, a:hover, a:link {
+      a,
+      a:visited,
+      a:hover,
+      a:link {
         color: inherit;
         outline: 0;
       }
@@ -37,23 +45,27 @@
         font-size: 1rem;
         line-height: 1.4rem;
       }
-      button, .button {
-        margin: 0; padding: 3px 6px;
+      button,
+      .button {
+        margin: 0;
+        padding: 3px 6px;
         border-radius: 6px;
         border: 1px solid currentColor;
         color: inherit;
-        background-color: rgba(0,0,0,0);
+        background-color: rgba(0, 0, 0, 0);
         font-size: 0.6rem;
         font-weight: 300;
         text-decoration: none;
         cursor: pointer;
         outline: 0;
       }
-      button.active, .button.active {
+      button.active,
+      .button.active {
         background-color: currentColor;
       }
-      button.active span, .button.active span {
-        color: #FFFFFF;
+      button.active span,
+      .button.active span {
+        color: #ffffff;
       }
       i {
         background-color: rgba(0, 0, 0, 0.25);
@@ -63,11 +75,21 @@
         fill: none;
         stroke: currentColor;
       }
+      table {
+        border-collapse: collapse;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid currentColor;
+        line-height: 0;
+      }
 
       /* Layout */
       .content {
         margin: auto;
         max-width: 960px;
+        width: 100%;
       }
 
       .box {
@@ -83,11 +105,11 @@
       }
 
       .warning {
-        padding: .5rem .75rem;
+        padding: 0.5rem 0.75rem;
         border: 1px solid currentColor;
         color: #fff;
         background-color: #c00;
-        border-radius: .25rem;
+        border-radius: 0.25rem;
       }
 
       .hidden {
@@ -106,21 +128,38 @@
       }
 
       /* Themes */
-      .intro    {display: block;}
-      .sunrise  {color: #f037a5; background-color: #f8c72c;}
-      .matrix   {color: #86e0c4; background-color: #181f21;}
-      .electric {color: #78C9DB; background-color: #E4175B;}
-      .night    {color: #D3D679; background-color: #316BD2;}
-
+      .intro {
+        display: block;
+      }
+      .sunrise {
+        color: #f037a5;
+        background-color: #f8c72c;
+      }
+      .matrix {
+        color: #86e0c4;
+        background-color: #181f21;
+      }
+      .electric {
+        color: #78c9db;
+        background-color: #e4175b;
+      }
+      .night {
+        color: #d3d679;
+        background-color: #316bd2;
+      }
     </style>
   </head>
   <body>
-
     <div class="section intro">
       <h2>Vivus manual (cheap) tests.</h2>
-      <p>Just scroll along the page and if a glitch appear or the visual appearance is not like the description, it's not good.</p>
+      <p>
+        Just scroll along the page and if a glitch appear or the visual
+        appearance is not like the description, it's not good.
+      </p>
       <p id="config-instructions" class="warning hidden">
-        To use this page you must use an HTTP server to serve files. Run <i>npm run serve</i> in the repository then go to the <a href="http://127.0.0.1:8844/test/manual">test page</a>
+        To use this page you must use an HTTP server to serve files. Run
+        <i>npm run serve</i> in the repository then go to the
+        <a href="http://127.0.0.1:8844/test/manual">test page</a>
       </p>
     </div>
 
@@ -128,11 +167,23 @@
       <div class="content">
         <div class="box box-50">
           <p>
-            This should display the obturateur SVG like on the demo page. The strokes must be orange. The element must remain an <i>object</i> tag.
+            This should display the obturateur SVG like on the demo page. The
+            strokes must be orange. The element must remain an
+            <i>object</i> tag.
           </p>
-          <button onclick="this.textContent=(document.querySelector('object#obt')?'Pass!':'Failed.')">Test</button>
-        </div><div class="box box-50">
-          <object id="obt" data="obturateur.svg" type="image/svg+xml" style="width: 100%; max-height: 250px;"></object>
+          <button
+            onclick="this.textContent=(document.querySelector('object#obt')?'Pass!':'Failed.')"
+          >
+            Test
+          </button>
+        </div>
+        <div class="box box-50">
+          <object
+            id="obt"
+            data="obturateur.svg"
+            type="image/svg+xml"
+            style="width: 100%; max-height: 250px"
+          ></object>
         </div>
       </div>
     </div>
@@ -141,9 +192,11 @@
       <div class="content">
         <div class="box box-50">
           <div id="polaroid-dynamic"></div>
-        </div><div class="box box-50">
+        </div>
+        <div class="box box-50">
           <p>
-            This should display the polaroid SVG like on the demo page. The strokes must have the same color as this text.
+            This should display the polaroid SVG like on the demo page. The
+            strokes must have the same color as this text.
           </p>
         </div>
       </div>
@@ -153,11 +206,14 @@
       <div class="content">
         <div class="box box-50">
           <p>
-            This should display the 'Hi there' SVG like ready to start. Be sure no glitch appear (no small path or dots). Click on the following button to start.
+            This should display the 'Hi there' SVG like ready to start. Be sure
+            no glitch appear (no small path or dots). Click on the following
+            button to start.
           </p>
           <button onclick="hiD.play();">Start</button>
-        </div><div class="box box-50">
-          <div id="hi-dynamic" style="max-width: 300px; margin: auto;"></div>
+        </div>
+        <div class="box box-50">
+          <div id="hi-dynamic" style="max-width: 300px; margin: auto"></div>
         </div>
       </div>
     </div>
@@ -165,20 +221,147 @@
     <div class="section night">
       <div class="content">
         <div class="box box-50">
-          <div id="synth-dynamic" style="max-width: 400px; margin: auto;"></div>
-        </div><div class="box box-50">
+          <div id="synth-dynamic" style="max-width: 400px; margin: auto"></div>
+        </div>
+        <div class="box box-50">
           <p>
-            This should display a synth ready to start. Be sure no glitch appear (no small path or dots). The animation should use a custom path timing function (ease_in: slow at start then finish fast.). Click on the following button to start.
+            This should display a synth ready to start. Be sure no glitch appear
+            (no small path or dots). The animation should use a custom path
+            timing function (ease_in: slow at start then finish fast.). Click on
+            the following button to start.
           </p>
           <button onclick="synthD.play();">Start</button>
         </div>
       </div>
     </div>
 
+    <div class="section electric">
+      <div class="content">
+        <table id="nonScaling">
+          <tr style="height: 16.66%">
+            <td style="width: 16.66%">
+              <svg viewBox="0 0 100 100" width="100%" height="100%">
+                <line
+                  vector-effect="non-scaling-stroke"
+                  x1="0"
+                  y1="0"
+                  x2="200"
+                  y2="200"
+                  transform="scale(.5,.5)"
+                />
+              </svg>
+            </td>
+            <td style="width: 33.33%">
+              <svg viewBox="0 0 200 100" width="100%" height="100%">
+                <line
+                  vector-effect="non-scaling-stroke"
+                  x1="0"
+                  y1="0"
+                  x2="200"
+                  y2="200"
+                  transform="scale(1,.5)"
+                />
+              </svg>
+            </td>
+            <td style="width: 50%">
+              <svg viewBox="0 0 300 100" width="100%" height="100%">
+                <line
+                  vector-effect="non-scaling-stroke"
+                  x1="0"
+                  y1="0"
+                  x2="200"
+                  y2="200"
+                  transform="scale(1.5,.5)"
+                />
+              </svg>
+            </td>
+          </tr>
+          <tr style="height: 33.33%">
+            <td>
+              <svg viewBox="0 0 100 200" width="100%" height="100%">
+                <line
+                  vector-effect="non-scaling-stroke"
+                  x1="0"
+                  y1="0"
+                  x2="200"
+                  y2="200"
+                  transform="scale(.5,1)"
+                />
+              </svg>
+            </td>
+            <td>
+              <svg viewBox="0 0 200 200" width="100%" height="100%">
+                <line
+                  vector-effect="non-scaling-stroke"
+                  x1="0"
+                  y1="0"
+                  x2="200"
+                  y2="200"
+                  transform="scale(1,1)"
+                />
+              </svg>
+            </td>
+            <td>
+              <svg viewBox="0 0 300 200" width="100%" height="100%">
+                <line
+                  vector-effect="non-scaling-stroke"
+                  x1="0"
+                  y1="0"
+                  x2="200"
+                  y2="200"
+                  transform="scale(1.5,1)"
+                />
+              </svg>
+            </td>
+          </tr>
+          <tr style="height: 50%">
+            <td>
+              <svg viewBox="0 0 100 300" width="100%" height="100%">
+                <line
+                  vector-effect="non-scaling-stroke"
+                  x1="0"
+                  y1="0"
+                  x2="200"
+                  y2="200"
+                  transform="scale(.5,1.5)"
+                />
+              </svg>
+            </td>
+            <td>
+              <svg viewBox="0 0 200 300" width="100%" height="100%">
+                <line
+                  vector-effect="non-scaling-stroke"
+                  x1="0"
+                  y1="0"
+                  x2="200"
+                  y2="200"
+                  transform="scale(1,1.5)"
+                />
+              </svg>
+            </td>
+            <td>
+              <svg viewBox="0 0 300 300" width="100%" height="100%">
+                <line
+                  vector-effect="non-scaling-stroke"
+                  x1="0"
+                  y1="0"
+                  x2="200"
+                  y2="200"
+                  transform="scale(1.5,1.5)"
+                />
+              </svg>
+            </td>
+          </tr>
+        </table>
+        <p>Resize stuff</p>
+        <button onclick="nonScalingResize();">Resize</button>
+        <button onclick="nonScalingReplay();">Replay</button>
+      </div>
+    </div>
+
     <!-- Le scripts -->
     <script src="/dist/vivus.js"></script>
     <script>
-
       // Display warning message if not on http server
       if (window.location.protocol === 'file:') {
         var configIntro = document.getElementById('config-instructions');
@@ -186,32 +369,65 @@
       }
 
       // Obturateur
-      new Vivus('obt', {
+      var obt1 = new Vivus('obt', {
         type: 'delayed',
-        duration: 150
+        duration: 150,
       });
 
       // polaroid-dynamic
-      new Vivus('polaroid-dynamic', {
+      var polaroidD = new Vivus('polaroid-dynamic', {
         file: 'polaroid.svg',
         type: 'scenario-sync',
-        duration: 20
+        duration: 20,
       });
 
-      new Vivus('hi-dynamic', {
+      var hiD = new Vivus('hi-dynamic', {
         file: 'hi-there.svg',
         type: 'scenario-sync',
         duration: 20,
-        start: 'manual'
+        start: 'manual',
       });
 
-      new Vivus('synth-dynamic', {
+      var synthD = new Vivus('synth-dynamic', {
         file: 'synth.svg',
         type: 'oneByOne',
         duration: 200,
         start: 'manual',
-        animTimingFunction: Vivus.EASE_IN
+        animTimingFunction: Vivus.EASE_IN,
       });
+
+      // Non scaling
+      const resizeObserver = new ResizeObserver((entries) => {
+        nonScalingVivuses.forEach(function (v) {
+          v.recalc();
+          console.log('fuck');
+        });
+      });
+
+      var nonScalingVivuses = Array.from(
+        document.querySelectorAll('#nonScaling svg')
+      ).map((svg) => {
+        const v = new Vivus(svg, { start: 'autostart' });
+        resizeObserver.observe(svg);
+        return v;
+      });
+
+      function nonScalingResize() {
+        const newWidth = Math.floor(Math.random() * 100);
+        const newHeight = Math.floor(Math.random() * 100);
+        window.nonScaling.style.width = `${newWidth}%`;
+        window.nonScaling.style.height = `${newHeight}%`;
+        nonScalingVivuses.forEach(function (v) {
+          v.recalc();
+          console.log('fuckk');
+        });
+      }
+
+      function nonScalingReplay() {
+        nonScalingVivuses.forEach(function (v) {
+          v.reset().play();
+        });
+      }
     </script>
   </body>
 </html>
