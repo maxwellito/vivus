@@ -353,7 +353,10 @@
             </td>
           </tr>
         </table>
-        <p>Resize stuff</p>
+        <p>
+          Non scaling path<br />In any case of a resize, the animation of each
+          line must be complete.
+        </p>
         <button onclick="nonScalingResize();">Resize</button>
         <button onclick="nonScalingReplay();">Replay</button>
       </div>
@@ -398,35 +401,24 @@
 
       // Non scaling
       const resizeObserver = new ResizeObserver((entries) => {
-        nonScalingVivuses.forEach(function (v) {
-          v.recalc();
-          console.log('fuck');
-        });
+        nonScalingVivuses.forEach((v) => v.recalc());
       });
+      resizeObserver.observe(window.nonScaling);
 
       var nonScalingVivuses = Array.from(
         document.querySelectorAll('#nonScaling svg')
-      ).map((svg) => {
-        const v = new Vivus(svg, { start: 'autostart' });
-        resizeObserver.observe(svg);
-        return v;
-      });
+      ).map((svg) => new Vivus(svg, { start: 'autostart' }));
 
       function nonScalingResize() {
         const newWidth = Math.floor(Math.random() * 100);
         const newHeight = Math.floor(Math.random() * 100);
         window.nonScaling.style.width = `${newWidth}%`;
         window.nonScaling.style.height = `${newHeight}%`;
-        nonScalingVivuses.forEach(function (v) {
-          v.recalc();
-          console.log('fuckk');
-        });
+        nonScalingVivuses.forEach((v) => v.recalc());
       }
 
       function nonScalingReplay() {
-        nonScalingVivuses.forEach(function (v) {
-          v.reset().play();
-        });
+        nonScalingVivuses.forEach((v) => v.reset().play());
       }
     </script>
   </body>
