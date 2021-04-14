@@ -661,7 +661,7 @@ Vivus.prototype.mapping = function() {
 
   // Show a warning for non-scaling elements
   if (hasNonScale) {
-    console.warn('Vivus: this SVG contains non-scaling-strokes. You must make a call to .recalc when the SVG is resized or you might encounter glitches. Please check https://github.com/maxwellito/vivus#non-scaling for more info.');
+    console.warn('Vivus: this SVG contains non-scaling-strokes. You should call instance.recalc() when the SVG is resized or you will encounter unwanted behaviour. See https://github.com/maxwellito/vivus#non-scaling for more info.');
   }
 
   totalLength = totalLength === 0 ? 1 : totalLength;
@@ -1219,4 +1219,3 @@ parsePositiveInt = function(value, defaultValue) {
   }
 
 }());
-
