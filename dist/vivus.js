@@ -751,7 +751,7 @@ Vivus.prototype.recalc = function () {
  * Private method to re-evaluate line length on non-scaling
  * path elements. Then call for a trace to update the SVG. 
  */
-Vivus.prototype.recalcThrottle = function () {
+Vivus.prototype.performLineRecalc = function () {
   var pathObj, path, rect, box, scale;
   for (var i = 0; i < this.map.length; i++) {
     pathObj = this.map[i];
