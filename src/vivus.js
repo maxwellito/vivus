@@ -375,7 +375,7 @@ Vivus.prototype.mapping = function() {
 
   // Show a warning for non-scaling elements
   if (hasNonScale) {
-    console.warn('Vivus: this SVG contains non-scaling-strokes. You must make a call to .recalc when the SVG is resized or you might encounter glitches. Please check https://github.com/maxwellito/vivus#non-scaling for more info.');
+    console.warn('Vivus: this SVG contains non-scaling-strokes. You should call instance.recalc() when the SVG is resized or you will encounter unwanted behaviour. See https://github.com/maxwellito/vivus#non-scaling for more info.');
   }
 
   totalLength = totalLength === 0 ? 1 : totalLength;
@@ -449,7 +449,7 @@ Vivus.prototype.mapping = function() {
 };
 
 /**
- * Prublic method re-evaluate line length on non-scaling
+ * Public method to re-evaluate line length for non-scaling lines
  * path elements.
  */
 Vivus.prototype.recalc = function () {
@@ -457,7 +457,7 @@ Vivus.prototype.recalc = function () {
     return;
   }
   this.mustRecalcScale = requestAnimFrame(function () {
-    this.recalcThrottle();
+    this.performLineRecalc();
   }.bind(this));
 }
 
@@ -465,7 +465,7 @@ Vivus.prototype.recalc = function () {
  * Private method to re-evaluate line length on non-scaling
  * path elements. Then call for a trace to update the SVG. 
  */
-Vivus.prototype.recalcThrottle = function () {
+Vivus.prototype.performLineRecalc = function () {
   var pathObj, path, rect, box, scale;
   for (var i = 0; i < this.map.length; i++) {
     pathObj = this.map[i];
