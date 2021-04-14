@@ -743,7 +743,7 @@ Vivus.prototype.recalc = function () {
     return;
   }
   this.mustRecalcScale = requestAnimFrame(function () {
-    this.recalcThrottle();
+    this.performLineRecalc();
   }.bind(this));
 }
 
