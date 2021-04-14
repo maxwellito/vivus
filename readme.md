@@ -187,7 +187,7 @@ new Vivus(
   {
     type: 'delayed',
     duration: 200,
-    animTimingFunction: Vivus.EASE,
+    animTimingFunction: Vivus.EASE
   },
   myCallback
 );
@@ -271,25 +271,29 @@ I'm sorry if it does not look very sexy, and it's not really easy to use. I'm ha
 
 ## Non Scaling
 
-Some SVG elements might use non sclaling properties, like `vector-effect="non-scaling-stroke"`, and are more likely to cause glitches. To give a bit of context, at init time, Vivus will map all the elements in the SVG and calculate their line length. But if the element is resized during the animation, it might compromise the animation.
+Some SVG elements might use non scaling properties such as `vector-effect="non-scaling-stroke"`, which requires some additional custom logic. On instance construction Vivus will map all the child elements in the SVG and calculate their line length. If the element is resized during the animation, the calculated stroke style properties become invalid and the SVG will display incorrectly.
 
-To keep animation consistency, the method `.recalc()` must be called when the SVG is resized. It will re-calculate the line length on affected elements at the next frame calculation. The following snippet is an example.
+To keep animation consistency, the method `recalc` should be called when the SVG is resized. It will re-calculate the line length on affected child elements on the next frame calculation.
+
+Code example:
 
 ```js
-// Create your Vivus object
+// Create your Vivus instance
 const vivusObject = new Vivus('my-div', {
   duration: 200,
   file: 'link/to/my.svg',
 });
 
-// Start your observer to update the SVG on resize
+// Create your observer and set up a callback on resize
 const resizeObserver = new ResizeObserver((entries) => {
+  // Recalculate the line lengths
   vivusObject.recalc();
 });
+
 resizeObserver.observe(vivusObject.el);
 ```
 
-If you're not sure if your SVG is affected, Vivus will provide a warning in the console to give a bit of context.
+Vivus will provide a warning in the console when it detects stroke scaling.
 
 ## Development
 
