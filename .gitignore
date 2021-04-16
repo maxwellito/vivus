@@ -3,4 +3,4 @@ node_modules/
 .DS_Store
 .idea
 yarn.lock
-dist/
+dist/vivus.min.js.map
