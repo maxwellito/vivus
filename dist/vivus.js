@@ -607,9 +607,10 @@ Vivus.prototype.setCallback = function(callback) {
  *
  */
 Vivus.prototype.mapping = function() {
-  var i, paths, path, pAttrs, pathObj, totalLength, lengthMeter, timePoint, scale;
+  var i, paths, path, pAttrs, pathObj, totalLength, lengthMeter, timePoint, scale, hasNonScale;
   timePoint = totalLength = lengthMeter = 0;
   paths = this.el.querySelectorAll('path');
+  hasNonScale = false;
 
   for (i = 0; i < paths.length; i++) {
     path = paths[i];
@@ -617,18 +618,27 @@ Vivus.prototype.mapping = function() {
       continue;
     }
 
+    pathObj = {
+      el: path,
+      length: 0,
+      startAt: 0,
+      duration: 0,
+      isResizeSensitive: false
+    };
+
     // If vector effect is non-scaling-stroke, the total length won't match the rendered length
     // so we need to calculate the scale and apply it
     if (path.getAttribute('vector-effect') === 'non-scaling-stroke') {
-      scale = path.getBoundingClientRect().width / path.getBBox().width;
+      var rect = path.getBoundingClientRect();
+      var box = path.getBBox();
+      scale = Math.max(rect.width / box.width, rect.height / box.height);
+      pathObj.isResizeSensitive = true;
+      hasNonScale = true;
     } else {
       scale = 1;
     }
+    pathObj.length = Math.ceil(path.getTotalLength() * scale);
 
-    pathObj = {
-      el: path,
-      length: Math.ceil(path.getTotalLength() * scale)
-    };
     // Test if the path length is correct
     if (isNaN(pathObj.length)) {
       if (window.console && console.warn) {
@@ -647,6 +657,11 @@ Vivus.prototype.mapping = function() {
     totalLength += pathObj.length;
 
     this.renderPath(i);
+  }
+
+  // Show a warning for non-scaling elements
+  if (hasNonScale) {
+    console.warn('Vivus: this SVG contains non-scaling-strokes. You should call instance.recalc() when the SVG is resized or you will encounter unwanted behaviour. See https://github.com/maxwellito/vivus#non-scaling for more info.');
   }
 
   totalLength = totalLength === 0 ? 1 : totalLength;
@@ -720,6 +735,40 @@ Vivus.prototype.mapping = function() {
 };
 
 /**
+ * Public method to re-evaluate line length for non-scaling lines
+ * path elements.
+ */
+Vivus.prototype.recalc = function () {
+  if (this.mustRecalcScale) {
+    return;
+  }
+  this.mustRecalcScale = requestAnimFrame(function () {
+    this.performLineRecalc();
+  }.bind(this));
+}
+
+/**
+ * Private method to re-evaluate line length on non-scaling
+ * path elements. Then call for a trace to update the SVG. 
+ */
+Vivus.prototype.performLineRecalc = function () {
+  var pathObj, path, rect, box, scale;
+  for (var i = 0; i < this.map.length; i++) {
+    pathObj = this.map[i];
+    if (pathObj.isResizeSensitive) {
+      path = pathObj.el;
+      rect = path.getBoundingClientRect();
+      box = path.getBBox();
+      scale = Math.max(rect.width / box.width, rect.height / box.height);
+      pathObj.length = Math.ceil(path.getTotalLength() * scale);
+      path.style.strokeDasharray = pathObj.length + ' ' + (pathObj.length + this.dashGap * 2);
+    }
+  }
+  this.trace();
+  this.mustRecalcScale = null;
+}
+
+/**
  * Interval method to draw the SVG from current
  * position of the animation. It update the value of
  * `currentFrame` and re-trace the SVG.
@@ -733,7 +782,7 @@ Vivus.prototype.mapping = function() {
  * trigger the Vivus callback.
  *
  */
-Vivus.prototype.drawer = function() {
+Vivus.prototype.draw = function() {
   var self = this;
   this.currentFrame += this.speed;
 
@@ -750,7 +799,7 @@ Vivus.prototype.drawer = function() {
   } else {
     this.trace();
     this.handle = requestAnimFrame(function() {
-      self.drawer();
+      self.draw();
     });
     return;
   }
@@ -950,7 +999,7 @@ Vivus.prototype.play = function(speed, callback) {
 
   this.speed = speed || 1;
   if (!this.handle) {
-    this.drawer();
+    this.draw();
   }
   return this;
 };
@@ -1170,4 +1219,3 @@ parsePositiveInt = function(value, defaultValue) {
   }
 
 }());
-
