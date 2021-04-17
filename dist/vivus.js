@@ -1,6 +1,6 @@
 /**
  * vivus - JavaScript library to make drawing animation on SVG
- * @version v0.4.5
+ * @version v0.4.6
  * @link https://github.com/maxwellito/vivus
  * @license MIT
  */
@@ -1219,3 +1219,4 @@ parsePositiveInt = function(value, defaultValue) {
   }
 
 }());
+
