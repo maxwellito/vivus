@@ -153,10 +153,7 @@ These methods return the object so you can chain the actions.
 
 ```js
 const myVivus = new Vivus('my-svg-id');
-myVivus
-  .stop()
-  .reset()
-  .play(2);
+myVivus.stop().reset().play(2);
 ```
 
 #### Play method callback
@@ -166,13 +163,13 @@ executed for specific `play` method calls.
 
 ```js
 const myVivus = new Vivus('my-svg-id');
-myVivus.play(1, function() {
+myVivus.play(1, function () {
   // called after the animation completes
 });
 
 // alternativly if you leave the speed param blank and use the default, you
 // can pass the callback as the first parameter like so.
-myVivus.play(function() {
+myVivus.play(function () {
   // called after the animation completes
 });
 ```
@@ -271,6 +268,32 @@ This scenario should give us
 ![Timeline for this custom script animation](https://raw.github.com/maxwellito/vivus/master/assets/script_custom.png)
 
 I'm sorry if it does not look very sexy, and it's not really easy to use. I'm happy to make any changes, as long as the idea sounds interesting. Post an issue and I'll be very happy to talk about it!
+
+## Non Scaling
+
+Some SVG elements might use non scaling properties such as `vector-effect="non-scaling-stroke"`, which requires some additional custom logic. On instance construction Vivus will map all the child elements in the SVG and calculate their line length. If the element is resized during the animation, the calculated stroke style properties become invalid and the SVG will display incorrectly.
+
+To keep animation consistency, the method `recalc` should be called when the SVG is resized. It will re-calculate the line length on affected child elements on the next frame calculation.
+
+Code example:
+
+```js
+// Create your Vivus instance
+const vivusObject = new Vivus('my-div', {
+  duration: 200,
+  file: 'link/to/my.svg',
+});
+
+// Create your observer and set up a callback on resize
+const resizeObserver = new ResizeObserver((entries) => {
+  // Recalculate the line lengths
+  vivusObject.recalc();
+});
+
+resizeObserver.observe(vivusObject.el);
+```
+
+Vivus will provide a warning in the console when it detects stroke scaling.
 
 ## Development
 
